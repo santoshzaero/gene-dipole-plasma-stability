@@ -6,9 +6,11 @@ The deuterium reference is the starting point. Preserve one exact copy for class
 
 Begin with the [existing deuterium input](../benchmarks/parameters). Its historical result was $\gamma=4.172$, $\omega=0.946$, and a run wallclock of 232.111 s. Reuse the historical record as the initial comparison. If the local executable or platform changes, rerun the baseline once for a fair timing comparison.
 
+**Completed at the reference point.** The 32- and 64-point grids agree within the initial 1% screen and give nearly identical complex field shapes. Keep 32 points as the working baseline. Next compare at fixed `nz0 = 32` using a timestep near that of the fine grid, then test `nz0 = 24` if the timestep check agrees. The velocity-space refinements remain pending. [Parallel-grid study](studies/deuterium_parallel_grid.md)
+
 | Stage | Candidate settings | Decision |
 | --- | --- | --- |
-| Parallel resolution | Compare `nz0 = 32` and 64 at `nv0 = 48`, `nw0 = 32`. If needed, add 96 or 128. If the finer result agrees, test a cheaper 24. | Select the first plausible coarse grid and a finer reference. Compare envelopes and phase as well as the rates. |
+| Parallel resolution | The 32/64 comparison is complete at `nv0 = 48`, `nw0 = 32`. Do one matched-timestep control at 32, then test 24 if the control agrees. | Keep 32 unless 24 passes the rate and mode checks. Try 96 only if the matched-timestep comparison exposes a need for further refinement. |
 | Parallel-velocity resolution | At the selected `nz0`, test `nv0 = 32, 48, 64` with fixed `nw0` and `lv`. Add a finer case if 48 and 64 disagree. | Check for velocity resolution sensitivity and long-time recurrence. |
 | Magnetic-moment resolution | At selected `nz0,nv0`, compare `nw0 = 24, 32, 48` with fixed `lw`. | Look for a cost-effective plateau and preserve the finer reference. |
 | Velocity domain and timestep | Test `lv` and `lw` independently at fixed grid first, then control spacing as needed. Compare the actual timestep with a reduced cap, using comparable normalized end times. | Separate cutoff effects from grid spacing and integration error. |
