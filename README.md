@@ -1,12 +1,18 @@
 # Linear plasma stability in a magnetic dipole
 
-This MAE 190 research project uses **GENE 3.1** to study how plasma composition, density and temperature gradients, and perpendicular wavelength affect small disturbances in a magnetic dipole. It records completed linear simulations and sets out a reproducible plan for the next experiments, focused on electron–deuterium plasma.
+## Start here
 
-**Preliminary result.** At the sampled wavenumber $k_y\rho_{\mathrm{ref}}=0.7$, hydrogen had a higher normalized linear growth rate than deuterium at all 41 gradient combinations where both runs passed GENE's convergence diagnostic. At equal gradients of 2, the rates were 6.096 and 4.172. Grid independence and cross-platform agreement remain to be established.
+Plasma is a gas of charged particles. This project asks how quickly small disturbances grow when a ring-shaped magnet is used to confine a plasma. We used the GENE simulation code to compare ordinary hydrogen with deuterium, a heavier form of hydrogen, while changing how sharply density and temperature vary across the plasma.
+
+In all 41 like-for-like tests where GENE could identify a consistent growing disturbance in both plasmas, the disturbance grew faster in hydrogen. The comparison measures early growth at the settings tested. How long the plasma stays confined would require a different study.
 
 ![Difference in hydrogen and deuterium growth rates across the sampled grid, restricted to the 41 pairs with both GENE convergence flags](figures/regenerated/isotope_gene_only.png)
 
-Blank cells lack a solver-converged pair. The color and number show hydrogen minus deuterium in GENE units. The result concerns the growth of small perturbations at the simulated settings. Confinement time and nonlinear transport were outside the study.
+Each square compares hydrogen and deuterium at the same density and temperature gradients. The number shows how much faster hydrogen grew in GENE's normalized units. A blank square means that GENE did not identify a comparable result for both plasmas.
+
+## Technical overview
+
+This MAE 190 study uses GENE 3.1 patch 5 for linear electrostatic initial-value simulations in a ring dipole. The isotope gradient comparison fixes the normalized binormal wavenumber at $k_y\rho_{\mathrm{ref}}=0.7$. When the normalized density and temperature gradients are both 2, the recorded growth rates are 6.096 for hydrogen and 4.172 for deuterium. The central heatmap uses only the 41 pairs with solver convergence flags. Grid independence and cross-platform agreement remain to be established. The [research log](docs/research_log.md) covers the separate wavenumber scan and its anomalous low-wavenumber case.
 
 | Start here | What it covers |
 | --- | --- |
@@ -32,4 +38,4 @@ The command works entirely from the archived data. It checks the inputs and run 
 
 ## Software and research references
 
-GENE stands for Gyrokinetic Electromagnetic Numerical Experiment. The simulation code is maintained by the GENE Development Team and is obtained separately. This archive contains the project's configurations, results, analysis, figures, and report. See the [references](docs/references.md) and [citation metadata](CITATION.cff). [GENE project](https://genecode.org/main.html) · [GENE access](https://www.genecode.org/license.html)
+GENE stands for Gyrokinetic Electromagnetic Numerical Experiment. The simulation code is maintained by the GENE Development Team and is obtained separately. This archive contains the project's configurations, results, analysis, figures, and report. When citing this work, include the repository revision and the relevant GENE references. [Research references](docs/references.md) [GENE project](https://genecode.org/main.html) · [GENE access](https://www.genecode.org/license.html)

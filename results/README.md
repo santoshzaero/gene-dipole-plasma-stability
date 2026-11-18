@@ -1,6 +1,14 @@
-# Data dictionary
+# Simulation results and data dictionary
 
-[Run index](run_index.csv) records 175 archived inputs across the documented series. The index is derived from original run logs and `omega.dat`. Columns are study and case ID, exact input path, presence of the GENE convergence and underflow messages, reported solver wallclock in seconds, number of steps, and the three raw omega diagnostic columns. The latter are normalized wavenumber, growth, and real frequency. A raw zero can be a diagnostic placeholder. Empty fields indicate unavailable or unreported values. Each case key maps to the corresponding archived input.
+## Start here
+
+The tables let you look up a run, the settings it used, and whether it produced a readable growth rate and frequency. Use the [findings summary](../docs/findings.md) for the main results. Use the [run index](run_index.csv) to trace a specific case to its input and diagnostic record.
+
+A blank result means a value was unavailable or unreported. Some older outputs use zero as a placeholder, so check the run status before interpreting any zero as a measurement.
+
+## Technical reference
+
+[Run index](run_index.csv) records 175 archived inputs across the documented series. The index is derived from original run logs and `omega.dat`. Columns are study and case ID, exact input path, presence of the GENE convergence and underflow messages, reported solver wallclock in seconds, number of steps, and the three raw omega diagnostic columns. The latter are normalized wavenumber, growth, and real frequency. Each case key maps to the corresponding archived input.
 
 | File or directory | Contents |
 | --- | --- |
