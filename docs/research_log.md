@@ -59,3 +59,7 @@ At `nz0 = 24` and `nw0 = 32`, changed only `nv0` from 48 to 32 in the automatic-
 ## 11. Fixed-timestep control at 32 parallel-velocity points
 
 Kept the 32-point velocity grid, all other grids, extents, and the deuterium physics fixed. Imposed a normalized step of 0.00057848. The controlled case converged with zero rescalings and matched the 48-point reference's printed rates (4.179 and 0.946). The common-window fit differences were 0.00882% in growth and 0.00963% in frequency. Final complex-profile overlap was 0.9999999890. This supports sensitivity to the automatic timestep configuration at 32 points. The controlled run took 191.614 s versus 134.056 s for the 48-point automatic case, so keep 48 as the working reference. [Fixed-timestep results](studies/deuterium_parallel_velocity.md#32-point-fixed-timestep-control)
+
+## 12. Magnetic-moment refinement from 32 to 48 points
+
+Reused the validated `nz0 = 24`, `nv0 = 48`, `nw0 = 32` case and ran one case changing only `nw0` to 48. Both converged without amplitude rescaling. The common-window fitted growth and frequency changed by 0.0147% and 0.0564%, and the final complex profiles had overlap 0.9999999989. GENE wall time rose from 134.056 s to 333.194 s as the automatic timestep decreased from 0.00107908 to 0.000906. Keep 32 as the working grid at this operating point and test one 24-point case if pursuing further cost reduction. [Magnetic-moment study](studies/deuterium_magnetic_moment.md)

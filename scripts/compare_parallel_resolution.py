@@ -64,14 +64,14 @@ def local_rate_spread(time, phi):
     return np.r_[np.full(10, np.nan), spread]
 
 
-def read_case(directory, nz, *, nv=48):
+def read_case(directory, nz, *, nv=48, nw=32):
     out = directory / "out"
     log = (directory / "run.log").read_text()
     metadata = (out / "parameters.dat").read_text()
     for pattern in (
         rf"^nz0\s*=\s*({nz})\s*$", r"^nx0\s*=\s*(1)\s*$",
         r"^nky0\s*=\s*(1)\s*$", rf"^nv0\s*=\s*({nv})\s*$",
-        r"^nw0\s*=\s*(32)\s*$", r"^n_fields\s*=\s*(1)\s*$",
+        rf"^nw0\s*=\s*({nw})\s*$", r"^n_fields\s*=\s*(1)\s*$",
         r"^PRECISION\s*=\s*(DOUBLE)\s*$", r"^ENDIANNESS\s*=\s*(LITTLE)\s*$",
         r"^OMP_NUM_THREADS\s*=\s*(1)\s*$", r"^timescheme\s*=\s*('RK4')",
     ):
@@ -105,7 +105,7 @@ def read_case(directory, nz, *, nv=48):
     energy = energy[valid]
     energy = energy[np.r_[np.diff(energy[:, 0]) > 0, True]]
     stats = {
-        "nz0": nz, "nv0": nv, "nw0": 32, "kymin": ky,
+        "nz0": nz, "nv0": nv, "nw0": nw, "kymin": ky,
         "gene_converged": "Linear growth rate is converged, exiting time loop" in log,
         "gamma": gamma, "omega": omega,
         "wallclock_s": float(capture(r"Total wallclock time for GENE:\s+([\d.]+)", log)),

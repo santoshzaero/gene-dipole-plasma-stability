@@ -70,18 +70,20 @@ def extract(paths, dest):
         write_series(dest / f"{label}_energy.csv.gz", energy, "time,total_energy")
 
 
-def draw_energy(dest, figure):
+def draw_energy(dest, figure, *, labels=LABELS,
+                title="GENE deuterium reference · velocity-grid energy histories",
+                colors=("#4c545b", "#176d81", "#b34d2a", "#0e7646")):
     fig, ax = plt.subplots(figsize=(8.6, 4.4), layout="constrained")
     with (dest / "runs.csv").open() as stream:
         runs = list(csv.DictReader(stream))
-    for run, color in zip(runs, ("#4c545b", "#176d81", "#b34d2a", "#0e7646")):
+    for run, color in zip(runs, colors):
         name = run["case"]
         time, energy = np.loadtxt(dest / f"{name}_energy.csv.gz", delimiter=",", skiprows=1).T
         valid = run["gene_converged"] == "True"
         suffix = "" if valid else " · stopped"
         ax.plot(time, energy, color=color, linestyle="-" if valid else "--",
-                linewidth=1.7, label=LABELS[name] + suffix)
-    ax.set(title="GENE deuterium reference · velocity-grid energy histories",
+                linewidth=1.7, label=labels[name] + suffix)
+    ax.set(title=title,
            xlabel="Normalized time", ylabel="Total perturbation energy (code units)", yscale="log")
     ax.legend(frameon=False, loc="upper right")
     ax.grid(alpha=0.22)
