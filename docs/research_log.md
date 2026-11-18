@@ -47,3 +47,7 @@ The matched-timestep 32-point run preserved the archived 4.172 growth and 0.946 
 ## 8. Automatic timestep on 24 parallel points
 
 Changed only `nz0` in the archived 32-point automatic input. GENE converged at 24 points with growth 4.179 and real frequency 0.946 in 134.056 s, versus 232.111 s for the 32-point automatic case. The matched-time field growth differed by 0.152%, the phase slope by about 0.00048%, and profile overlap was 0.99999996. The 24-point automatic configuration is the working grid for this reference point. The next check changes `nv0` from 48 to 64 with the other grids held fixed. [Automatic timestep results](studies/deuterium_timestep_nz24.md#automatic-timestep-result-and-working-grid)
+
+## 9. Parallel-velocity refinement from 48 to 64 points
+
+At `nz0 = 24` and `nw0 = 32`, refined only `nv0` from 48 to 64 at fixed velocity extents. Both cases converged. The common-window field-growth and phase fits differed by 0.00415% and 0.00952%, and the complex field overlap was 0.9999999991. GENE wall time rose from 134.056 s to 295.881 s. Retain 48 parallel-velocity points for the reference case and test 32 before choosing the least expensive grid. [Velocity-grid study](studies/deuterium_parallel_velocity.md)

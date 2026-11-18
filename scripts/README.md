@@ -6,6 +6,7 @@ The scripts can check the saved results and redraw figures from those data. For 
 
 ## Technical reference
 
+- [compare_parallel_velocity.py](compare_parallel_velocity.py) checks the 48/64 parallel-velocity refinement and regenerates its figure from the archived plot data. [Study instructions](../docs/studies/deuterium_parallel_velocity.md)
 - [compare_parallel_followup.py](compare_parallel_followup.py) checks timestep sensitivity and the 24-point trial using completed runs or redraws the figure from published plot data. [Follow-up study](../docs/studies/deuterium_timestep_nz24.md)
 - [compare_parallel_resolution.py](compare_parallel_resolution.py) redraws the deuterium grid-comparison figure from archived data. With both completed run directories, it recomputes the field and energy diagnostics without launching GENE. [Study instructions](../docs/studies/deuterium_parallel_grid.md)
 - [reproduce.py](reproduce.py) checks artifact hashes and reported results, recomputes the isotope fits, and generates reviewed charts. It uses committed data and runs offline.

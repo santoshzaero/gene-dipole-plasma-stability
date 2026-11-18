@@ -112,11 +112,11 @@ def archive(cases, comparisons, paths, dest):
                    header="trace_fraction,phi_real_scaled,phi_imag_scaled,b_normalized", fmt="%.12e")
 
 
-def draw(dest, figure):
+def draw(dest, figure, *, labels=None, title="GENE deuterium reference · timestep and coarser-grid checks"):
     fig, (phase_ax, profile_ax) = plt.subplots(1, 2, figsize=(12, 4.4), layout="constrained")
     with (dest / "runs.csv").open() as stream:
         cases = list(csv.DictReader(stream))
-    labels = {"nz32_auto": "32 · automatic dt", "nz64_auto": "64 · automatic dt",
+    labels = labels or {"nz32_auto": "32 · automatic dt", "nz64_auto": "64 · automatic dt",
               "nz32_matched": "32 · matched dt", "nz24_matched": "24 · matched dt",
               "nz24_auto": "24 · automatic dt"}
     start = min(float(case["final_time"]) for case in cases) - 0.55
@@ -136,7 +136,7 @@ def draw(dest, figure):
     phase_ax.legend(frameon=False, fontsize="small")
     for axis in (phase_ax, profile_ax):
         axis.grid(alpha=0.22)
-    fig.suptitle("GENE deuterium reference · timestep and coarser-grid checks", fontweight="bold")
+    fig.suptitle(title, fontweight="bold")
     figure.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(figure, dpi=175)
     plt.close(fig)
