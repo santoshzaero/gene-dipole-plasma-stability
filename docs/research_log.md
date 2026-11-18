@@ -51,3 +51,7 @@ Changed only `nz0` in the archived 32-point automatic input. GENE converged at 2
 ## 9. Parallel-velocity refinement from 48 to 64 points
 
 At `nz0 = 24` and `nw0 = 32`, refined only `nv0` from 48 to 64 at fixed velocity extents. Both cases converged. The common-window field-growth and phase fits differed by 0.00415% and 0.00952%, and the complex field overlap was 0.9999999991. GENE wall time rose from 134.056 s to 295.881 s. Retain 48 parallel-velocity points for the reference case and test 32 before choosing the least expensive grid. [Velocity-grid study](studies/deuterium_parallel_velocity.md)
+
+## 10. Coarsening to 32 parallel-velocity points
+
+At `nz0 = 24` and `nw0 = 32`, changed only `nv0` from 48 to 32 in the automatic-timestep reference input. GENE accepted a larger step, the energy ran away, and the solver rescaled amplitudes 20 times. A controlled stop ended the run without convergence after 899 steps and 48.225 s. The 32-point automatic configuration is unsuitable at the tested operating point. Keep 48 points. A separate smaller-timestep test is needed to distinguish timestep sensitivity from a coarse-grid problem. [32-point results](studies/deuterium_parallel_velocity.md#32-point-automatic-run)

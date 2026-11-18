@@ -94,6 +94,7 @@ def archive(cases, comparisons, paths, dest):
     write_records(dest / "comparison.csv", comparisons)
     write_records(dest / "late_fits.csv", [
         {"case": label, **fit} for label, case in cases.items()
+        if case[0]["gene_converged"]
         for fit in list(late_fits(case, case[0]["final_time"]))[:3]
     ])
     sources = ("parameters", "run.log", "out/parameters.dat", "out/omega.dat",
@@ -103,7 +104,9 @@ def archive(cases, comparisons, paths, dest):
          "sha256": hashlib.sha256((directory / name).read_bytes()).hexdigest()}
         for label, directory in zip(cases, paths) for name in sources
     ])
-    for label, (_, profile, field, _) in cases.items():
+    for label, (stats, profile, field, _) in cases.items():
+        if not stats["gene_converged"]:
+            continue
         # Thin the plot data after fitting all saved samples.
         plot_data = field[::10, :4]
         np.savetxt(dest / f"{label}_field.csv", plot_data, delimiter=",", comments="",
@@ -112,10 +115,12 @@ def archive(cases, comparisons, paths, dest):
                    header="trace_fraction,phi_real_scaled,phi_imag_scaled,b_normalized", fmt="%.12e")
 
 
-def draw(dest, figure, *, labels=None, title="GENE deuterium reference · timestep and coarser-grid checks"):
+def draw(dest, figure, *, labels=None, title="GENE deuterium reference · timestep and coarser-grid checks",
+         converged_only=False):
     fig, (phase_ax, profile_ax) = plt.subplots(1, 2, figsize=(12, 4.4), layout="constrained")
     with (dest / "runs.csv").open() as stream:
-        cases = list(csv.DictReader(stream))
+        cases = [case for case in csv.DictReader(stream)
+                 if not converged_only or case["gene_converged"] == "True"]
     labels = labels or {"nz32_auto": "32 · automatic dt", "nz64_auto": "64 · automatic dt",
               "nz32_matched": "32 · matched dt", "nz24_matched": "24 · matched dt",
               "nz24_auto": "24 · automatic dt"}
