@@ -14,11 +14,14 @@ from compare_parallel_resolution import late_fits, read_case, write_records
 ROOT = Path(__file__).resolve().parents[1]
 DT = "0.0005784803539135"
 CONTROLS = f"calc_dt = F\ndt_vlasov = {DT}\nev_coll = 9300.0"
-SPECS = (("nz32_auto", 32), ("nz64_auto", 64), ("nz32_matched", 32), ("nz24_matched", 24))
+SPECS = (("nz32_auto", 32), ("nz64_auto", 64), ("nz32_matched", 32),
+         ("nz24_matched", 24), ("nz24_auto", 24))
 PAIRS = (("timestep", "nz32_auto", "nz32_matched"),
          ("matched_32_64", "nz32_matched", "nz64_auto"),
          ("coarsen_24_32", "nz24_matched", "nz32_matched"),
-         ("production_24_32", "nz24_matched", "nz32_auto"))
+         ("production_24_32", "nz24_matched", "nz32_auto"),
+         ("automatic_24_32", "nz24_auto", "nz32_auto"),
+         ("timestep_24", "nz24_auto", "nz24_matched"))
 
 
 def relative(value, reference):
@@ -114,16 +117,18 @@ def draw(dest, figure):
     with (dest / "runs.csv").open() as stream:
         cases = list(csv.DictReader(stream))
     labels = {"nz32_auto": "32 · automatic dt", "nz64_auto": "64 · automatic dt",
-              "nz32_matched": "32 · matched dt", "nz24_matched": "24 · matched dt"}
+              "nz32_matched": "32 · matched dt", "nz24_matched": "24 · matched dt",
+              "nz24_auto": "24 · automatic dt"}
     start = min(float(case["final_time"]) for case in cases) - 0.55
-    for case, color in zip(cases, ("#4c545b", "#b34d2a", "#1a7186", "#8265ae")):
+    for case, color in zip(cases, ("#4c545b", "#b34d2a", "#1a7186", "#8265ae", "#0e7646")):
         name = case["case"]
         t, _, phase, _ = np.loadtxt(dest / f"{name}_field.csv", delimiter=",", skiprows=1).T
         mid = t[(t >= start) & (t <= t[-1] - 0.04)]
         slope = (np.interp(mid + 0.04, t, phase) - np.interp(mid - 0.04, t, phase)) / 0.08
-        phase_ax.plot(mid, slope, label=labels[name], color=color)
+        line_style = "--" if name == "nz24_auto" else "-"
+        phase_ax.plot(mid, slope, label=labels[name], color=color, linestyle=line_style)
         x, real, imag, _ = np.loadtxt(dest / f"{name}_profile.csv", delimiter=",", skiprows=1).T
-        profile_ax.plot(x, abs(real + 1j * imag), color=color, marker=".", markersize=3)
+        profile_ax.plot(x, abs(real + 1j * imag), color=color, linestyle=line_style, marker=".", markersize=3)
     phase_ax.set(xlabel="Normalized time", ylabel="Signed phase slope",
                  title="Late-time frequency from the complex field")
     profile_ax.set(xlabel="Fraction along traced field line", ylabel=r"$|\phi|/\max|\phi|$",
@@ -139,14 +144,14 @@ def draw(dest, figure):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--runs", nargs="+", type=Path, help="Run folders in order 32 auto, 64 auto, 32 matched, optionally 24 matched.")
+    parser.add_argument("--runs", nargs="+", type=Path, help="Run folders in order 32 auto, 64 auto, 32 matched, 24 matched, 24 auto. The final two are optional.")
     parser.add_argument("--gate", action="store_true", help="Check the 32-point timestep control before the 24-point run.")
     parser.add_argument("--data", type=Path, default=ROOT / "results/convergence/deuterium_timestep_nz24")
     parser.add_argument("--figure", type=Path, default=ROOT / "figures/convergence/deuterium_timestep_nz24.png")
     args = parser.parse_args()
     if args.runs:
-        if len(args.runs) not in ((3,) if args.gate else (3, 4)):
-            parser.error("Supply three runs for the gate, or three or four for analysis.")
+        if len(args.runs) not in ((3,) if args.gate else (3, 4, 5)):
+            parser.error("Supply three runs for the gate, or three to five for analysis.")
         cases = load_cases(args.runs)
         comparisons = [compare(*pair, cases) for pair in PAIRS if pair[1] in cases]
         if args.gate:

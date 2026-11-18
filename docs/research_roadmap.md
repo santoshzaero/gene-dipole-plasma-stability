@@ -6,12 +6,12 @@ The deuterium reference is the starting point. Preserve one exact copy for class
 
 Begin with the [existing deuterium input](../benchmarks/parameters). Its historical result was $\gamma=4.172$, $\omega=0.946$, and a run wallclock of 232.111 s. Reuse the historical record as the initial comparison. If the local executable or platform changes, rerun the baseline once for a fair timing comparison.
 
-**Completed at the reference point.** The 32/64 comparison, the 32-point timestep control, and the 24-point matched-timestep trial all passed the preliminary screen. The 24-point run is cheaper at matched timestep, while 32 points with automatic timestep selection is the fastest configuration measured. Check one 24-point automatic run before choosing a production configuration and proceeding to velocity-space checks. [32/64 study](studies/deuterium_parallel_grid.md) · [Timestep and 24-point follow-up](studies/deuterium_timestep_nz24.md)
+**Completed at the reference point.** The 24-point automatic run passed the rate and mode checks and took 134.056 s, 42.2% less than the archived 32-point automatic baseline. Use `nz0 = 24` with automatic timestep selection for the reference case. Next test `nv0 = 64` against 48 with `nw0 = 32` and the velocity extents fixed. [32/64 study](studies/deuterium_parallel_grid.md) · [Timestep and 24-point follow-up](studies/deuterium_timestep_nz24.md)
 
 | Stage | Candidate settings | Decision |
 | --- | --- | --- |
-| Parallel resolution | At `nv0 = 48`, `nw0 = 32`, check 24 points with automatic timestep selection. | Adopt 24 only if rates and mode match and runtime improves against the 32-point automatic baseline. |
-| Parallel-velocity resolution | At the selected `nz0`, test `nv0 = 32, 48, 64` with fixed `nw0` and `lv`. Add a finer case if 48 and 64 disagree. | Check for velocity resolution sensitivity and long-time recurrence. |
+| Parallel resolution | The 24-point automatic case passed with `nv0 = 48`, `nw0 = 32`. | Use 24 at the reference point. Check a representative weaker-gradient or smaller-`kymin` case before extending this choice to a scan. |
+| Parallel-velocity resolution | At `nz0 = 24`, test `nv0 = 64` against 48 with fixed `nw0` and velocity extents. Consider 32 only if 48 and 64 agree, and a finer case if they disagree. | Check for velocity resolution sensitivity and long-time recurrence. |
 | Magnetic-moment resolution | At selected `nz0,nv0`, compare `nw0 = 24, 32, 48` with fixed `lw`. | Look for a cost-effective plateau and preserve the finer reference. |
 | Velocity domain and timestep | Test `lv` and `lw` independently at fixed grid first, then control spacing as needed. Compare the actual timestep with a reduced cap, using comparable normalized end times. | Separate cutoff effects from grid spacing and integration error. |
 | Joint confirmation | Compare the combined cheapest acceptable grid with a joint finer grid. Check one weaker-gradient or smaller-`kymin` point before extrapolating. | Adopt the cheapest grid that passes for the intended scan range. Retain a separate fine-grid policy for difficult cases. |

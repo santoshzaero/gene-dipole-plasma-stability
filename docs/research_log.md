@@ -43,3 +43,7 @@ At fixed deuterium reference inputs ($\texttt{omn}=\texttt{omt}=2$ for each spec
 ## 7. Timestep sensitivity and 24-point trial
 
 The matched-timestep 32-point run preserved the archived 4.172 growth and 0.946 frequency. Comparing 24 and 32 points with that same smaller timestep gave 0.152% growth-rate difference from the field fits, nearly identical phase slopes, and complex overlap 0.99999996. The new runs took 311.778 s at 32 points and 265.285 s at 24 points. The 32-point automatic run remains the fastest measured baseline at 232.111 s. A single 24-point automatic run is the next timing check. [Follow-up study](studies/deuterium_timestep_nz24.md)
+
+## 8. Automatic timestep on 24 parallel points
+
+Changed only `nz0` in the archived 32-point automatic input. GENE converged at 24 points with growth 4.179 and real frequency 0.946 in 134.056 s, versus 232.111 s for the 32-point automatic case. The matched-time field growth differed by 0.152%, the phase slope by about 0.00048%, and profile overlap was 0.99999996. The 24-point automatic configuration is the working grid for this reference point. The next check changes `nv0` from 48 to 64 with the other grids held fixed. [Automatic timestep results](studies/deuterium_timestep_nz24.md#automatic-timestep-result-and-working-grid)
