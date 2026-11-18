@@ -1,0 +1,12 @@
+test,description,comparisons_with_no_differences,solver_runtime_s
+1,one species linear ITG (s-alpha),3,0.50
+2,two species linear ITG (circular),3,5.69
+3,collisional linear TEM/ITG (Miller + checkpoint read),4,4.45
+4,nonlinear ITG (tracer_efit),37,6.43
+12,"'collisional linear TEM/ITG, no arakawa_zv, coll_split=F, MXH geometry'",3,10.77
+13,"linear microtearing, hyp_on_f, pitch-angle collisions",2,1.57
+14,"'linear TEM/ITG, 2nd order arakawa_zv, dissipative bc'",3,3.82
+16,"NL local, iterdb profile, efit geom., GyroLES",66,50.47
+17,two species linear nontwist ITG,3,17.10
+20,nonlinear ETG-ai local,1,27.43
+23,one species bimaxwellian linear ITG (s-alpha),1,0.15

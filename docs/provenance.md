@@ -1,0 +1,9 @@
+# Scope and provenance
+
+The research files were curated from project-specific paths in the separate GENE checkout. Original run directories, upstream history, build files, source and logs were inspected in place. The original directory contains about 2.6 GB of run data. The research repository preserves the evidence needed to read the findings and reproduce the offline analysis in a much smaller archive.
+
+**Included.** Project-specific exact inputs, data tables, total-energy time traces for unresolved/extended cases and the wavenumber scan, and extracted run and regression metadata. Original research Python scripts, selected original figures including both final isotope heatmap sets, and the authored report are retained. The four regenerated figures have source code and the archived data needed to rerender them. The [provenance manifest](../results/provenance.csv) identifies byte copies and derived records.
+
+**Excluded.** Upstream GENE source, binary and local patches, build and dependency trees, upstream test references and manual copies, full logs with environment paths, credentials, duplicate and superseded plots, unrelated trials, checkpoints, full diagnostic trees, field/moment binaries, published papers, class materials, and any files with uncertain ownership. The historical wavenumber chart is superseded by plots that flag the low-wavenumber interval and omit the anomalous point. Original chart labels and report terminology are preserved where archived and interpreted in the current [research log](research_log.md).
+
+Standalone report authorship is given as MAE 190 Research Division in the archival source. Confirm the preferred credit and group permission during publication review. The [publication plan](research_workflow.md#initial-github-publication-plan) records the pending decisions.

@@ -1,0 +1,10 @@
+# Field-line mode envelopes
+
+The original deuterium baseline and the anomalous `kymin = 0.3` case both have binary `out/field.dat`, `out/parameters.dat`, `out/dipole.dat`, and time/energy records. Hydrogen and deuterium at `kymin = 0.7` in the wavenumber scan also have these files. A read-only format check confirmed little-endian records, one complex double-precision field and 32 parallel points per snapshot. The reference and anomalous deuterium runs contain 2,461 and 3,131 saved field records respectively, including the initial and final diagnostics. The bulk binary output remains in the original research workspace.
+
+1. Read the field diagnostic with the upstream `pydiag` reader or its documented record format. Check precision, endianness, dimensions and times against the paired metadata. GENE may write an extra final diagnostic at a repeated time. Deduplicate when computing time differences.
+2. Extract the complex potential $\phi_1(z,t)$ for the sampled Fourier mode. Start with the GENE parallel grid coordinate $z$. Map to field-line arclength $\ell$ only after matching parallel indices, origin, and units to the dipole geometry metadata. Treat the ends consistently with the closed field line.
+3. Plot $|\phi_1(z,t)|/\max_z|\phi_1(z,t)|$ over several late snapshots. Set a common global phase for complex profiles, compare parity and localization, and track overlap across snapshots and grid refinements.
+4. Compare the apparent growth from the potential and the energy slope. Test whether the phase advances consistently with the reported real frequency and whether neighboring wavenumbers follow the same branch. Near potential nodes, avoid phase estimates dominated by noise.
+
+Stable envelopes support a consistent mode identification. Localization near particular field-line regions can suggest a connection to field strength, trapping, or curvature, which requires comparing the actual metric and drift profiles. Significant changes across time or grid can signal transients, mode competition, or numerical issues.

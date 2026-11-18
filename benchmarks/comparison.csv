@@ -1,0 +1,5 @@
+student,input_sha256,gene_release,source_revision,build_platform,compiler,mpi_ranks,omp_threads,converged,gamma_norm,omega_norm,precision_method,gamma_rel_error,omega_rel_error,wallclock_s,steps,final_code_time,notes
+Student 1,,,,,,,,,,,,,,,,,
+Student 2,,,,,,,,,,,,,,,,,
+Student 3,,,,,,,,,,,,,,,,,
+Student 4,,,,,,,,,,,,,,,,,

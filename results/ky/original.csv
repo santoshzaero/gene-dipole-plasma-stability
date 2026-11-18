@@ -1,0 +1,17 @@
+isotope,kymin,status,gamma,omega,returncode
+deuterium,0.1,UNRESOLVED,,,0
+deuterium,0.2,UNRESOLVED,,,0
+deuterium,0.3,CONVERGED,378.519,220.647,0
+deuterium,0.5,CONVERGED,4.309,0.685,0
+deuterium,0.7,CONVERGED,4.172,0.946,0
+deuterium,1.0,CONVERGED,3.9,1.314,0
+deuterium,1.5,CONVERGED,3.339,1.839,0
+deuterium,2.0,CONVERGED,2.799,2.275,0
+hydrogen,0.1,UNRESOLVED,,,0
+hydrogen,0.2,UNRESOLVED,,,0
+hydrogen,0.3,UNRESOLVED,,,0
+hydrogen,0.5,CONVERGED,6.196,0.689,0
+hydrogen,0.7,CONVERGED,6.096,0.959,0
+hydrogen,1.0,CONVERGED,5.892,1.35,0
+hydrogen,1.5,CONVERGED,5.427,1.952,0
+hydrogen,2.0,CONVERGED,4.867,2.476,0

@@ -1,0 +1,9 @@
+# Preserve the bytes of research inputs and historical artifacts.
+configs/** -text
+benchmarks/parameters -text
+scripts/archive/** -text
+results/**/*.csv -text whitespace=cr-at-eol
+figures/**/*.png binary
+results/**/*.gz binary
+reports/*.pdf binary
+reports/*.tex -text

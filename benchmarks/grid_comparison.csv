@@ -1,0 +1,2 @@
+case,reference,nz0,nv0,nw0,lv,lw,dt_cap,gene_converged,gamma_norm,omega_norm,gamma_relative_difference,omega_relative_difference,wallclock_s,steps,final_code_time,mode_agreement,input_sha256,notes
+historical_baseline,,32,48,32,3.5,12.25,0.000835,yes,4.172,0.946,,,232.111,2459,2.0541,,,
