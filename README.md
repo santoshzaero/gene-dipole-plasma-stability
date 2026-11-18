@@ -21,7 +21,7 @@ This MAE 190 study uses GENE 3.1 patch 5 for linear electrostatic initial-value 
 | [Completed studies](docs/research_log.md) | Installation, pair plasma, isotopes, energy fits, and the wavenumber scan |
 | [Findings](docs/findings.md) and [limitations](docs/limitations.md) | Data quality, claims supported by the records, and open questions |
 | [Reproduction instructions](docs/reproducibility.md) and [class benchmark](benchmarks/README.md) | Regenerate figures from saved data or reproduce a simulation with independently obtained GENE |
-| [Parallel-grid study](docs/studies/deuterium_parallel_grid.md) | Deuterium reference at 32 and 64 field-line points, with measured rates, runtime, and mode diagnostics |
+| [Parallel grid](docs/studies/deuterium_parallel_grid.md) and [timestep follow-up](docs/studies/deuterium_timestep_nz24.md) | Deuterium reference at 24, 32, and 64 field-line points, with rates, timings, and mode diagnostics |
 | [Research roadmap](docs/research_roadmap.md) | Convergence study, class replication, controlled scans, and theory validation |
 | [Scope and provenance](docs/provenance.md) and [session workflow](docs/research_workflow.md) | What was curated, how to review new results, and the publication plan |
 | [Archived report](reports/README.md) | Original isotope report and rebuild instructions |

@@ -39,3 +39,7 @@ The regression log records 11 standard tests (IDs 1, 2, 3, 4, 12, 13, 14, 16, 17
 ## 6. Deuterium parallel-grid comparison
 
 At fixed deuterium reference inputs ($\texttt{omn}=\texttt{omt}=2$ for each species, `kymin = 0.7`, `nv0 = 48`, `nw0 = 32`), reused the completed `nz0 = 32` archive and ran one new case with `nz0 = 64`. Both passed GENE temporal convergence. Growth changed from 4.172 to 4.163 (0.216% relative to 64), and both printed a real frequency of 0.946. Common-window phase fits differed by 0.021%, and the final complex field shapes had overlap 0.99999997. GENE wall time rose from 232.111 s to 600.245 s. The next proposed checks are a timestep control at 32 points and, if that agrees, one run at 24 points. [Full study and reproduction instructions](studies/deuterium_parallel_grid.md)
+
+## 7. Timestep sensitivity and 24-point trial
+
+The matched-timestep 32-point run preserved the archived 4.172 growth and 0.946 frequency. Comparing 24 and 32 points with that same smaller timestep gave 0.152% growth-rate difference from the field fits, nearly identical phase slopes, and complex overlap 0.99999996. The new runs took 311.778 s at 32 points and 265.285 s at 24 points. The 32-point automatic run remains the fastest measured baseline at 232.111 s. A single 24-point automatic run is the next timing check. [Follow-up study](studies/deuterium_timestep_nz24.md)

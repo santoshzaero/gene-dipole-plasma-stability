@@ -76,7 +76,9 @@ GENE's temporal convergence diagnostic uses the complex potential at successive 
 
 To compare shapes, the script interpolates the complex 64-point final profile onto the 32 stored geometry samples using normalized traced position. It calculates the absolute normalized inner product and the relative residual after optimal complex scaling, so phase and overall amplitude do not affect the comparison. The within-run overlap history checks whether the complex shape was stable late in the run. High overlap and consistent phase support a shared dominant mode and give more evidence than the final solver flag alone. The fits use the same numerical solution as GENE and supply no independent validation of the continuum frequency. The tables also record a post-processed version of the solver’s spatial rate-spread term, using all saved 10-sample intervals and the actual timestamp difference. GENE evaluates the stop test only at its diagnostic cadence. Its default tolerance is $0.1\,\texttt{omega\_prec}=10^{-4}$ for the square root of the spread term.
 
-## Next tests
+## Follow-up
+
+The [timestep and 24-point study](deuterium_timestep_nz24.md) completed the first two tests proposed below.
 
 1. At `nz0 = 32`, run one timestep control near the 64-point timestep ($5.78\times10^{-4}$ in code time), retaining enough steps to cover a comparable normalized time. Compare the phase fit, growth, and complex envelope with both existing cases. This isolates the timestep contribution at a fixed spatial grid.
 2. If the timestep control is consistent, run one lower-cost `nz0 = 24` case at `nv0 = 48` and `nw0 = 32`, with the timestep controlled consistently. Keep 32 points if 24 fails the 1% screen or changes the dominant mode. Test `nz0 = 96` only if the matched-timestep evidence exposes a spatial discrepancy that needs resolving.
