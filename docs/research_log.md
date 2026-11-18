@@ -55,3 +55,7 @@ At `nz0 = 24` and `nw0 = 32`, refined only `nv0` from 48 to 64 at fixed velocity
 ## 10. Coarsening to 32 parallel-velocity points
 
 At `nz0 = 24` and `nw0 = 32`, changed only `nv0` from 48 to 32 in the automatic-timestep reference input. GENE accepted a larger step, the energy ran away, and the solver rescaled amplitudes 20 times. A controlled stop ended the run without convergence after 899 steps and 48.225 s. The 32-point automatic configuration is unsuitable at the tested operating point. Keep 48 points. A separate smaller-timestep test is needed to distinguish timestep sensitivity from a coarse-grid problem. [32-point results](studies/deuterium_parallel_velocity.md#32-point-automatic-run)
+
+## 11. Fixed-timestep control at 32 parallel-velocity points
+
+Kept the 32-point velocity grid, all other grids, extents, and the deuterium physics fixed. Imposed a normalized step of 0.00057848. The controlled case converged with zero rescalings and matched the 48-point reference's printed rates (4.179 and 0.946). The common-window fit differences were 0.00882% in growth and 0.00963% in frequency. Final complex-profile overlap was 0.9999999890. This supports sensitivity to the automatic timestep configuration at 32 points. The controlled run took 191.614 s versus 134.056 s for the 48-point automatic case, so keep 48 as the working reference. [Fixed-timestep results](studies/deuterium_parallel_velocity.md#32-point-fixed-timestep-control)
