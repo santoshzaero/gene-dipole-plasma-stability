@@ -7,6 +7,7 @@ The scripts can check the saved results and redraw figures from those data. For 
 ## Technical reference
 
 - [check_pair_benchmark.py](check_pair_benchmark.py) verifies the cleaned IV pair run and redraws its amplitude and phase plots from archived data. [Frequency check](../docs/studies/pair_benchmark_frequency.md)
+- [plot_deuterium_final.py](plot_deuterium_final.py) audits the additional wavenumber results and renders the final paired PDF and PNG figures from qualified IV records.
 - [analyze_deuterium_meeting.py](analyze_deuterium_meeting.py) extracts the completed IV density/wavenumber matrix and electron-closure comparison or recreates their meeting figures offline.
 - [compare_density_pilot.py](compare_density_pilot.py) audits the exact common-gradient inputs and reproduces the growth and frequency plots. [Pilot instructions](../docs/studies/deuterium_density_pilot.md)
 - [compare_moment_controls.py](compare_moment_controls.py) compares moment-domain and quadrature changes at the same applied timestep. [Matched controls](../docs/studies/deuterium_moment_controls.md)

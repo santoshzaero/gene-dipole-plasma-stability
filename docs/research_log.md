@@ -91,3 +91,7 @@ The pre-IV eigenvalue solver attempt is obsolete. It exited without a benchmark 
 ## 19. Deuterium density and wavenumber matrix, with an electron-closure control
 
 Reused the converged historical common-density series and the economical `kymin = 0.7` anchors. Four new economical IV cases completed the wavenumber matrix alongside five reused cases. Growth fell and signed frequency rose with sampled wavenumber at each common density gradient. The final complex profiles were similar across the matrix. A matched collisionless kinetic/adiabatic pair found growth 4.176 versus 0.136 and signed frequency +0.944 versus −0.029, with the weak adiabatic rate visible before nominal ion recurrence. Temperature gradients stayed fixed at 2. [Study](studies/deuterium_meeting.md) · [Meeting figures](meeting_brief.md)
+
+## 20. Extend the common-gradient scan and finalize the figures
+
+Two economical IV runs completed the shared `kymin = 1.5` points. The trends across the sampled wavenumbers continued, with lower growth and higher signed frequency as wavenumber increased. A direct review confirmed that the anomalous 0.3 trace had 29 rescalings and a final shape unlike the neighboring qualified mode. Independent density-gradient scans are inconsistent with the present two-species equilibrium. Final figures pair the rate curves and retain the matched electron-response comparison. [Figures, exact inputs, and methods](studies/deuterium_final.md)

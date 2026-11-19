@@ -30,17 +30,17 @@ Fix electron/deuterium temperature gradients at 2, wavenumber at 0.7, and other 
 
 | Study | Planned inputs | Equilibrium gate |
 | --- | --- | --- |
-| A. Electron variation | Vary `omn_e`, keep `omn_D = 2`. Start with candidate levels 1, 2, 3. | Blocked in the present two-species quasineutral equilibrium except at the common point. |
-| B. Deuterium variation | Vary `omn_D`, keep `omn_e = 2`. Start with candidate levels 1, 2, 3. | Same gate as A. |
+| A. Electron variation | Vary `omn_e`, keep `omn_D = 2`. | Requires a compensating population or a revised background outside the present model. Only the shared reference is valid. |
+| B. Deuterium variation | Vary `omn_D`, keep `omn_e = 2`. | Same equilibrium restriction as A. |
 | C. Joint variation | Set `omn_e = omn_D`. Start at 1, 2, 3 and then sample weaker or stronger gradients if reliable. | Compatible with the present equal-density, equal-and-opposite charge equilibrium. |
 
 Charge neutrality requires $\sum_s q_s n_s=0$. Differentiating with respect to the same profile coordinate gives $\sum_s q_s n_s\texttt{omn}_s=0$, where $q_s$, $n_s$ and $\texttt{omn}_s$ are each species' charge, density and normalized density gradient. GENE's `check_quasineutrality` accumulates both sums for the active and dilution populations and defaults to checking gradient balance. For unit-density electrons and singly charged deuterium this forces equal normalized density gradients. Numerical acceptance alone would not justify an equilibrium. If the professor wants A or B, derive a charge-balanced multi-species alternative or establish an explicitly supported non-neutral model. Include the compensating species and its response in the study design because it changes the physical problem. An equilibrium with modified physics should get its own reference and interpretation. [Source verification points](references.md)
 
-Generate a growth-rate figure and a real-frequency figure separately for each approved study. Record raw solver values, diagnosis, and uncertainty and omit unresolved values from validated curves.
+The [final common-gradient panels](studies/deuterium_final.md) put growth and signed frequency side by side. The two species-only figures are omitted. The [equilibrium derivation and minimal extension](studies/deuterium_final.md#why-neither-species-only-scan-is-valid-here) specify how a compensating population would enter the study.
 
 ## 4. Compare wavenumber dependence
 
-The [initial 3 × 3 study](studies/deuterium_meeting.md#wavenumber-matrix) is complete. It used `kymin = 0.5, 0.7, 1.0` at common gradients 1, 2 and 3. Growth decreased and positive signed frequency increased across the three sampled wavenumbers at each gradient. The largest sampled growth was at 0.5. Search below 0.5 only after reviewing the anomalous 0.3 run and validating that numerical regime. For an approved species-specific equilibrium, hold the other target species' density gradient and both temperature gradients fixed and document any required third-population adjustment. With the current two-species composition, use a joint-gradient family. Plot growth rate and signed real frequency versus normalized wavenumber in separate figures, one curve per gradient value. Update both figures after each batch and keep gaps for unresolved samples. Inspect envelopes near abrupt changes rather than joining across probable branch transitions.
+The [final scan](studies/deuterium_final.md#common-gradient-results) covers `kymin = 0.5, 0.7, 1.0, 1.5` at common gradients 1, 2 and 3, with a qualified `omn = 2` point at 2.0. Growth decreased and positive signed frequency increased at every tested gradient. The largest sampled growth was at 0.5. The 0.3 trace had 29 rescalings and very low overlap with the neighboring valid mode. Low-wavenumber physics remains unresolved. A future scan below 0.5 should first establish a stable numerical regime there.
 
 ## 5. Consider additional physical changes
 

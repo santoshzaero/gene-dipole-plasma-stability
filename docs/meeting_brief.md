@@ -1,5 +1,7 @@
 # MAE 190 meeting brief · electron–deuterium in a magnetic dipole
 
+See the [final figure collection and methods](studies/deuterium_final.md) for the extended wavenumber scan and current presentation. This brief records the earlier nine-point meeting results.
+
 **Question.** How do density gradient, binormal scale, and the electron response change the growth and propagation of a small electrostatic disturbance?
 
 **Method.** Linear initial-value GENE runs in a ring dipole. The electron and deuterium equilibrium temperature gradients stayed at 2 throughout. Equal densities and opposite unit charges require a common equilibrium density gradient. New runs used the economical `24 × 48 × 24` grid. Two archived `32 × 48 × 32` points in the nine-cell matrix are marked in the plots. [Full methods and results](studies/deuterium_meeting.md)
