@@ -1,4 +1,6 @@
-# Classmate-ready benchmark · GENE deuterium reference
+# Historical deuterium replication benchmark
+
+The [shared MAE 190 benchmark](classmate/README.md) uses the tested electron–positron IV input. This page preserves the separate electron–deuterium comparison.
 
 ## Start here
 

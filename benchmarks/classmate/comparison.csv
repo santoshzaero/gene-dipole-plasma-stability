@@ -1,0 +1,5 @@
+student,input_sha256,gene_release,source_revision,platform,compiler,mpi_ranks,omp_threads,converged,kymin,normalized_growth,signed_real_frequency,wallclock_s,notes
+Student 1,,,,,,,,,,,,,
+Student 2,,,,,,,,,,,,,
+Student 3,,,,,,,,,,,,,
+Student 4,,,,,,,,,,,,,
