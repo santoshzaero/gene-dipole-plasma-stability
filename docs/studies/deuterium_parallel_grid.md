@@ -28,7 +28,7 @@ The final complex profiles have overlap **0.99999997** after interpolation, with
 
 ## What stayed fixed
 
-The archived deuterium input matches the [benchmark file](../../benchmarks/parameters) byte for byte. The [64-point input](../../configs/convergence/deuterium_nz64/parameters) changes only `nz0` from 32 to 64. The original namelist files are the complete input record, including commented defaults.
+The archived deuterium input matches the [historical reference input](../../configs/isotope/deuterium/omn_2_omt_2/parameters) byte for byte. The [64-point input](../../configs/convergence/deuterium_nz64/parameters) changes only `nz0` from 32 to 64. The original namelist files are the complete input record, including commented defaults.
 
 | Group | Input |
 | --- | --- |

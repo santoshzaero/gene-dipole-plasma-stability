@@ -1,6 +1,6 @@
 # Numerical methodology
 
-GENE evolved the linear initial-value problem (`comp_type = 'IV'`) with a single radial mode and a single binormal mode. For an isolated mode one can write $g_s(t)=\hat g_s e^{\lambda t}$, where $\hat g_s$ is the time-independent eigenfunction and $\lambda=\gamma+i\omega$ in the GENE logarithmic time-evolution convention. The complex-frequency convention $e^{-i\Omega t}$ instead uses $\Omega=i\lambda$ and reverses the sign of the real frequency. Tables here use the signed GENE output. A consistently dominant mode can agree with an eigenvalue calculation. The runs archived here used time evolution.
+GENE evolved the linear initial-value problem (`comp_type = 'IV'`) with a single radial mode and a single binormal mode. For an isolated mode one can write $g_s(t)=\hat g_s e^{\lambda t}$, where $\hat g_s$ is the time-independent eigenfunction and $\lambda=\gamma+i\omega$ in the GENE logarithmic time-evolution convention. The complex-frequency convention $e^{-i\Omega t}$ instead uses $\Omega=i\lambda$ and reverses the sign of the real frequency. Tables here use the signed GENE output. Mode identification here uses the time evolution of the complex field.
 
 | Setting | Recorded choice |
 | --- | --- |

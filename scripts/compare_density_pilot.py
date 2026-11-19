@@ -14,12 +14,12 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 GRADIENTS = (1, 2, 3)
-BASE = ROOT / "benchmarks/classmate/parameters_deuterium_iv"
+BASE = ROOT / "configs/convergence/deuterium_nz24_nw24_auto/parameters"
 
 
 def extract(history, work, reference, dest):
     economical = BASE.read_bytes()
-    historical = (ROOT / "benchmarks/parameters").read_bytes()
+    historical = (ROOT / "configs/isotope/deuterium/omn_2_omt_2/parameters").read_bytes()
     expected_grid = economical.replace(b"nz0    =   24", b"nz0    =   32").replace(
         b"nw0    =   24", b"nw0    =   32")
     if expected_grid != historical:

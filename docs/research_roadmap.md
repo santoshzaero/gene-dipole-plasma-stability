@@ -20,7 +20,7 @@ Use the [grid comparison sheet](../benchmarks/grid_comparison.csv). Record GENE 
 
 ## 2. Replicate the same case in class
 
-All four students run the same [electron–positron IV benchmark](../benchmarks/classmate/README.md) unchanged. Keep the separate electron–deuterium IV results out of this comparison. Compare the exact input hash, build, signed diagnostic and convergence. The class tests reproducibility across computers. Grid independence is a separate question.
+All four students run the same [standalone electron–positron IV input](../benchmarks/classmate/parameters.txt) unchanged. Share the text input and the [WSL2 procedure](../benchmarks/classmate/README.md#run-on-windows-using-wsl2-ubuntu). Keep the separate electron–deuterium IV results out of this comparison. Compare the exact input hash, build, signed diagnostic and convergence. The class tests reproducibility across computers. Grid independence is a separate question.
 
 ## 3. Isolate density-gradient effects within a valid equilibrium
 

@@ -4,11 +4,11 @@ The [shared MAE 190 benchmark](classmate/README.md) uses the tested electron–p
 
 ## Start here
 
-Each student should run the same [deuterium input](parameters) and report how quickly the small plasma disturbance grows and oscillates. Use the [four-student table](comparison.csv). The goal is to compare how consistently different computers reproduce a common simulation. The class result is still pending.
+Use the [deuterium input](parameters) for an optional deuterium comparison. For the four-student exercise, share the [electron–positron text file](classmate/parameters.txt).
 
 ## Exact input and build
 
-Use `benchmarks/parameters` unchanged. Its SHA-256 is `d8e40c0f055746b882c0c7da8a8753dd3d536f3ef27e1dfbf02cdc6908616600`. This is the historical conservative grid at `nz0 = 32`, `nv0 = 48`, `nw0 = 32`, with `lv = 3.5`, `lw = 12.25`, and automatic RK4 timestep selection. Both species have `omn = omt = 2`, unit normalized density and temperature, and opposite unit charges. The kinetic electron and deuterium masses are 0.00054462 and 2 in proton-mass units. The input fixes `kymin = 0.7`, a 0.4 m ring radius and 750 A current. [Reference scales and conventions](../docs/technical/normalization.md)
+Use `benchmarks/parameters` unchanged. Its SHA-256 is `7cc11cad2928ea38e4669eddde06036aac10bab26305927f5ba67ff9150de881`. The original IV input remains in the [research archive](../configs/isotope/deuterium/omn_2_omt_2/parameters). Only its inactive eigenvalue-solver keys were omitted from the current copy. This is the historical conservative grid at `nz0 = 32`, `nv0 = 48`, `nw0 = 32`, with `lv = 3.5`, `lw = 12.25`, and automatic RK4 timestep selection. Both species have `omn = omt = 2`, unit normalized density and temperature, and opposite unit charges. The kinetic electron and deuterium masses are 0.00054462 and 2 in proton-mass units. The input fixes `kymin = 0.7`, a 0.4 m ring radius and 750 A current. [Reference scales and conventions](../docs/technical/normalization.md)
 
 The reference used GENE **3.1 patch 5**, source revision `a0d2f213c5e22eed3b9f1bf4e40530c6292a9143`, double precision on Apple Silicon, GNU Fortran 16.2.0, Homebrew Open MPI, FFTW, and OpenBLAS, with GPU, SLEPc, and ScaLAPACK disabled. Use one MPI task and one OpenMP thread and record the compiler, libraries, architecture, and any differences from the reference build. The existing [installation record](../docs/research_log.md#1-installation-and-validation) describes the local build and changes. Obtain GENE separately.
 
@@ -50,4 +50,4 @@ For class reproducibility, use the same primary window and compare the rounded f
 - **Missing or unreadable potential output:** check the GENE release, `istep_field`, and output format. The extractor expects four-byte record markers and little-endian complex doubles. For a different valid format, read the complex field using that build's diagnostic reader and repeat the same normalization and fit.
 - **Rates differ or the frequency sign flips:** verify the signed phase convention, the applied timestep from timestamps, mode overlap, and fixed fitting window before comparing significant digits. Similar amplitude envelopes alone can conceal different complex mode shapes.
 
-The input, launcher syntax, and analysis-only path were checked locally against existing records. The two local runs reproduce the same field and printed rates, and the shared extractor reproduces the reference JSON. No new benchmark run or classmate-machine reproduction was performed during this review.
+The input, launcher syntax, and analysis-only path were checked locally against existing records. The two historical local runs reproduced the same field and printed rates, and the extractor reproduces the historical reference JSON. The current input was checked against its archived original after removal of inactive keys.

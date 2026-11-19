@@ -83,3 +83,7 @@ At fixed step 0.00057848, the wider `lw = 16.25`, `nw0 = 24` run differed from t
 ## 17. Shared IV benchmark and deuterium density pilot
 
 Published an [IV-only shared benchmark](../benchmarks/classmate/README.md) for electrons and positrons on the economical grid, with recorded growth 4.314 and signed frequency 0.000 from a 7.011 s local run. The separate deuterium reference was reused for a three-point common-density-gradient pilot. Only the economical `omn = 1` and 3 cases were new. Both converged, and fitted growth and frequency passed the 1% comparison against their exact-physics archived grid cases. Growth and signed frequency rose across the three tested gradients. [Pilot data and figures](studies/deuterium_density_pilot.md)
+
+## 18. IV-only handoff and pair-mode verification
+
+The pre-IV eigenvalue solver attempt is obsolete. It exited without a benchmark result and remains a local historical record. The corresponding inactive settings were removed from current benchmark templates. The archived IV inputs and original results are preserved. The cleaned standalone input reproduced both native frequency files and the full complex-field trace byte for byte in one IV verification run. The growth rate was 4.314 and the field phase stayed fixed. [Standalone Windows handoff](../benchmarks/classmate/README.md) · [Frequency verification](studies/pair_benchmark_frequency.md)

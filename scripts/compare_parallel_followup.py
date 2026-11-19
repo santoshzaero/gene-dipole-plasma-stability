@@ -30,7 +30,7 @@ def relative(value, reference):
 
 def load_cases(paths):
     baseline = (paths[0] / "parameters").read_text()
-    if baseline != (ROOT / "benchmarks/parameters").read_text():
+    if baseline != (ROOT / "configs/isotope/deuterium/omn_2_omt_2/parameters").read_text():
         raise ValueError("Baseline does not match archived benchmark")
     cases = {}
     for (label, nz), path in zip(SPECS, paths):

@@ -4,6 +4,7 @@ import argparse
 import csv
 import gzip
 import hashlib
+import re
 from collections import Counter
 from pathlib import Path
 
@@ -117,9 +118,15 @@ def audit():
         audit_omega(row, index["ky", f"{row['isotope']}/{case}"])
     anomaly, = [row for row in ky if is_anomalous(row)]
     assert (float(anomaly["gamma"]), float(anomaly["omega"])) == (378.519, 220.647)
-    assert (ROOT / "benchmarks/parameters").read_bytes() == (
-        ROOT / "configs/isotope/deuterium/omn_2_omt_2/parameters"
-    ).read_bytes()
+    for clean_path, archive_path in (
+        ("benchmarks/parameters", "configs/isotope/deuterium/omn_2_omt_2/parameters"),
+        ("benchmarks/classmate/parameters_deuterium_iv", "configs/convergence/deuterium_nz24_nw24_auto/parameters"),
+    ):
+        clean = (ROOT / clean_path).read_bytes()
+        original = (ROOT / archive_path).read_bytes()
+        expected = re.sub(rb"(?m)^(?:which_ev|ev_max_it|ev_n_test)[ \t]*=[^\n]*\n(?:\n(?=timelim))?", b"", original)
+        assert clean == expected, clean_path
+        assert re.findall(rb"(?m)^comp_type\s*=\s*'([^']+)'", clean) == [b"IV"], clean_path
     print("Verified 175 run records, 13 refits, archive hashes, and benchmark identity.")
     print(f"Paired H−D growth rates are positive in all 41 GENE-converged pairs ({min(differences):.3f} to {max(differences):.3f}).")
     return pair, rates, ky

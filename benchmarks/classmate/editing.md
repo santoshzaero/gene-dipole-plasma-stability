@@ -1,6 +1,6 @@
 # Edit your own GENE input after the class benchmark
 
-Copy `parameters` into a new study directory before editing. Keep the shared benchmark exact.
+Copy `parameters.txt` into a new study directory under the name `parameters` before editing. Retain `comp_type = 'IV'` for every new study. Keep the shared benchmark exact.
 
 | Setting | What it controls | Example input choice |
 | --- | --- | --- |

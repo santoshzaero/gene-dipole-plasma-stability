@@ -2,11 +2,11 @@
 
 ## Start here
 
-Each `parameters` file records the settings for one simulation, including the particles, magnetic geometry, and quantities varied in that study. To try one example, read the [shared deuterium benchmark](../benchmarks/README.md).
+Each `parameters` file records the settings for one simulation, including the particles, magnetic geometry, and quantities varied in that study. For a current input, start with the [shared electron–positron benchmark](../benchmarks/classmate/README.md) or the [deuterium reference](../benchmarks/README.md).
 
 ## Technical layout
 
-Every nested `parameters` file is a byte-for-byte copy of the corresponding recorded input. [Run index](../results/run_index.csv) pairs the inputs with their diagnostics and runtime. [Provenance](../results/provenance.csv) records original paths and checksums.
+Every nested `parameters` file preserves the exact original IV input as a historical research record. Dormant eigenvalue-solver keys in those records are obsolete. Use a cleaned copy for a new IV run and keep the archived file intact. [Run index](../results/run_index.csv) pairs the inputs with their diagnostics and runtime. [Provenance](../results/provenance.csv) records original paths and checksums.
 
 | Folder | Inputs |
 | --- | --- |

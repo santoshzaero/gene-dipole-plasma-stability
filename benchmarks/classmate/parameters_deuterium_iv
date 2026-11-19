@@ -51,10 +51,6 @@ calc_dt = T
 !nblocks   =      24
 hyp_on_h =   F
 
-which_ev  = 'largest_real'
-ev_max_it =  500000
-ev_n_test =      -1
-
 timelim    =      86000
 
 beta       =    0.0000000

@@ -17,8 +17,9 @@ WINDOWS = ((1.50, 2.00), (1.40, 1.90), (1.55, 2.05))
 def measure(directory):
     supplied = (directory / "parameters").read_bytes()
     benchmark = (ROOT / "benchmarks/parameters").read_bytes()
-    if supplied != benchmark:
-        raise ValueError("Input must be a byte-for-byte copy of benchmarks/parameters")
+    archived = (ROOT / "configs/isotope/deuterium/omn_2_omt_2/parameters").read_bytes()
+    if supplied not in (benchmark, archived):
+        raise ValueError("Input must match the cleaned deuterium benchmark or its archived original")
     stats, profile, history, energy = read_case(directory, 32)
     if not stats["gene_converged"] or "rescaled amplitudes" in (directory / "run.log").read_text():
         raise ValueError("Benchmark requires GENE convergence without amplitude rescaling")

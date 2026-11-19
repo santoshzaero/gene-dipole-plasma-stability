@@ -1,31 +1,42 @@
 # MAE 190 shared GENE benchmark · electron–positron IV
 
-Start with [parameters](parameters). All four students should run this exact input before changing composition or gradients. It uses an electron and a positron with equal code mass 1 and opposite charges, equal density and temperature of 1, both gradients set to 2, and dipole geometry. The grid is `24 × 48 × 24` at `kymin = 0.7`, with `lv = 3.5`, `lw = 12.25`, and automatic timestep selection. The common test measures how a small plasma disturbance grows and whether it oscillates.
+Share **[parameters.txt](parameters.txt)** as the single benchmark attachment. All four students use that exact file before changing composition or gradients. It contains only the GENE namelist. Save it in the run directory under the name `parameters` with no extension. The file is plain ASCII with Unix line endings. Its SHA-256 is `0841cf83c3c3ce9928fa891ef1392914e20de3328b9c47d6872cbf21daff2bab`.
 
-| Input | Use |
-| --- | --- |
-| [parameters](parameters) | Tested electron–positron initial-value (IV) benchmark. Use this for the class comparison. |
-| [parameters_deuterium_iv](parameters_deuterium_iv) | Exact economical electron–deuterium reference. Use for the separate deuterium project, with its proton-reference units and physical masses. |
+The IV case uses equal electron and positron masses, densities and temperatures, opposite unit charges, `omn = omt = 2` for both species, and dipole geometry. The grid is `24 × 48 × 24` with `kymin = 0.7`, `lv = 3.5`, `lw = 12.25`, and automatic timestep selection. The separate [electron–deuterium IV reference](parameters_deuterium_iv) uses physical masses in proton-reference units. Use the electron–positron input for the class comparison.
 
-Both inputs use IV only (`comp_type = 'IV'`) and are directly editable GENE inputs. They use the active physics and namelist structure of the course example while omitting its generated `&info` block, machine settings and checkpoint output. The shared IV version enables the omega diagnostic and disables the high-volume velocity-space output. The professor's original file and historical build metadata were consulted locally.
+## Run on Windows using WSL2 Ubuntu
 
-## Build and run
+1. On Windows 11 or Windows 10 version 2004 or later, open PowerShell as Administrator and run `wsl --install -d Ubuntu`. Restart if prompted. Open Ubuntu and create a Linux user. In PowerShell, `wsl -l -v` should list Ubuntu with version `2`. If needed, use `wsl --set-version Ubuntu 2` with the distribution’s listed name. [Microsoft WSL installation guide](https://learn.microsoft.com/en-us/windows/wsl/install)
+2. Obtain GENE independently through the GENE Development Team. For comparison with the reference, use **GENE 3.1 patch 5**, revision `a0d2f213c5e22eed3b9f1bf4e40530c6292a9143` when available. Keep the source and run directories in the Ubuntu home filesystem. Build a **double-precision CPU Linux** executable using your release’s `INSTALL` and machine configuration. The macOS executable targets Apple Silicon and cannot run in WSL2. [Obtain GENE](https://www.genecode.org/license.html)
+3. For a GNU/Open MPI build with FFTW and system BLAS/LAPACK, the Ubuntu starting packages are:
 
-Obtain GENE independently through the GENE development team. The recorded build used **GENE 3.1 patch 5**, revision `a0d2f213c5e22eed3b9f1bf4e40530c6292a9143`, double precision, GNU Fortran 16.2.0, Open MPI, FFTW, and OpenBLAS on Apple Silicon. It used one MPI rank and one OpenMP thread. On macOS or Linux, follow GENE's build instructions with the matching site or machine configuration and record the compiler, libraries, ranks and precision. On other systems use a GENE-supported environment and its documented launcher. The executable is platform-specific. [Obtain GENE](https://www.genecode.org/license.html) · [Local build notes](../../docs/research_log.md#1-installation-and-validation)
+   ```sh
+   sudo apt update
+   sudo apt install build-essential gfortran cmake git pkg-config \
+     openmpi-bin libopenmpi-dev libfftw3-dev libopenblas-dev liblapack-dev
+   ```
 
-Download this folder with its inputs and scripts or obtain the pinned repository snapshot. From this folder, verify the [checksums](SHA256SUMS) with `shasum -a 256 -c SHA256SUMS` on macOS or `sha256sum -c SHA256SUMS` on Linux. Set the machine name for your build if required. For the recorded Mac build:
+   The recorded GENE tree ships an `ubuntu_gfortran` Make profile for older x86-64 Ubuntu. Review compiler wrappers, precision and library paths before using it. If that profile matches after configuration, its build entry point is `MACHINE=ubuntu_gfortran make` from the GENE source root. The expected executable for that profile is `bin/gene_ubuntu_gfortran`. Adapt the machine profile and executable name if needed, especially on Windows ARM. The shipped profile enables ScaLAPACK and HDF5 support through FUTILS. If you retain these options, install `libscalapack-openmpi-dev` and `libhdf5-openmpi-dev` and configure their link paths. They can be disabled in a suitable Make profile for this local electrostatic IV case. Leave SLEPc disabled. Build requirements vary with the revision and optional features, and this procedure has yet to be tested on a classmate’s WSL machine.
+4. Save `parameters.txt` to Windows Downloads, then run the following in Ubuntu. Substitute your Windows username and your Ubuntu GENE executable’s absolute path.
 
-```sh
-MACHINE=mac_arm64 sh run.sh /absolute/path/to/gene_mac_arm64
-```
+   ```sh
+   run_dir=$(mktemp -d "$HOME/gene-pair.XXXXXX")
+   cd "$run_dir"
+   mkdir out
+   cp '/mnt/c/Users/YOUR_WINDOWS_NAME/Downloads/parameters.txt' parameters
+   printf '%s  parameters\n' 0841cf83c3c3ce9928fa891ef1392914e20de3328b9c47d6872cbf21daff2bab | sha256sum -c - &&
+     OMP_NUM_THREADS=1 mpirun -np 1 /absolute/path/to/gene_ubuntu_gfortran >run.log 2>&1
+   grep -F 'Linear growth rate is converged' run.log
+   cat out/omega.dat
+   ```
 
-The launcher creates a fresh run directory and prints its location. To run manually, create a new directory with an `out` subdirectory, copy in the exact file named `parameters`, and launch GENE there with one rank and one thread, saving stdout to `run.log`. Use a one-rank MPI launch if your installation requires it. Then call `sh read_rates.sh /absolute/path/to/run`. No Python installation is needed.
+   Confirm the hash before running GENE. A matching build can optionally launch directly with one rank if its GENE documentation recommends that. Use a fresh directory for each attempt. When saving manually in a Windows editor, keep plain text, use LF line endings without a BOM, and ensure the filename inside Ubuntu is exactly `parameters`.
+5. A converged `out/omega.dat` has columns **`kymin`, normalized growth, signed normalized real frequency**. The local reference row is `0.700  4.314  0.000`. Check the convergence line and the absence of amplitude rescaling before recording it. A zero row from a run that failed to converge can be a placeholder. Record the GENE version, compiler, MPI ranks, thread count and runtime along with the rates.
 
-## Expected output and agreement
+## Expected result and comparison
 
-The local IV run met GENE's temporal convergence check in **7.011 s**. Its `out/omega.dat` row was **0.700, 4.314, +0.000**, in normalized GENE units. The log-ratio diagnostic uses the real part for growth and the imaginary part for signed frequency in the convention `exp[(gamma + i omega)t]`. Read the printed sign, even for a negative frequency in another case. Late-time fits to the saved complex potential yielded growth about 4.3145–4.3152 and zero phase slope on the windows checked. GENE found a growing mode with no resolved rotation. The IV calculation identifies the mode reached from its specified initialization.
+The cleaned input converged locally in 69 reported steps with growth **4.314**, signed real frequency **0.000**, and wall time **5.203 s**. It reproduced the original run’s complex field and frequency files byte for byte. The original local runtime was **7.011 s**. The field grew exponentially with constant phase. Independent fits at the peak node and across the field recovered zero phase slope, consistent with a purely growing dominant mode. Treat the three-decimal display conservatively as **$|\omega| \lesssim 0.0005$** for this run. [Frequency check and plots](../../docs/studies/pair_benchmark_frequency.md)
 
-Use [comparison.csv](comparison.csv) to record all four results. Aim to match the four displayed significant digits of growth, using **absolute differences of 0.002 in growth and 0.001 in signed frequency** as provisional investigation thresholds. The growth threshold accommodates the printing step and observed fit-window sensitivity. A relative tolerance is undefined around zero frequency. These thresholds are for identical-input reproducibility and have not yet been tested across class computers. They do not establish grid or velocity-domain convergence. Runtime will vary by machine.
+For identical-input class replication use provisional investigation thresholds of **0.002 absolute growth** and **0.001 absolute signed frequency**. These account for printed precision and local fitting variability and remain provisional pending cross-computer runs. Relative error is ill-conditioned near zero. The [comparison sheet](comparison.csv) is for recording results. The local build was GNU Fortran 16.2.0, Open MPI, FFTW and OpenBLAS on Apple Silicon, with one MPI rank and one OpenMP thread. [Local build record](../../docs/research_log.md#1-installation-and-validation)
 
-
-If results differ, confirm the hash, compiler/build, rank/thread counts, diagnostic path and convergence line. A zero or missing omega file without clean convergence is not a measurement. Check `run.log` and `run.stderr` before trying a repeat. Compare the sign and complex potential when diagnosing a different mode. After class replication, use the [editing guide](editing.md).
+If rates differ, compare the checksum, build and convergence log first. If the run exits early, keep `run.log` and `out/parameters.dat`. After the benchmark, follow the [editing guide](editing.md) for new IV cases.

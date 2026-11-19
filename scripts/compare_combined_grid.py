@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 ROOT = Path(__file__).resolve().parents[1]
 CONFIGS = ROOT / "configs/convergence"
 RUNS = (
-    ("original", 32, 48, 32, ROOT / "benchmarks/parameters", "Original 32 × 48 × 32"),
+    ("original", 32, 48, 32, ROOT / "configs/isotope/deuterium/omn_2_omt_2/parameters", "Original 32 × 48 × 32"),
     ("z64", 64, 48, 32, CONFIGS / "deuterium_nz64/parameters", "Finer 64 × 48 × 32"),
     ("w32", 24, 48, 32, CONFIGS / "deuterium_nz24_auto/parameters", "24 × 48 × 32"),
     ("v64", 24, 64, 32, CONFIGS / "deuterium_nz24_nv64_auto/parameters", "Finer 24 × 64 × 32"),

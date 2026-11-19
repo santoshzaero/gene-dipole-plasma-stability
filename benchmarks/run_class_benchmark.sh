@@ -29,7 +29,7 @@ import sys
 import matplotlib
 import numpy
 
-expected = "d8e40c0f055746b882c0c7da8a8753dd3d536f3ef27e1dfbf02cdc6908616600"
+expected = "7cc11cad2928ea38e4669eddde06036aac10bab26305927f5ba67ff9150de881"
 if hashlib.sha256(Path(sys.argv[1]).read_bytes()).hexdigest() != expected:
     raise SystemExit("Benchmark input checksum mismatch")
 PY
