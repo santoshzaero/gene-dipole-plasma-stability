@@ -1,5 +1,7 @@
 # Adiabatic-electron theory benchmark
 
+The first [matched collisionless numerical comparison](../studies/deuterium_meeting.md#what-adiabatic-electrons-change) is complete. This page gives the independent theoretical eigenproblem, which has yet to be solved for this ring-dipole case.
+
 The proposed comparison uses one Maxwellian kinetic deuterium species, a Boltzmann electron response with equal reference temperatures, electrostatic local geometry, negligible Debye length, and a collisionless limit for the theory comparison. Choose a nonzonal perturbation with nonzero binormal wavenumber. Use the same equilibrium gradients, field-line boundary conditions, geometry metrics, and frequency convention in both models. Include full ion finite-Larmor-radius and streaming effects unless the benchmark explicitly takes a controlled asymptotic limit.
 
 Plunk et al. equations (2)–(5) give a candidate kinetic-ion and Boltzmann-electron eigenproblem in the convention $e^{-i\Omega t}$. For singly charged ions write it as

@@ -1,6 +1,6 @@
 # Research roadmap
 
-The deuterium reference is the starting point. Preserve one exact copy for class replication, use separate inputs for numerical refinements, and postpone production scans until the grid and equilibrium checks below are complete. Record each decision in the [research log](research_log.md) and [session workflow](research_workflow.md).
+Use the economical deuterium reference for controlled exploratory scans with matched equilibrium gradients. Preserve the separate class benchmark and exact historical run inputs. Record each decision in the [research log](research_log.md) and [session workflow](research_workflow.md).
 
 ## 1. Find a reliable, inexpensive grid
 
@@ -24,7 +24,7 @@ All four students run the same [standalone electron–positron IV input](../benc
 
 ## 3. Isolate density-gradient effects within a valid equilibrium
 
-The [deuterium pilot](studies/deuterium_density_pilot.md) completed common `omn = 1, 2, 3` at fixed temperature gradients and wavenumber. All three economical results passed the grid comparison to archived cases, and both rates increased. Use these as the 0.7 anchors for a small reviewed wavenumber follow-up.
+The [deuterium density study](studies/deuterium_meeting.md#density-gradient-at-fixed-wavenumber) confirms increasing growth and positive signed frequency over the converged historical range `omn = 0.5` through 5 at `kymin = 0.7`. The economical `omn = 1, 2, 3` pilot remains the matched-grid comparison. `omn = 0` remains unresolved.
 
 Fix electron/deuterium temperature gradients at 2, wavenumber at 0.7, and other settings at the validated baseline. Use the existing equal-gradient baseline where its numerical settings match the new requirements.
 
@@ -40,13 +40,12 @@ Generate a growth-rate figure and a real-frequency figure separately for each ap
 
 ## 4. Compare wavenumber dependence
 
-After the gradient study selects stable cases, start with `kymin = 0.5, 0.7, 1.0` at a few gradient levels. Use 0.7 as the anchor from step 3. Add 1.5 and 2.0 if they help resolve the trend. Add smaller wavenumbers after the anomaly review and independent numerical spot checks. For an approved species-specific equilibrium, hold the other target species' density gradient and both temperature gradients fixed and document any required third-population adjustment. With the current two-species composition, use a joint-gradient family. Plot growth rate and signed real frequency versus normalized wavenumber in separate figures, one curve per gradient value. Update both figures after each batch and keep gaps for unresolved samples. Inspect envelopes near abrupt changes rather than joining across probable branch transitions.
+The [initial 3 × 3 study](studies/deuterium_meeting.md#wavenumber-matrix) is complete. It used `kymin = 0.5, 0.7, 1.0` at common gradients 1, 2 and 3. Growth decreased and positive signed frequency increased across the three sampled wavenumbers at each gradient. The largest sampled growth was at 0.5. Search below 0.5 only after reviewing the anomalous 0.3 run and validating that numerical regime. For an approved species-specific equilibrium, hold the other target species' density gradient and both temperature gradients fixed and document any required third-population adjustment. With the current two-species composition, use a joint-gradient family. Plot growth rate and signed real frequency versus normalized wavenumber in separate figures, one curve per gradient value. Update both figures after each batch and keep gaps for unresolved samples. Inspect envelopes near abrupt changes rather than joining across probable branch transitions.
 
 ## 5. Consider additional physical changes
 
 | Parameter | Proposed initial comparison | Physical status |
 | --- | --- | --- |
-| Electron-to-ion temperature ratio | Change one temperature while documenting how the reference temperature and fixed code inputs map to physical quantities. | Compatible with two-species charge neutrality. Review collisions and pressure gradients when defining the comparison. |
 | Collision strength | Start with the archival value `coll = 0.01`, a nearby smaller value, and the collisionless limit when appropriate. | Controlled model comparison. Verify operator and timestep regime at each setting. |
 | Relative species density | Calculate charge and gradient balance before constructing inputs. | Unequal densities in the electron/singly charged deuterium model require a modified equilibrium or a compensating population. |
 | Surface selection or numerical dissipation | Change one surface factor to test geometry sensitivity, or vary `hyp_z` in a numerical control. | Treat surface changes as a different physical operating point. Treat hyperdiffusion changes as discretization checks. |
@@ -55,8 +54,12 @@ Label any prototype outside a confirmed physical equilibrium as exploratory. Rec
 
 ## 6. Identify mode structure from existing output
 
-Start with the reference deuterium case, deuterium at 0.3, and the H/D pair at 0.7. The original files contain enough saved potential data for normalized envelopes. Plot $|\phi|/\max|\phi|$ across field-line position for several late times. Compare parity, phase, and spatial overlaps before attributing the low-`kymin` point to a physical branch. [Field output inventory and procedure](technical/mode_structure.md)
+Across the completed deuterium matrix, aligned mode overlaps exceeded 0.9992 with the reference and supported similar dominant shapes. [Mode structure](studies/deuterium_meeting.md#mode-structure)
+
+For the outstanding low-wavenumber anomaly, compare the archived deuterium 0.3 trace with the deuterium reference and the H/D pair at 0.7. The original files contain enough saved potential data for normalized envelopes. Plot $|\phi|/\max|\phi|$ across field-line position for several late times. Compare parity, phase, and spatial overlaps before attributing the low-`kymin` point to a physical branch. [Field output inventory and procedure](technical/mode_structure.md)
 
 ## 7. Validate a kinetic-ion case with adiabatic electrons
 
-Agree on the electron closure, dipole boundary conditions, collisionless assumptions, and the analytical eigenproblem before choosing a test point. Derive or solve the independent dispersion condition, normalize and sign-match frequencies, then compare a mode on one refined grid and a small controlled gradient series. A published pair-plasma dispersion relation does not directly describe this kinetic-ion/adiabatic-electron case. The proposed configuration and open theoretical checks are in the [validation plan](technical/adiabatic_validation.md).
+The [matched collisionless IV comparison](studies/deuterium_meeting.md#what-adiabatic-electrons-change) reduced growth from 4.176 to 0.136 and changed signed frequency from +0.944 to −0.029. A separate analytical dispersion solution and targeted convergence check for the weak adiabatic mode remain open. Keep both equilibrium temperature gradients fixed at 2 in this research scope.
+
+For the next validation, use the matched collisionless point to solve the independent kinetic-ion dispersion condition with the dipole boundary conditions. Normalize and sign-match frequencies, then test the weak mode on a targeted velocity-grid and timestep control before expanding the gradient series. A published pair-plasma dispersion relation does not directly describe this kinetic-ion/adiabatic-electron case. The proposed configuration and open theoretical checks are in the [validation plan](technical/adiabatic_validation.md).
