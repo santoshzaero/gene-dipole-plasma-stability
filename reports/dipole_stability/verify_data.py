@@ -4,7 +4,7 @@ from collections import Counter
 
 import numpy as np
 
-from make_figures import histories, profiles, rows, scan_points
+from make_figures import DATA, histories, profiles, rows, scan_points
 
 
 def main():
@@ -65,6 +65,43 @@ def main():
         rate = abs(np.vdot(a, b)) / (np.linalg.norm(a) * np.linalg.norm(b))
         np.testing.assert_allclose(rate, expected, atol=1e-8, rtol=0)
     print('Verified 13 qualified scan points, 39 energy-window refits, 7 closure fits, pair phase, and field overlaps.')
+    if (DATA / 'followup_runs.csv').exists():
+        verify_followup()
+
+
+def verify_followup():
+    cases = {r['case']:r for r in rows('followup_runs')}
+    original = cases['ky_03_original']
+    assert int(original['log_rescales']) == int(original['detected_field_jumps']) == 29
+    np.testing.assert_allclose(float(original['raw_logratio_omega']),float(original['omega']),rtol=0,atol=.0005)
+    np.testing.assert_allclose(float(original['raw_logratio_gamma']),float(original['gamma']),rtol=0,atol=.0005)
+    phase = float(original['same_window_unwrapped_omega'])
+    alias = phase + 3*2*np.pi/(10*float(original['dt']))
+    np.testing.assert_allclose(alias,float(original['raw_logratio_omega']),rtol=0,atol=1e-8)
+    helium = sorted((r for r in cases.values() if r['group']=='three_species'),key=lambda r:float(r['omn_e']))
+    assert len(helium)==3
+    for r in helium:
+        assert r['gene_flag']=='True' and r['log_rescales']=='0'
+        assert float(r['qn'])==float(r['qn_gradient'])==0
+        assert float(r['omn_e'])==.75*2+.25*float(r['omn_he'])
+    for rate in ('gamma','omega'):
+        assert np.all(np.diff([float(r[rate]) for r in helium])>0)
+    fits = rows('followup_common_fits')
+    case_names = ('ky_03_fixed_dt', 'ky_03_fixed_dt_nz48')
+    assert tuple(fit['case'] for fit in fits) == case_names
+    for case in case_names:
+        result = cases[case]
+        assert result['gene_flag'] == 'True' and result['log_rescales'] == '0'
+        assert result['detected_field_jumps'] == '0'
+        np.testing.assert_allclose(float(result['dt']), .0004175, rtol=0, atol=1e-13)
+    coarse, refined = fits
+    assert (coarse['start'], coarse['end']) == (refined['start'], refined['end'])
+    differences = [100 * abs(float(refined[key]) / float(coarse[key]) - 1) for key in ('gamma', 'omega')]
+    np.testing.assert_allclose(differences, [0.123, 0.022], rtol=0, atol=.0005)
+    matched_overlap = next(r for r in rows('followup_overlaps')
+                           if (r['reference'], r['case']) == case_names)
+    assert float(matched_overlap['overlap']) > .99999999
+    print('Verified compensated gradients, pilot trend, native phase alias, and matched low-wavenumber controls.')
 
 
 if __name__ == '__main__':

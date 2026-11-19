@@ -2,7 +2,7 @@
 
 Use the economical deuterium reference for controlled exploratory scans with matched equilibrium gradients. Preserve the separate class benchmark and exact historical run inputs. Record each decision in the [research log](research_log.md) and [session workflow](research_workflow.md).
 
-The [complete Phase 1 and Phase 2 report](../reports/dipole_stability/README.md) reconstructs the historical and current evidence without running GENE. The [inventory](../reports/dipole_stability/inventory.md) maps each research question to its figures and data. The low-wavenumber, independent-density, and weak adiabatic-mode checks remain open as documented below.
+The [complete Phase 1 and Phase 2 report](../reports/dipole_stability/README.md) brings together the archived studies and targeted IV follow-ups. The [inventory](../reports/dipole_stability/inventory.md) maps each research question to its figures and data. The revised paper includes the [helium-compensated electron-gradient pilot and low-wavenumber controls](studies/deuterium_followup.md). The weak adiabatic-mode precision checks remain open.
 
 ## 1. Find a reliable, inexpensive grid
 
@@ -38,11 +38,11 @@ Fix electron/deuterium temperature gradients at 2, wavenumber at 0.7, and other 
 
 Charge neutrality requires $\sum_s q_s n_s=0$. Differentiating with respect to the same profile coordinate gives $\sum_s q_s n_s\texttt{omn}_s=0$, where $q_s$, $n_s$ and $\texttt{omn}_s$ are each species' charge, density and normalized density gradient. GENE's `check_quasineutrality` accumulates both sums for the active and dilution populations and defaults to checking gradient balance. For unit-density electrons and singly charged deuterium this forces equal normalized density gradients. Numerical acceptance alone would not justify an equilibrium. If the professor wants A or B, derive a charge-balanced multi-species alternative or establish an explicitly supported non-neutral model. Include the compensating species and its response in the study design because it changes the physical problem. An equilibrium with modified physics should get its own reference and interpretation. [Source verification points](references.md)
 
-The [final common-gradient panels](studies/deuterium_final.md) put growth and signed frequency side by side. The two species-only figures are omitted. The [equilibrium derivation and minimal extension](studies/deuterium_final.md#why-neither-species-only-scan-is-valid-here) specify how a compensating population would enter the study.
+The [final common-gradient panels](studies/deuterium_final.md) put growth and signed frequency side by side. The two-species gradient restriction still applies. The [three-species follow-up](studies/deuterium_followup.md#three-kinetic-species-at-fixed-deuterium-gradient) completed a helium-compensated electron-gradient path at fixed deuterium gradient and matched composition. The separate deuterium-gradient path remains a design.
 
 ## 4. Compare wavenumber dependence
 
-The [final scan](studies/deuterium_final.md#common-gradient-results) covers `kymin = 0.5, 0.7, 1.0, 1.5` at common gradients 1, 2 and 3, with a qualified `omn = 2` point at 2.0. Growth decreased and positive signed frequency increased at every tested gradient. The largest sampled growth was at 0.5. The 0.3 trace had 29 rescalings and very low overlap with the neighboring valid mode. Low-wavenumber physics remains unresolved. A future scan below 0.5 should first establish a stable numerical regime there.
+The [final scan](studies/deuterium_final.md#common-gradient-results) covers `kymin = 0.5, 0.7, 1.0, 1.5` at common gradients 1, 2 and 3, with a qualified `omn = 2` point at 2.0. Growth decreased and positive signed frequency increased at every tested gradient. The original 0.3 trace had a timestep-sensitive numerical runaway and an aliased frequency. The qualified half-step result at common gradient 2 gives growth 4.403 and real frequency +0.415. It grows slightly faster than the 0.5 point, with agreement from a parallel-grid refinement. The global growth maximum and the region below 0.3 remain unresolved. [Targeted fixed-timestep controls](studies/deuterium_followup.md#half-step-and-parallel-resolution-results)
 
 ## 5. Consider additional physical changes
 
@@ -58,7 +58,7 @@ Label any prototype outside a confirmed physical equilibrium as exploratory. Rec
 
 Across the completed deuterium matrix, aligned mode overlaps exceeded 0.9992 with the reference and supported similar dominant shapes. [Mode structure](studies/deuterium_meeting.md#mode-structure)
 
-For the outstanding low-wavenumber anomaly, compare the archived deuterium 0.3 trace with the deuterium reference and the H/D pair at 0.7. The original files contain enough saved potential data for normalized envelopes. Plot $|\phi|/\max|\phi|$ across field-line position for several late times. Compare parity, phase, and spatial overlaps before attributing the low-`kymin` point to a physical branch. [Field output inventory and procedure](technical/mode_structure.md)
+The two fixed-step low-wavenumber runs have nearly identical aligned complex fields and strongly overlap the qualified 0.5 mode. The historical extreme rates did not survive the timestep check. If low-wavenumber coverage becomes necessary, qualify one lower point at common gradients of 2 with a controlled step and the same complex-field checks before extending the scan. [Low-wavenumber field analysis](studies/deuterium_followup.md#audit-of-the-original-kymin--03-record)
 
 ## 7. Validate a kinetic-ion case with adiabatic electrons
 

@@ -1,0 +1,7 @@
+case,reference,overlap
+ky_03_original,ky_05_reference,0.0015593717825316809
+ky_03_fixed_dt,ky_05_reference,0.9999275923938713
+ky_03_fixed_dt_nz48,ky_05_reference,0.9999295480467384
+ky_03_fixed_dt_nz48,ky_03_fixed_dt,0.9999999959880174
+he_omn_e_175,he_omn_e_200,0.9999992151682205
+he_omn_e_225,he_omn_e_200,0.9999993374543288

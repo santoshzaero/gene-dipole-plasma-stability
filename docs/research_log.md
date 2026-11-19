@@ -99,3 +99,9 @@ Two economical IV runs completed the shared `kymin = 1.5` points. The trends acr
 ## 21. Reconstruct the complete Phase 1 and Phase 2 record
 
 Built a single LaTeX article and 14 Matplotlib figures from saved IV results. The reconstruction recovers the pair benchmark, archived isotope and pair histories, and the kinetic/adiabatic native complex fields. The appendix retains all 13 isotope energy-fit records and the 13 qualified common-gradient wavenumber points. The low-wavenumber diagnostics justify exclusion of anomalous rates. The two-species equilibrium constraint still prevents independent density-gradient curves. No GENE execution or input changes were made. [Report and source files](../reports/dipole_stability/README.md) · [Figure and investigation inventory](../reports/dipole_stability/inventory.md)
+
+## 22. Revise the paper and qualify two numerical follow-ups
+
+Three IV runs on the economical grid established a helium-compensated electron-density gradient path at fixed deuterium gradient and fixed reference composition. As the electron gradient rose from 1.75 to 2.25, the required helium gradient rose from 1 to 3. Growth increased from 3.905 to 4.221 and signed real frequency increased from +0.733 to +0.805. This is a coupled response along a quasineutral path.
+
+The original deuterium `kymin = 0.3` trace had a timestep-sensitive numerical runaway and an aliased native real frequency. Two fixed-half-step IV runs qualified a smooth growing mode, with native rates 4.403 and +0.415 at 32 parallel points and 4.398 and +0.415 at 48. The paper retains the original signal in the diagnostic appendix and includes the qualified point in the physics curve. The collisionless electron-response result remains a priority for targeted weak-mode validation. [Methods and exact results](studies/deuterium_followup.md) · [Revised article and figure inventory](../reports/dipole_stability/README.md)

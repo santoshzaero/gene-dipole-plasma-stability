@@ -25,199 +25,205 @@
 \newcommand{\studyfig}[3]{\begin{figure}[!htbp]\centering\includegraphics[width=\linewidth]{#1.pdf}\caption{#3}\label{#2}\end{figure}}
 \title{Linear Gyrokinetic Stability of Dipole-Confined Plasmas:\\[4pt] Phase 1 and Phase 2 Research Results}
 \author{MAE 190 Research Project}
-\date{November 2026}
+\date{Revised November 19, 2026}
 
 \input{data/matrix_rows.tex}
 \input{data/energy_fit_rows.tex}
+\input{data/followup_paper.tex}
 
 \begin{document}
 \maketitle
 \begin{abstract}
-Linear electrostatic initial-value calculations with GENE were used to examine gradient-driven disturbances in a ring magnetic dipole. The foundational studies established a non-oscillating electron--positron benchmark, an isotope ordering across 41 qualified hydrogen--deuterium pairs, and a practical electron--deuterium grid at the reference operating point. The dedicated deuterium study held both temperature gradients at 2. Growth and signed real frequency increased with the common density gradient. At each of three common gradients, growth fell and signed frequency rose over the common sampled wavenumber interval $0.5\leq\kn\leq1.5$. The matched collisionless adiabatic-electron closure reduced the normalized growth rate from 4.176 to 0.136 and reversed the signed frequency from $+0.944$ to $-0.029$. Independent variation of either species' density gradient requires a different equilibrium. The poorly resolved low-wavenumber region, magnetic-moment-domain sensitivity, and quantitative convergence of the weak adiabatic mode limit interpretation. All results and figures were reconstructed from previously saved calculations.
+Small electrostatic disturbances in a magnetic dipole can grow and rotate at different rates. We used linear gyrokinetic initial-value calculations to identify how density gradients, wavelength, ion mass and the electron response affect these rates. The historical studies establish a growing electron--positron mode with stationary phase and faster growth in hydrogen than deuterium at all 41 qualified matched gradient points. In the density-focused deuterium study, steeper common gradients increase growth and real frequency. Shorter sampled binormal wavelengths reduce growth over the established $0.5\leq\kn\leq1.5$ interval. Replacing kinetic electrons by a Boltzmann response at one collisionless point reduces growth by 96.7\% and reverses the sign of the real frequency. \FollowupAbstract
 \end{abstract}
 
-\section{Introduction}
-A ring-current dipole closes magnetic field lines and confines particles through magnetic mirroring and cross-field drifts. Spatial variation of the field and the presence of trapped orbits make it an interesting geometry for investigating how equilibrium gradients excite electrostatic disturbances. In a linear calculation, the central observables are the rate at which a perturbation grows and the rate at which its Fourier phase rotates. Neither observable measures nonlinear saturation, turbulent transport, or overall confinement.
+\section{Physical question and model}
+A magnetic dipole bends field lines into closed loops. Particles travel along and drift across the lines; some are reflected where the field strengthens. Equilibrium density and temperature gradients supply free energy for small disturbances. In this paper, \emph{growth} means increasing amplitude of an electrostatic potential perturbation, and \emph{real frequency} measures the rotation of its Fourier phase. Linear growth indicates an instability of the modeled equilibrium. Nonlinear saturation, transport and experimental confinement require separate evidence.
 
-Equal-mass electron--positron plasmas provide a useful symmetry reference. Gyrokinetic work on pair plasmas has identified conditions under which growing non-oscillatory modes can arise in dipole geometry \cite{mishchenko2018,kennedy2020}. Electron--ion plasmas have widely separated species masses and orbit scales. Matching the normalized inputs across hydrogen and deuterium lets us test the modeled isotope ordering, while a matched adiabatic closure tests how strongly the deuterium result depends on evolving the electron distribution. The research first checked the installation, diagnostics, and reference discretizations. It then studied the deuterium density-gradient and wavelength dependence at fixed temperature gradients.
+GENE evolves a gyrokinetic distribution and solves for its self-consistent fields \cite{jenko2000,goerler2011}. Gyrokinetics averages over fast gyromotion while retaining the orbit and velocity-space dynamics relevant to the lower-frequency perturbation. We use the local, electrostatic initial-value path (\texttt{comp\_type = 'IV'}), one radial and one nonzero binormal mode, and periodic parallel boundaries in the ring dipole. The imposed ring radius is \SI{0.4}{\meter}, current \SI{750}{\ampere}, and surface factor 1.2. The kinetic scans use Landau collisions with \texttt{coll = 0.01}. The matched electron-response comparison is collisionless. Appendix~\ref{app:numerical} gives the remaining parameters and checks.
 
-\section{Physical and Numerical Model}
-\subsection{Equilibrium, scales, and modes}
-The GENE code evolves a gyrokinetic distribution and solves self-consistently for the fields \cite{jenko2000,goerler2011}. We use the local, linear, electrostatic initial-value path (\texttt{comp\_type = 'IV'}), one radial and one nonzero binormal mode, $\beta=0$, and the quasineutral limit with \texttt{debye2 = 0}. The ring geometry uses a radius of \SI{0.4}{\meter}, current \SI{750}{\ampere}, and surface factor 1.2. The traced domain covers one turn of the reference field line with periodic parallel boundary conditions. Appendix~\ref{app:numeric} summarizes settings and links the exact namelists. The principal kinetic scan uses Landau collisions with \texttt{coll = 0.01}; the electron-response comparison is explicitly collisionless in both treatments.
-
-For radial profile coordinate $x$, define the input gradients
+\subsection{Normalization and sign}
+For a physical radial profile coordinate $x$, the GENE inputs are $\omn_s=-L_{\rm ref}\,\partial_x\ln n_{0s}$ and $\omt_s=-L_{\rm ref}\,\partial_x\ln T_{0s}$. The length $L_{\rm ref}$ is the geometry-dependent reference scale in GENE, and $c_{\rm ref}=\sqrt{T_{\rm ref}/m_{\rm ref}}$ is its reference velocity, with $T_{\rm ref}$ expressed in energy units. The reference gyroradius is $\rho_{\rm ref}=c_{\rm ref}/\Omega_{c,{\rm ref}}$, with $\Omega_{c,{\rm ref}}=eB_{\rm ref}/m_{\rm ref}$ in SI. The axes in the paper use dimensionless values,
 \begin{equation}
- \omn_s=-L_{\rm ref}\partial_x\ln n_{0s}, \qquad
- \omt_s=-L_{\rm ref}\partial_x\ln T_{0s}.
+ \gr=\frac{\gamma L_{\rm ref}}{c_{\rm ref}},\qquad
+ \fr=\frac{\omega_r L_{\rm ref}}{c_{\rm ref}},\qquad
+ \ttime=\frac{t c_{\rm ref}}{L_{\rm ref}} .
 \end{equation}
-Both gradients were varied in the historical Phase 1 factorial studies. The Phase 2 kinetic deuterium study fixes $\omt_e=\omt_D=2$ and varies only common $\omn$ and $\kn$. Densities and temperatures are equal between the two populations in the reference equilibria. The kinetic deuterium case uses masses $m_D=2$ and $m_e=0.00054462$ in proton-mass units. The hydrogen case changes the positive ion mass to 1. The pair model sets both species' code masses to 1. Charges are $+e$ and $-e$ in each case.
+A time coordinate such as $\ttime=2$ is in code units. The archived unit inputs leave the complete SI calibration unspecified. The binormal input \texttt{kymin} is $\kn$ for our one nonzero Fourier component. Larger $k_y$ means a shorter binormal wavelength, $\lambda_y=2\pi/|k_y|$ in the corresponding coordinate. The field-line metric relates it to the local physical perpendicular scale. The coordinate along the field line is separate from $y$.
 
-We quote normalized time $\ttime=tc_{\rm ref}/L_{\rm ref}$, rates $\gr=\gamma L_{\rm ref}/c_{\rm ref}$ and $\fr=\omega L_{\rm ref}/c_{\rm ref}$, and wavenumber $\kn$, with $c_{\rm ref}=\sqrt{T_{\rm ref}/m_{\rm ref}}$ and $\rho_{\rm ref}=c_{\rm ref}m_{\rm ref}/(e B_{\rm ref})$. The \texttt{kymin} input is the one sampled binormal wavenumber here. The local physical $k_\perp$ also depends on the field-line metric. GENE's signed convention in this work is
+With our GENE convention the complex potential varies as
 \begin{equation}
- \phi(s,\ttime)=\phi_0(s)\exp[(\gr+i\fr)\ttime].
- \label{eq:mode}
+ \phi(s,\ttime)=\phi_0(s)\,\exp[(\gr+i\fr)\ttime].\label{eq:mode}
 \end{equation}
-The conventional $\exp(-i\Omega t)$ representation instead has $\Omega=-\omega+i\gamma$. The archived unit settings establish code units and the modeled ion mass ratios. A complete SI conversion requires additional reference values.
+Positive $\gr$ means increasing amplitude; the sign of $\fr$ gives the sense of temporal phase rotation in this fixed convention. The sign is retained in every analysis. We use the native convergence indicator, the logged run history, and fits to the field amplitude and unwrapped phase. A native convergence message indicates consistency of its estimator over the diagnostic interval. It leaves resolution, possible phase aliasing and physical mode identification to additional checks.
 
-\subsection{Temporal diagnostics and numerical controls}
-The native diagnostic estimates a complex rate from the log of the potential ratio over successive diagnostic intervals; its real and imaginary parts give $\gr$ and $\fr$. We accept a scan point when the saved log records convergence, the omega row supplies usable rates, and numerical rescaling or other anomalies give no contrary evidence. A rate estimate from convergence at one discretization requires separate resolution and mode checks. We verified representative rates using the slope of $\log|a|$ and unwrapped phase of the projection $a(t)=\phi_0^\dagger\phi(t)/(\phi_0^\dagger\phi_0)$ onto the final complex potential. A positive quadratic free energy $W$ supplies a separate growth proxy $\gr_{W}=\tfrac12 d\log W/d\ttime$ over a fitted interval. Energy amplitudes omit the information needed to infer the sign or value of $\fr$.
+\section{Phase 1: pair symmetry and isotope effects}
+\subsection{Pair-plasma growth and the non-oscillating mode}
+The historical pair study varied \emph{both} common gradients on a $7\times7$ grid. It provides context for the two sorts of equilibrium drive. The later deuterium study fixes both temperature gradients at 2 and varies density alone. In the pair survey, 44 of 49 points reached the native criterion, with growth from 0.184 to 7.922. A separate fixed-$\omt=2$ density cut converged at all seven points (Fig.~\ref{fig:pairgrad}). Growth rises from 1.556 to 6.408 from common $\omn=0$ to 5. The finite growth at zero density gradient is consistent with temperature gradients still present in that cut.
 
-The working deuterium discretization $24\times48\times24$ in $(z,v_\parallel,\mu)$ was compared with $32\times48\times32$ and finer or controlled variants. The input velocity extents are $(L_v,L_\mu)=(3.5,12.25)$ in GENE units. Automatic stepping is retained for qualified exploratory scans, with fixed-step cases providing controls. The study uses full complex diagnostics for mode assessment. For comparing grids, we interpolate complex profiles only onto a common field-line coordinate for the overlap metric. Plotted samples retain their native resolution. No parameter-grid points were interpolated.
+\studyfig{01_pair_gradients}{fig:pairgrad}{Historical equal-mass electron--positron IV studies at $\kn=0.7$. Left: converged growth from the common density and temperature gradient survey, with unqualified cells in gray. Right: the fixed-temperature-gradient density cut. Neither panel is part of the Phase 2 deuterium scan.}
 
-\section{Phase 1 --- Numerical Verification and Initial Plasma Studies}
-\subsection{Installation and qualification}
-The Apple Silicon double-precision build records GENE 3.1 patch 5 at revision \texttt{a0d2f213}. The archived smoke tests established executable startup. The checking suite completed 11 selected tests with 126 diagnostic comparisons matching the references. This checks the recorded subset and executable path, while the project-specific dipole results rely on the checks below. The first 5-step exercises and a 10,000-step troubleshooting attempt provide startup and failure records. The longer trial logged 838 amplitude rescalings and is excluded from physics. The initial hydrogen dipole trial reached its cap; the extended counterpart converged to the hydrogen baseline used below. Appendix~\ref{app:repro} retains traceable input and data paths.
+To see how a mode can grow without oscillating, project every complex potential snapshot onto the final spatial pattern $q(s)$: $a(\ttime)=q^\dagger\phi(\ttime)/(q^\dagger q)$. This complex coefficient measures how much of that pattern is present and its relative phase. A straight line on a logarithmic amplitude axis is exponential growth, and its slope is $\gr$. Phase unwrapping removes jumps from the $2\pi$ angle representation. An approximately constant unwrapped phase gives $\fr\simeq0$. Thus a zero real frequency can coexist with a positive growth rate.
 
-\subsection{Pair scan, frequency benchmark, and unresolved cases}
-The original equal-mass, equal-temperature pair-plasma series explored both common gradients on a $7\times7$ grid at $\kn=0.7$. Of 49 cases, 44 met the native criterion; their growth rates range from 0.184 to 7.922 and the signed frequencies print as zero. Figure~\ref{fig:pairgrad} includes the separate seven-point density cut, which converged at all seven sampled settings. With common $\omt=2$, growth rose from 1.556 at $\omn=0$ to 6.408 at $\omn=5$. The finite growth at zero density gradient on this cut is consistent with the continuing temperature-gradient drive in that historical model. The joint scan describes total drive in the specified symmetry, with additional interpretation required to isolate physical mechanisms.
+At common $\omn=\omt=2$ the economical pair benchmark gave $\gr=4.314$ and printed $\fr=0.000$. Figure~\ref{fig:pairbenchmark} confirms exponential amplification and a stationary phase in both the projection and the strongest grid node. The longest late window spans 1.46 normalized time units, and the fitted growth across checked windows is 4.31380--4.31448. The printed frequency has a rounding bound of about $5\times10^{-4}$. This is evidence for a non-oscillating \emph{dominant excited mode}, consistent with pair-plasma gyrokinetics \cite{mishchenko2018,kennedy2020}. Other growing or damped branches can be weakly excited or absent from this IV history.
 
-\studyfig{01_pair_gradients}{fig:pairgrad}{Historical electron--positron IV scans at $\kn=0.7$ and opposite unit charges. Left: growth at the 44 converged points of the joint-gradient grid; gray cells have unqualified native rates. Right: the independently executed common-density cut at fixed common $\omt=2$. The markers show actual samples; the pair modes on this cut have zero signed frequency at native precision.}
+\studyfig{02_pair_benchmark}{fig:pairbenchmark}{Electron--positron IV benchmark at $\kn=0.7$, common $\omn=\omt=2$, and grid $24\times48\times24$. Left: magnitude of the projection relative to its final value and its late exponential fit. Right: time-dependent phase relative to the final sample. The strongest node and projected phase both stay at zero in the represented late window.}
 
-The historical $32\times48\times32$ pair reference gave $(\gr,\fr)=(4.305,0.000)$. The finalized economical IV benchmark at the same gradients returned $(4.314,0.000)$ and reproduced its recorded complex field and frequency files byte for byte after input cleanup. In the recovered trace the late log amplitude is linear, with fitted growth 4.31380--4.31448 across the checked windows. The projection and the strongest field node show stationary unwrapped phase (Fig.~\ref{fig:pairbenchmark}). The longest late window spans $1.46$ normalized time units. The native display corresponds conservatively to a rounding bound of about $5\times10^{-4}$ in $|\fr|$. The observed growing mode is consistent with stationary Fourier phase. The time history leaves weaker or unexcited oscillatory branches open.
+\subsection{Hydrogen versus deuterium}
+Changing positive-ion mass alters how quickly ions move along the field, how far they travel in a gyro-orbit, and how quickly they respond to a perturbation. At equal temperature, $v_{\rm th}\propto m^{-1/2}$ and the thermal gyroradius of singly charged ions scales as $\sqrt m$ at fixed magnetic field. The mass change can also change collision rates and the balance of kinetic responses. Our matched code-normalized input comparison therefore tests an isotope response of the modeled system. Reproducing it in a laboratory would require a dimensional operating-point match.
 
-\studyfig{02_pair_benchmark}{fig:pairbenchmark}{Electron--positron $24\times48\times24$ benchmark at $\kn=0.7$, common $\omn=\omt=2$. Left: relative projected amplitude and a late exponential fit. Right: late phase relative to the final sample at the strongest node and for the projection. The two phase diagnostics coincide at zero.}
+At $\kn=0.7$, the historical joint-gradient test gave 44 converged hydrogen points and 41 converged deuterium points. All 41 matched differences favor higher growth in hydrogen, with $\gr_H-\gr_D=0.811$--$3.404$ (Fig.~\ref{fig:isomaps}). At common $\omn=\omt=2$, $(\gr,\fr)$ is $(6.096,+0.959)$ in hydrogen and $(4.172,+0.946)$ in deuterium. Both quantities are code-normalized.
 
-Five original joint-scan cases reached the initial cap and were extended to at most 5,000 steps. Two terminated at the underflow limit and three reached the step cap. As Fig.~\ref{fig:pairenergy} shows, the subsequent energy histories include decay, transients, and repeated rescaling in two cases. Their placeholder omega rows are excluded from modal rates. The independently run $\omt=2$ density cut therefore remains distinct from the joint-grid quality screening.
+\studyfig{04_isotope_gradient_comparison}{fig:isomaps}{Historical Phase 1 isotope comparison at $\kn=0.7$. All scan gradients are shared by both species within each run. The individual maps use the same scale, and the difference uses only paired converged records. Gray cells mark unavailable qualified values.}
 
-\studyfig{03_pair_unresolved_energy}{fig:pairenergy}{Recovered total-free-energy histories for the five extended low-gradient electron--positron IV records at $\kn=0.7$. Each curve uses its own initial energy. The sharp resets on two traces accompany amplitude rescaling. The finite-time traces leave all five complex mode rates unresolved.}
+The free energy $W$ is a quadratic gyrokinetic \emph{perturbation} diagnostic. It measures the evolving perturbations in the distributions and fields rather than the bulk thermal energy of the plasma. If a single mode grows as $\exp(\gr\ttime)$, its quadratic energy can grow as $\exp(2\gr\ttime)$, so $\gr_W=\tfrac12d\ln W/d\ttime$. Figure~\ref{fig:zero} shows observed decay when both equilibrium gradients are zero. This supports finite-time decay for these initial conditions. Establishing stability or the absence of another mode requires more than the energy trace. The 13 unresolved histories and qualified estimates are collected in Appendix~\ref{app:evidence}.
 
-\subsection{Isotope ordering and free-energy estimates}
-For the historical isotope factorial comparison, both species shared each density and temperature gradient, and all runs used $\kn=0.7$. The hydrogen and deuterium scans yielded 44 and 41 native converged points, respectively. The 41 paired differences all favor faster growth in hydrogen, with $\gr_H-\gr_D=0.811$--$3.404$ (Fig.~\ref{fig:isomaps}). At common $\omn=\omt=2$, the values were $(6.096,+0.959)$ for hydrogen and $(4.172,+0.946)$ for deuterium, a 31.6\% decrease in growth. These are results at common code normalization. The mass change influences thermal velocity, ion gyroradius, and collision rates; the comparison therefore measures the combined isotope response of the modeled system.
+\begin{figure}[!htbp]\centering\includegraphics[width=.81\linewidth]{05_zero_gradient_energy.pdf}
+\caption{Dimensionless free energy $W/W(0)$ versus normalized time $\ttime$ for the hydrogen and deuterium zero-gradient IV records at $\kn=0.7$. The energy decreases in both observed histories. A signed frequency or converged eigenmode cannot be inferred from these curves.}\label{fig:zero}\end{figure}
 
-\studyfig{04_isotope_gradient_comparison}{fig:isomaps}{Phase 1 isotope survey at $\kn=0.7$. The two growth maps share a scale. The right panel shows differences only at the 41 locations where both isotopes reached native convergence. Gray cells mark missing qualified rates. The discrete cells correspond to simulation coordinates without contour interpolation.}
+At fixed common gradients of 2, growth falls as $k_y$ increases and real frequency increases in the five qualified isotope pairs from 0.5 to 2 (Fig.~\ref{fig:isowave}). Hydrogen grows faster at each common sample. These points establish the ordering over a sampled wavelength interval, with no general assertion about smaller $k_y$.
 
-We recovered the 13 unresolved isotope histories and refit log energy over the final 50\%, 30\%, and 15\% of the recorded samples. The original screen required $R^2>0.99$ in the final 30\% and 15\% windows and maximum slope drift below $\max(0.05,0.1|\gr_{15}|)$ in growth-rate units. Five cases passed. The uniform deuterium case was manually qualified in the original analysis because the rates were consistently negative and the 30\% $R^2=0.9894$ narrowly missed the threshold. The final tally is 85 native converged points, six qualified estimates including that override, and seven uncertain estimates. Figure~\ref{fig:isoenergy} contrasts finite-time decay at zero drive with differing growth estimates from the two illustrated deuterium histories. The full fits are given in Appendix~\ref{app:repro}. Energy-derived rates remain separate from modal data. An additional saved uniform-hydrogen extension stopped at underflow, leaving its formal complex rate unresolved.
+\studyfig{06_isotope_wavenumber}{fig:isowave}{Hydrogen and deuterium wavenumber comparison at common $\omn=\omt=2$. The left panel gives growth and the right gives real frequency in GENE units. The horizontal value measures binormal scale, with larger values corresponding to shorter binormal wavelengths.}
 
-\studyfig{05_isotope_energy_estimates}{fig:isoenergy}{Recovered isotope energies at $\kn=0.7$. Left: zero density and temperature gradients for hydrogen and deuterium. Right: two deuterium cases at zero density gradient with different temperature gradients. Dashed segments are fits over the final 15\% of saved samples. Window agreement and fit quality distinguish the estimates; the frequency remains undetermined from energy alone.}
+\section{Phase 2: density gradients in electron--deuterium}
+The density study holds $\omt_e=\omt_D=2$. At every common density gradient sampled between $\kn=0.5$ and 1.5, the growth rate falls and the positive real frequency increases with wavenumber (Fig.~\ref{fig:wavenumber}). At a fixed sampled wavenumber, increasing the common gradient raises both rates. At $\kn=0.7$ the qualified density range is 0.5 to 5, with growth increasing from 2.685 to 5.934 and real frequency from $+0.401$ to $+1.986$. Growth increases more slowly at larger gradients, whereas frequency is close to linear over these points (Fig.~\ref{fig:density}). Neither the most unstable wavenumber over the entire spectrum nor the onset density gradient has been located. The common density trend describes the joint equilibrium change.
 
-With the gradients fixed at 2, the five qualified isotope comparisons show that growth falls and positive signed frequency rises as $\kn$ increases from 0.5 to 2.0 (Fig.~\ref{fig:isowave}). Hydrogen grows faster at each sampled point. The isotope difference is the scientific point of this panel; the Phase 2 panels compare deuterium across density gradients.
+\studyfig{10_deuterium_wavenumber}{fig:wavenumber}{Two-species deuterium study at $\omt_e=\omt_D=2$. Color identifies the common density gradient in both panels. Points are converged IV samples; the connecting lines guide the eye. The $\kn=0.3$ point at common $\omn=2$ is the qualified 32-point half-step result, checked against the 48-point control in Appendix~\ref{app:lowky}.}
+\studyfig{11_deuterium_density}{fig:density}{Two-species deuterium growth and real frequency versus the common density gradient at fixed $\omt_e=\omt_D=2$. Curves at different fixed wavenumbers have the same color in both panels. The wider gradient range belongs to $\kn=0.7$.}
 
-\studyfig{06_isotope_wavenumber}{fig:isowave}{Historical kinetic hydrogen and deuterium at fixed common $\omn=\omt=2$. Five valid pairs are plotted. The lower-wavenumber diagnostic failures and the anomalous deuterium 0.3 result are considered separately in Fig.~\ref{fig:lowky}.}
+\subsection{What the potential profile adds}
+The complex potential is the Fourier amplitude of the electrostatic perturbation along one field line. The coordinate $s/L_{\rm tube}$ is position along the traced turn divided by its length. The peak-normalized envelope $|\phi(s)|/\max_s|\phi(s)|$ compares spatial patterns independent of overall amplitude. The phase of an eigenmode has an arbitrary global offset. We rotate each complex profile to maximize its overlap with the reference and set the reference phase at the first node to zero. Spatial phase describes relative phase between positions at a fixed time. Real frequency comes from the \emph{temporal} phase slope in Eq.~\eqref{eq:mode}.
 
-\subsection{Reference grid, timestep, and velocity-space domain}
-The $z$-resolution check, matched timestep check, independent $v_\parallel$ and $\mu$ refinements, and combined-grid comparison used deuterium at $\kn=0.7$ and common $\omn=\omt=2$. The automatically stepped 32- versus 64-point $z$ comparison yielded 4.172 versus 4.163 and the same printed frequency 0.946. A fixed-step comparison at 32 points was effectively identical to automatic stepping. The 24-point spatial test at the smaller matched timestep changed fitted growth by 0.152\% relative to 32 points, with nearly identical frequency and profile. At 24 $z$ points the automatic setting preserved the rate change and shortened the observed wall time. The $48\rightarrow64$ parallel-velocity comparison and the $n_\mu=24,32,48$ tests at fixed extent changed fitted rates only modestly (Fig.~\ref{fig:resolution}).
+Figure~\ref{fig:modes} shows a similar overall envelope across the common gradient and wavenumber families, with a changing depression near the middle of the plotted field line. Complex overlap with the central case exceeds 0.9992 in the original nine-point matrix and is 0.9946--0.9984 for the higher-wavenumber additions. This supports a related spatial pattern throughout the measured band. Overlap alone leaves the number of branches and their driving mechanisms undetermined. The relative spatial-phase comparison is in Appendix~\ref{app:evidence}.
 
-\studyfig{07_resolution_and_timestep}{fig:resolution}{Absolute relative differences in late field-growth and phase fits over matched windows for the deuterium reference. Denominators are the comparator in each labeled study. The dashed line is the adopted exploratory 1\% screen. These small differences establish pointwise agreement at the tested conditions.}
+\studyfig{12_mode_amplitude}{fig:modes}{Peak-normalized deuterium potential along the field line at $\omt_e=\omt_D=2$. Left: common density-gradients at fixed $\kn=0.7$. Right: wavenumber variation at common $\omn=2$. These are parallel profiles of binormal Fourier components; \texttt{kymin} is a binormal wavenumber.}
 
-Comparing the combined $24\times48\times24$ grid with the original $32\times48\times32$ grid gave differences of 0.170\% in growth and 0.065\% in frequency, with complex overlap above 0.9999999. The measured wall time fell from 232.111~s to 111.678~s. The 64-point parallel run cost 600.245~s. These values are individual recorded wall times. The economical grid was selected for exploratory work. The time-domain evidence in Fig.~\ref{fig:settling} shows the remaining window dependence even after the corresponding spatial profiles have nearly settled.
-
-The numerical failure controls matter for selecting a useful grid. The $n_v=32$ automatic case showed runaway growth and 20 rescalings. It converged at fixed $\Delta\ttime=0.00057848$ with rates close to the $n_v=48$ reference. This isolates the importance of stepping at the coarser parallel-velocity grid. Widening magnetic-moment extent $L_\mu$ from 12.25 to 16.25 also caused a runaway under automatic stepping. With the same fixed step in both domains the wider $n_\mu=24$ case changed fitted growth by 0.860\% and frequency by 4.932\%. Refining the wider domain from 24 to 32 points changed its frequency by only 0.032\%, leaving 4.898\% difference from the nominal domain. The extent sensitivity persists independently of the tested change in spacing (Fig.~\ref{fig:domain}).
-
-\studyfig{08_velocity_and_domain_controls}{fig:domain}{Kinetic deuterium at the reference point. Top: variable and fixed stepping at coarse $v_\parallel$ resolution and at widened $\mu$ extent, with their respective baseline cases. Bottom: late fitted rates at the nominal and wider $\mu$ domains at the same fixed timestep. The close wide-domain pair leaves a measurable shift relative to the nominal domain.}
-
-\subsection{The low-wavenumber exclusion}
-The original deuterium cases at $\kn=0.1$ and 0.2 reached their caps after 727 and 356 amplitude rescalings. The $0.3$ record carried a native flag but printed $(378.519,+220.647)$ after 29 rescalings. In the recovered raw field, its final complex overlap with the neighboring $0.5$ case is only 0.00156 on the same grid. At $0.3$ the envelope concentrates on a subset of grid nodes and adjacent points show sharp variation. Figure~\ref{fig:lowky} documents why it cannot establish the low-$k_y$ branch. The hydrogen records below 0.5 similarly lack qualified results.
-
-\studyfig{09_low_wavenumber_diagnostic}{fig:lowky}{Numerical diagnostic for deuterium at common $\omn=\omt=2$. Left: native free energies at $\kn=0.3$ and 0.5; the sudden changes in the excluded case accompany repeated rescaling. Right: normalized final field envelopes from the raw complex diagnostic. The comparison motivates exclusion and leaves the physical low-wavenumber behavior unresolved.}
-
-\section{Phase 2 --- Density-Gradient-Driven Stability}
-\subsection{Common gradients and perpendicular scales}
-The common-gradient pilot compared $\omn=1,2,3$ at $\kn=0.7$ on the economical and original grids. The largest matched-window differences were 0.227\% in growth and 0.075\% in frequency. The expanded wavenumber family contains three common gradients sampled at $\kn=0.5,0.7,1.0,1.5$, and the $\omn=2$ series extends to 2.0. All 13 plotted rate pairs qualify (Fig.~\ref{fig:wavenumber}). Both rates increase as the density gradient increases at each shared wavenumber. At fixed density gradient, the longer sampled binormal wavelengths grow faster. The signed frequency is positive and rises with $k_y$ throughout these samples. The largest sampled growth lies at the lower boundary $\kn=0.5$ for each gradient. The curve beyond that boundary is unresolved.
-
-\studyfig{10_deuterium_wavenumber}{fig:wavenumber}{Kinetic electron--deuterium IV rate pairs at fixed $\omt_e=\omt_D=2$. A color denotes one common density gradient in both panels. Each marker is a qualified simulation; the common gradient 2 continues through $\kn=2$. The longest sampled binormal scale has the largest measured growth, with smaller wavenumbers excluded for numerical reasons.}
-
-At fixed $\kn=0.7$ the qualified scan extends from $\omn=0.5$ to 5. Growth rises from $2.685$ to $5.934$ and signed frequency from $+0.401$ to $+1.986$. The growth response is monotone with a decreasing incremental slope, from about 1.22 per unit gradient on the first interval to 0.50 on the last. Frequency is closer to linear, with sampled slopes about 0.35--0.38 per unit gradient. Four fixed wavenumbers allow comparisons over the common interval $\omn=1$ to 3 (Fig.~\ref{fig:density}). The observed mode remains unstable throughout the qualified values. The unresolved zero-density-gradient point prevents locating a threshold. A finite temperature gradient is retained in this scan, and changing density gradient also changes the relative weight of the two gradient contributions to the gyrokinetic response. The plots establish the response to the controlled input, with identification of the underlying destabilizing terms requiring additional diagnostics.
-
-\studyfig{11_deuterium_density}{fig:density}{Kinetic deuterium rates versus equal electron and ion density gradients for fixed wavenumbers. Both temperature gradients equal 2. The $\kn=0.7$ curve covers the full qualified interval (0.5--5); the other displayed curves cover $\omn=1$--3. No signed frequency crosses zero in the qualified data.}
-
-\subsection{Species-specific density gradients and equilibrium consistency}
-The archival search found no readable kinetic electron--deuterium input in either phase with valid unequal density gradients at fixed temperature gradients. For the present two species, equality of the equilibrium charge densities holds on the local family of neighboring surfaces. Differentiating the charge balance yields
+\subsection{A charge-balanced electron-gradient path}
+For two species with charges $-e$ and $+e$, $n_e=n_D$ must hold as an equilibrium profile and therefore $\omn_e=\omn_D$. Holding the deuterium density gradient fixed while changing the electron gradient requires a third charged population or a new equilibrium model. With fully ionized helium,
 \begin{equation}
- \sum_s Z_s n_{0s}=0,\qquad
- \sum_s Z_s n_{0s}\omn_s=0.
+ n_e=n_D+2n_{\rm He},\qquad
+ f=\frac{2 n_{\rm He}}{n_e},\qquad
+ \omn_e=(1-f)\omn_D+f\omn_{\rm He}.
  \label{eq:neutrality}
 \end{equation}
-For $Z_e=-1$, $Z_D=+1$ and $n_{0e}=n_{0D}>0$, this enforces $\omn_e=\omn_D$. Thus the electron-only and deuterium-only variations each contain only the shared reference point at fixed counterpart gradient 2. GENE's default local equilibrium check uses the corresponding charge-weighted gradient sum for active and dilution populations. Disabling it would leave an unspecified non-neutral equilibrium, even with numerically executable inputs. Adding a Debye term to the perturbed field equation leaves the background constraint unresolved.
+Here $f$ describes the helium positive-charge fraction at the reference surface. Positive profiles that satisfy the balance locally can be constructed by prescribing deuterium and helium exponentials with the intended scale lengths and setting $n_e(x)=n_D(x)+2n_{\rm He}(x)$. Their derivatives yield Eq.~\eqref{eq:neutrality}. The fraction may vary radially within each equilibrium even though its reference value is identical across the pilot. This is a local prescribed-profile model in the imposed ring field, with no global pressure-balance reconstruction.
 
-A minimal model extension would specify one compensating charged population. For a positive species $C$ with charge fraction $f=Z_C n_C/n_e$, $0<f<1$, the equilibrium requires $\omn_e=(1-f)\omn_D+f\omn_C$. This enables unequal target gradients once $f$, the compensating profile, and its response are physically justified. The modified equilibrium changes charge fractions and potentially the drive and polarization. The common-gradient data determine only the response along the allowed two-species path. They supply neither partial derivative at fixed counterpart gradient.
+GENE accepts multiple kinetic ion species, normalizes the input densities to the electron density, and checks both charge density and its charge-weighted equilibrium gradient. Its Landau collision implementation accepts the three active species. We used charges $(-1,+1,+2)$, masses $(0.00054462,2,4)$ in proton mass units, and densities $(1,0.75,0.125)$. All reference temperatures and temperature gradients are equal across species ($T_s/T_{\rm ref}=1$, $\omt_s=2$). Thus $Z_{\rm eff}=\sum_i n_i Z_i^2/n_e=1.25$ at the reference surface. With $\omn_D=2$ and $f=0.25$, we paired $\omn_e=1.75,2,2.25$ with $\omn_{\rm He}=1,2,3$. These choices avoid reversed or extreme helium gradients; at this fraction an electron gradient below 1.5 would require a hollow local helium profile. The midpoint is the matched three-species baseline.
 
-\subsection{Complex spatial modes}
-For the representative density and wavenumber sequences, final potentials were normalized by peak amplitude and phase-rotated to maximize the complex projection on the reference profile. The reference phase origin is at the first field-line node. Phase is shown only for envelope values exceeding 5\% of their peak. The $3\times3$ reference matrix had final complex overlaps above 0.9992 with the central profile. Valid higher-wavenumber cases had overlaps 0.9946--0.9984. Figure~\ref{fig:modes} reveals small but systematic amplitude and phase changes with wavenumber, while the density sequence mainly changes the depth of the middle amplitude dip. These observations support continuity of the dominant sampled disturbance within the tested band. Near-unit shape overlap leaves unresolved whether weaker branches coexist or whether a single physical drive dominates.
+\HeliumResult
 
-\studyfig{12_deuterium_mode_structure}{fig:modes}{Top: peak-normalized potential. Bottom: phase after applying one global rotation to each complex profile. Left: common density gradients at $\kn=0.7$. Right: wavenumber series at common $\omn=2$. Both temperature gradients equal 2. Native field-line nodes are joined as guides to the eye.}
+\studyfig{15_compensated_electron_gradient}{fig:helium}{Compensated electron-gradient pilot with three kinetic species at $\kn=0.7$, $f=0.25$, $\omt_s=2$ and $\omn_D=2$. The three electron gradients require helium gradients 1, 2 and 3, respectively. The central sample is the matched three-species reference.}
 
-\section{Kinetic Versus Adiabatic Electron Response}
-In the Boltzmann closure, rapid parallel equilibration and isothermal electron force balance give
+Any change in the plotted rates measures the response along a path in which both electron and helium gradients vary. It does not yield the partial derivative with respect to the electron gradient at fixed helium gradient. Adding helium also changes the equilibrium species mix, ion polarization and collision terms relative to the two-species study. One possible companion path would fix $\omn_e=2$ and use $\omn_D=(1.75,2,2.25)$ with $\omn_{\rm He}=(2.75,2,1.25)$ at unchanged $f=0.25$. That proposal varies deuterium together with compensating helium and was outside this pilot.
+
+\section{Kinetic versus adiabatic electrons}
+The adiabatic-electron approximation assumes that electrons adjust rapidly along the field and give an approximately isothermal density response. A positive electrostatic potential attracts them. For a perturbation $\phi_1$, the Boltzmann relation is
 \begin{equation}
- \frac{\delta n_e}{n_{0e}}=\frac{e}{T_e}\left(\phi_1-\langle\phi_1\rangle_{\rm FS}\right).
+ \frac{\delta n_e}{n_{0e}}=\frac{e}{T_e}\bigl(\phi_1-\langle\phi_1\rangle_{\rm FS}\bigr).
 \end{equation}
-The flux-surface mean is zero for the nonzonal component here. Electrons contribute instantaneous shielding but no independent distribution dynamics. Trapped electrons can retain a bounce-averaged response even when their bounce motion is fast; the full adiabatic approximation omits that kinetic response, orbit resonances, electron finite-gyroradius effects, and phase mixing. In the supported local one-ion implementation, the equilibrium electron density is fixed by ion charge density and the electron temperature by the first ion temperature. The \texttt{tau = 1} path used here matches the two-species temperature equality. Kinetic ions and their polarization and gyroaveraging remain in the model \cite{plunk2014,goerler2011}.
+The flux-surface mean vanishes for our nonzonal component. Thus the perturbation drives a density response in phase with the potential. Kinetic electrons instead have an evolving distribution, including trapped-particle motion, drift resonances and phase mixing. Removing those dynamics changes the field coupling and can alter both driving and damping. GENE retains kinetic ions in both runs \cite{plunk2014,goerler2011}.
 
-At common $\omn=\omt=2$, $\kn=0.7$, and the same $24\times48\times24$ grid, both collisionless IV treatments converged without amplitude rescaling. The independently recovered late projected rates were $(4.17633647,+0.94452874)$ for the kinetic case and $(0.13595344,-0.02942309)$ for the adiabatic case. These are numerical fit estimates with more digits retained for reproducibility. The native reported rates $(4.176,+0.944)$ and $(0.136,-0.029)$ are the comparison plotted in Fig.~\ref{fig:closure}. Growth fell by about 96.7\% and the phase propagation changed sign. The weak positive growth was still present with the closure. Its envelope peaks near the middle of the plotted turn, where the kinetic profile has a shallow dip. Both electron treatments share broadly similar shapes (complex overlap 0.9905), with a clear change in the amplitude distribution.
+At common gradients of 2 and $\kn=0.7$, both collisionless IV treatments on the $24\times48\times24$ grid converged. The kinetic case gave $(\gr,\fr)=(4.176,+0.944)$ and the adiabatic case gave $(0.136,-0.029)$, a 96.7\% reduction in growth (Fig.~\ref{fig:closure}). The adiabatic rate is still positive, so that mode is unstable. The phase rotates in the opposite sense under Eq.~\eqref{eq:mode}, and the amplitude now peaks near the middle of the plotted turn. The approximate pre-recurrence fit $(0.13613,-0.02939)$ agrees with the final fit $(0.13595,-0.02942)$. The result shows strong sensitivity to the electron model. It does not isolate a unique kinetic drive or establish that the two closures selected the same branch. The small adiabatic frequency still merits a common-timestep, velocity-resolution and recurrence check.
 
-\studyfig{13_electron_response}{fig:closure}{Matched collisionless kinetic-deuterium IV comparison with kinetic or Boltzmann electrons. Common gradients are 2 and $\kn=0.7$. Top: native normalized growth and signed frequency. Bottom: magnitude of the recovered final potential after peak normalization. The response changes sign in frequency and relocates the amplitude maximum.}
+\studyfig{13_electron_response}{fig:closure}{Matched collisionless deuterium comparison at common gradients of 2 and $\kn=0.7$. Top: native growth and real frequency. Bottom: peak-normalized shape along the field line. Replacing kinetic electrons by the Boltzmann response weakens the instability and reverses temporal phase rotation.}
 
-The nominal adiabatic ion recurrence time is $\ttime=42.187$. The fit on $35\leq\ttime\leq40$ yields $(0.13613,-0.02939)$, close to the late fit even though the run ends at $48.052$. The differing automatic timesteps and finite velocity grid still limit quantitative comparison of the weak branch. The matched result supports a strong role for dynamical electrons at this test point. It does not identify a unique trapped-electron, drift, or interchange mechanism, and the two closures may select different branches.
-\FloatBarrier
+\section{Numerical confidence and remaining questions}
+\subsection{Reference-grid comparison}
+For the reference deuterium point at common gradients of 2 and $\kn=0.7$, the economical grid has nearly the same rates as the original grid and took about half as long (Table~\ref{tab:reference}). The original discretization is a numerical comparator, with no exact analytical rate available. For any rate $q$, the relative difference is $100|q_{\rm econ}-q_{\rm orig}|/|q_{\rm orig}|$ percent. The 1\% threshold is an adopted exploratory screen for this study. The moment-domain sensitivity shows why passing that screen for one pair of grids does not establish accuracy across all numerical options.
 
-\section{Discussion}
-Three findings are robust over the qualified sampled data. Hydrogen grows faster than deuterium at the matched historical isotope points. In Phase 2, steeper common density gradients produce faster growth and larger positive signed frequency. At each common gradient, the tested shorter binormal wavelengths grow more slowly. The common-gradient constraint and the finite set of wavenumbers delimit these conclusions. The qualified points do not determine the true peak or a stability threshold. Apparent profiles and phase slopes support mode continuity without uniquely identifying the mechanism.
+\begin{table}[H]\centering\small
+\caption{Reference-grid comparison. Parentheses give the native reported rates. Other rates come from a shared late-time fit interval. Time is recorded GENE wall time, in seconds.}\label{tab:reference}
+\begin{tabular}{@{}lccc@{}}\toprule
+Grid $(n_z,n_v,n_\mu)$ & Growth $\gr$ & Real frequency $\fr$ & Wall time (s) \\\midrule
+Original $32\times48\times32$ & 4.171900 (4.172) & 0.946175 (0.946) & 232.111 \\
+Economical $24\times48\times24$ & 4.178982 (4.179) & 0.946787 (0.947) & 111.678 \\
+Absolute relative difference & 0.170\% & 0.065\% & 51.9\% less \\
+\bottomrule\end{tabular}
+\end{table}
 
-The numerics show complementary limits. Reference grid changes had small effects when the timestep remained stable, yet changing the magnetic-moment extent shifted frequency by about 4.9\%. That is a measured reference sensitivity and should not be applied as a global uncertainty bar. Increase in frequency across the scan is much larger than the reference rounding increment, while comparisons at nearby frequencies should account for domain, grid, and time fit sensitivities. The closure comparison establishes large model sensitivity at a single operating point. Before interpreting the small adiabatic frequency quantitatively, a targeted velocity-grid and matched-timestep check and an independently discretized kinetic-ion Boltzmann calculation would be appropriate.
+With matched timestep, increasing the magnetic-moment extent from 12.25 to 16.25 changed fitted real frequency by 4.93\%. A quadrature refinement in the wider domain left a 4.90\% difference from the nominal domain. This is a reference-point sensitivity to the numerical velocity domain. It is not an uncertainty common to all cases. Appendix~\ref{app:numerical} retains the timestep, parallel-grid and velocity-grid checks.
 
-\section{Conclusions and Future Work}
-The recovered calculations establish pointwise numerical agreement for a practical IV grid, a purely growing pair-plasma benchmark, and a reproducible density and wavelength ordering for the sampled deuterium modes. The kinetic-to-adiabatic comparison shows that replacing electron dynamics has major consequences for both growth and propagation. The next distinct questions are the low-$k_y$ numerical regime, weak adiabatic-mode convergence, and whether a physically specified multi-population equilibrium can support unequal electron and deuterium density gradients. These require new models or tests outside the present reconstruction.
+\subsection{The low-wavenumber question}
+\LowKyResult
 
-\bibliographystyle{unsrt}
-\bibliography{references}
+A longer binormal wavelength changes ion gyroaveraging, drift frequencies and the balance of kinetic response. The resulting change in stability need not be monotone. A converged exponential increase with a settled smooth shape supports a growing mode; a finite transient or an apparent decay provides weaker evidence. Establishing a change of branch requires a reproducible competing spatial and temporal signature.
+
+\section{Conclusions}
+The pair benchmark separates instability from phase rotation. The two-species kinetic studies establish an isotope ordering and a common-density and binormal-scale dependence across qualified samples. The helium pilot tests a feasible equilibrium path and shows what can be varied while keeping the deuterium gradient fixed. At one matched collisionless operating point, dynamical electrons strongly change the deuterium instability. A resolved peak or threshold would need qualified sampling outside the present ranges. The weak adiabatic mode and the physical interpretation of the electron and helium sensitivities require further targeted work.
 
 \clearpage
 \appendix
-\section{Numerical Parameters}\label{app:numeric}
+\section{Numerical settings and supporting diagnostics}\label{app:numerical}
+GENE 3.1 patch 5 at source revision \texttt{a0d2f213} was used in double precision on Apple Silicon. The original installation passed 126 diagnostic comparisons in 11 selected tests. The project data are organized by exact input and diagnostic hash in the report package. We retain the IV format and solver settings in all follow-up runs.
+
 \begin{table}[H]\centering\small
-\caption{Reference model and controls. Exact active inputs also specify diagnostics, collision operator options, and grid geometry.}
-\begin{tabular}{@{}lp{.62\linewidth}@{}}
-\toprule Setting & Values and interpretation \\
-\midrule
-Solver and geometry & Linear initial value; local ring dipole, $r_0=0.4$ m, $I=750$ A, surface factor 1.2; one nonzero $k_y$ mode \\
-Electrostatic limits & $\beta=0$, \texttt{debye2 = 0}; periodic field line \\
-Species & Pair: $m_+=m_e=1$ in code units. Isotope: $m_e=0.00054462$, $m_H=1$, $m_D=2$ in proton-mass units; opposite unit charges and equal normalized $n,T$ \\
-Common gradients & Historical joint grids: 0, 0.5, 1, 2, 3, 4, 5. Phase 2 deuterium: $\omt=2$ for both species \\
-Grid $(n_z,n_v,n_\mu)$ & Original $(32,48,32)$; exploratory $(24,48,24)$; individually refined variants \\
-Velocity extents & $L_v=3.5$; nominal $L_\mu=12.25$; tested wider value 16.25 \\
-Time stepping & Automatic RK4 for scan cases; diagnostic fixed-step controls at $0.00057848$ \\
-Collisions & Landau, \texttt{coll = 0.01} for principal kinetic scans; 0 for matched closure tests \\
-Execution and conventions & Double precision; recorded exploratory runs use one MPI rank and one OpenMP thread. Rates use Eq.~\eqref{eq:mode}. \\
-\bottomrule
-\end{tabular}
+\caption{Baseline numerical settings. Configuration files give exact case-specific values.}
+\begin{tabular}{@{}lp{.65\linewidth}@{}}\toprule
+Quantity & Value \\\midrule
+Electrostatic limits & $\beta=0$, \texttt{debye2 = 0}; local imposed ring dipole \\
+Grid & Original $32\times48\times32$, economical $24\times48\times24$ \\
+Velocity extents & $L_v=3.5$, $L_\mu=12.25$ nominal, $L_\mu=16.25$ in domain tests \\
+Time stepping & RK4 with automatic choice or documented fixed-step controls \\
+Species & Equal-mass pair reference; isotope runs have $m_e=0.00054462$, $m_H=1$, $m_D=2$ in proton units \\
+Density and temperature & Equal densities and reference temperatures for the two-species scans. Eq.~\eqref{eq:neutrality} for the helium pilot. \\
+\bottomrule\end{tabular}
 \end{table}
+
+At fixed reference physics, comparing 32 and 64 parallel nodes gave 4.172 and 4.163 in native growth and the same printed frequency, 0.946. A matched step at 32 points isolated a negligible rate change. The 24-point parallel run retained good agreement at that matched step. Separate $v_\parallel$ and $\mu$ refinements and the combined-grid checks are summarized in Fig.~\ref{fig:resolution}. In contrast, the $n_v=32$ automatic step and wider magnetic-moment domain produced runaway behavior in their original automatic schedules. A smaller fixed step stabilized both configurations. Figure~\ref{fig:domain} shows that a width-dependent frequency shift remained at matched timestep.
+
+\studyfig{07_resolution_and_timestep}{fig:resolution}{Reference-point changes of common-window growth and real-frequency fits for controlled grid and timestep comparisons. Values are relative to each comparator on a logarithmic percent axis. The dashed 1\% screen is a working criterion for the exploratory reference.}
+\studyfig{08_velocity_and_domain_controls}{fig:domain}{Top: normalized free energy for fixed and automatic schedule checks at coarse $v_\parallel$ resolution and with widened magnetic-moment extent. Bottom: fitted growth and real frequency for nominal and wider domains at a fixed timestep. The wider-domain quadrature change leaves most of the frequency shift intact.}
+\studyfig{14_reference_field_settling}{fig:settling}{Reference deuterium diagnostics at $\kn=0.7$ and common gradients of 2. Left: the time-window phase slope approaches the native real frequency. Right: one minus each run's normalized complex overlap with its own final profile. The small ripples support comparing rates on matched fit windows.}
 \FloatBarrier
 
-\section{Simulation Results and Reproducibility}\label{app:repro}
-The \href{https://github.com/santoshzaero/gene-dipole-plasma-stability}{research repository} contains the exact inputs and the report's data package of solver-rate tables, matched-window comparisons, input hashes, and recovered field and energy records. Input paths are indexed relative to the relevant collection in \texttt{data/input\_inventory.csv}. The tracked configurations and documented benchmark files remain separate from the figure data. The preserved historical tables include unsupported or unqualified values for audit. The plotting script selects by qualification and uses raw diagnostics or validated extracts for the time histories and profiles. The length of a fit interval, solver output precision, and valid equilibrium all matter independently.
+\section{Qualification of the \texorpdfstring{$\kn=0.3$}{kymin = 0.3} records}\label{app:lowky}
+The original $32\times48\times32$ run applied $\Delta\ttime=0.000835$, advanced 3129 reported steps, and reached $\ttime=2.61355$. It printed $\gr=378.519$ and $\fr=+220.647$ and recorded 29 amplitude rescalings. The saved field itself shows 29 corresponding abrupt decreases. A rescaling multiplies a linear perturbation by a common factor to keep the arithmetic in range; the jumps do not represent physical changes in plasma energy. Likewise, rescales alone do not disqualify a run. Here the raw terminal field changes sharply between neighboring nodes, and its complex overlap with the conservative $\kn=0.5$ reference is 0.00156. The adjacent-node norm $\|\Delta_s\phi_0\|_2/\|\phi_0\|_2$ is 1.556, compared with 0.00464 at 0.5.
+
+The ten-step native log-ratio applies a principal complex logarithm. At diagnostic interval $10\Delta\ttime$, it measures phase modulo $2\pi$. Per-step unwrapping gives about $-2036.82$ in the final uninterrupted segment. Applying the native spatial weights on the exact ten-step diagnostic window gives $-2036.7853$ before wrapping. Adding three frequency alias intervals $2\pi/(10\Delta\ttime)$ gives $+220.6466$. Reapplying the native amplitude-weighted ten-step log-ratio to the final raw field gives $(378.5190,+220.6466)$. This reproduces the native diagnostic and reveals frequency aliasing of the rapidly changing field. Even the per-step value describes that recorded discrete signal, with no claim about a physical mode. The growth slope itself is large over the terminating segment, so fixing frequency interpretation alone does not resolve the run.
+
+\LowKyDetails
 
 \begin{table}[H]\centering\small
-\caption{All qualified Phase 2 deuterium rate pairs in the common wavenumber family. Both temperature gradients are 2.}
-\begin{tabular}{@{}rrrcl@{}}\toprule
-Common $\omn$ & $\kn$ & $\gr$ & $\fr$ & Grid \\
+\caption{Two-species $\kn=0.3$ audit at common gradients of 2. All rows carry a native flag. The original rates are unresolved. The two fixed-step runs qualify on the tested grids.}
+\begin{tabular}{@{}lrrrrrr@{}}\toprule
+Setup & $n_z$ & $\Delta\ttime$ & Steps & Native $\gr$ & Native $\fr$ & Rescales \\
 \midrule
+\LowKyRows
+\bottomrule\end{tabular}
+\end{table}
+
+\studyfig{16_low_wavenumber_controls}{fig:lowky}{Two-species deuterium at $\kn=0.3$, common $\omn=\omt=2$. The panels show the recorded normalized free energy and the final peak-normalized spatial envelope. The automatic run is the original anomalous case. The other curves are the documented fixed-step comparisons. Abrupt energy resets in the original diagnostic are numerical amplitude rescalings.}
+\FloatBarrier
+
+\section{Historical qualification, spatial phase and reproducibility}\label{app:evidence}
+The five pair extensions from the historical joint-gradient survey yielded two underflow stops and three step-limit stops. In Fig.~\ref{fig:pairenergy}, decay and apparent amplification alone leave the temporal and spatial qualification incomplete. Two traces contain amplitude renormalizations. They are treated as numerical bookkeeping rather than physical energy loss. These records supply no qualified complex rates.
+
+\studyfig{03_pair_unresolved_energy}{fig:pairenergy}{Free-energy diagnostics for the extended historical pair IV cases at $\kn=0.7$. Each label gives $(\omn,\omt)$ and each trace uses its own initial energy. The resets occur when the code renormalizes the perturbation. None of the five runs provides a qualified complex modal rate.}
+
+The 13 isotope energy estimates were checked over the final 50\%, 30\% and 15\% of stored samples. The historical screen used $R^2>0.99$ for the two shorter windows and required maximum growth-slope drift below $\max(0.05,0.1|\gr_{15}|)$. Five passed. The uniform deuterium finite-time decay estimate was qualified separately because its slopes agreed and the 30\% $R^2=0.9894$ narrowly missed the screen. These six estimates are kept separate from the 85 native converged results, and seven estimates remain uncertain. The two illustrated cases in Fig.~\ref{fig:fit} demonstrate why a good fit to one narrow window alone is insufficient.
+
+\studyfig{05_isotope_fit_examples}{fig:fit}{Historical deuterium energy estimates at $\kn=0.7$ and $\omn=0$. Brown dashed segments show fits over the final 15\% of saved samples. The $\omt=1$ estimate is uncertain because the slope varies with fit interval. These plots estimate growth only.}
+\studyfig{12_mode_phase}{fig:spatialphase}{Relative spatial phase for the same qualified profiles as Fig.~\ref{fig:modes}. Each field is aligned by a single phase offset to the common reference. These variations describe phase differences across position at a fixed time. A temporal phase slope, rather than this spatial variation, supplies the real frequency.}
+\FloatBarrier
+
+\begin{table}[H]\centering\small
+\caption{Qualified Phase 2 two-species rate pairs. Both temperature gradients are 2. The separately qualified half-step point at $\kn=0.3$ is tabulated in Appendix~\ref{app:lowky}.}
+\begin{tabular}{@{}rrrcl@{}}\toprule
+Common $\omn$ & $\kn$ & $\gr$ & $\fr$ & Grid\\\midrule
 \matrixrows
 \bottomrule\end{tabular}
 \end{table}
 
 \begin{table}[H]\centering\small
-\caption{Free-energy estimates for the 13 unresolved Phase 1 isotope runs. The columns use final 50\%, 30\%, and 15\% fractions of saved samples. These are finite-time estimates without signed frequencies.}
+\caption{Finite-time free-energy results for all 13 unresolved Phase 1 isotope points. Windows use the final 50\%, 30\%, and 15\% of sampled times. These estimates supply no real frequency.}
 \begin{tabular}{@{}lrrcccl@{}}\toprule
-Isotope & $\omn$ & $\omt$ & $\gr_{50}$ & $\gr_{30}$ & $\gr_{15}$ & Quality \\
-\midrule
+Isotope & $\omn$ & $\omt$ & $\gr_{50}$ & $\gr_{30}$ & $\gr_{15}$ & Quality\\\midrule
 \energyfitrows
 \bottomrule\end{tabular}
 \end{table}
 
-The portable data snapshot supports reproduction with \texttt{python3 make\_figures.py} from the report directory. Run \texttt{latexmk -pdf -outdir=build dipole\_stability.tex} from the same directory to compile the source, bibliography and vector figures. The recovery script reads saved input and output files, with no simulator invocation. The figure inventory maps each figure to the native or curated data and to the corresponding earlier figures and investigations. Historical files and the class benchmark are retained unchanged.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth]{14_reference_field_settling.pdf}
-\caption{Reference deuterium IV calculations at $\kn=0.7$, common $\omn=\omt=2$ and fixed $n_v=48$, $n_\mu=32$. Left: phase slope over intervals of about 0.1 normalized time units using original sample times; the dashed line is the shared printed frequency. Right: one minus the absolute normalized complex overlap with the final field of each run. The late-time ripples are small but explain using matched fit windows.}
-\label{fig:settling}
-\end{figure}
-
-\section{Outstanding Investigations}\label{app:outstanding}
-\begin{itemize}
- \item \textbf{Species-specific density gradients.} Neither independent scan is available for the equal-density, singly charged electron--deuterium equilibrium. Equation~\eqref{eq:neutrality} forbids unequal gradients without a specified compensating charged population or different equilibrium.
- \item \textbf{Low wavenumber and low drive.} The deuterium $\kn=0.3$ anomalous rate and the unresolved neighboring samples are excluded. The $\omn=0$ deuterium case at $\omt=2$ and the unresolved pair and isotope points require suitable temporal or numerical checks before inferring a threshold.
- \item \textbf{Weak adiabatic mode.} Check velocity-space recurrence, resolution, a common stable timestep, and the independent kinetic-ion dispersion problem. The present results establish a qualitative difference at one matched point.
- \item \textbf{Mechanism and transport.} These IV runs measure selected linear perturbations. Separating trapped-electron, curvature, and ion responses calls for term-resolved or independent theoretical analysis. Nonlinear transport remains outside this record.
-\end{itemize}
+The \href{https://github.com/santoshzaero/gene-dipole-plasma-stability}{research repository} preserves the full input files, curated raw-output hashes, historical results and benchmark. The report package contains the figures, numerical tables, extraction scripts and a figure-to-data inventory. The package README gives the offline figure and LaTeX build commands.
+\FloatBarrier
+\bibliographystyle{unsrt}
+\bibliography{references}
 \end{document}

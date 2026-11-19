@@ -24,7 +24,7 @@ This MAE 190 study uses GENE 3.1 patch 5 for linear electrostatic initial-value 
 | [Pair benchmark frequency verification](docs/studies/pair_benchmark_frequency.md) | Exponential growth and constant phase from the complex IV field |
 | [Parallel grid](docs/studies/deuterium_parallel_grid.md) and [timestep follow-up](docs/studies/deuterium_timestep_nz24.md) | Deuterium reference at 24, 32, and 64 field-line points, with rates, timings, and mode diagnostics |
 | [Combined-grid validation](docs/studies/deuterium_combined_validation.md) | Exploratory grid, first velocity-boundary test, and class benchmark choice |
-| [Complete Phase 1 and Phase 2 report](reports/dipole_stability/README.md) | Compiled LaTeX article, reconstructed figures, data snapshot, and full research inventory |
+| [Revised Phase 1 and Phase 2 report](reports/dipole_stability/README.md) | Compiled LaTeX paper, compensated electron-gradient pilot, low-wavenumber controls, and reproducible figures |
 | [Final deuterium figures and methods](docs/studies/deuterium_final.md) | Paired growth and frequency curves, equilibrium validity, and matched adiabatic-electron comparison |
 | [Deuterium density pilot](docs/studies/deuterium_density_pilot.md) | Three common gradients, two grid resolutions, and a wavenumber follow-up plan |
 | [Research roadmap](docs/research_roadmap.md) | Convergence study, class replication, controlled scans, and theory validation |

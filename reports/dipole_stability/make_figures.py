@@ -10,20 +10,21 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
+from matplotlib.transforms import Bbox
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent
 DATA, FIGURES = ROOT / 'data', ROOT / 'figures'
 BLUE, RED, GREEN, VIOLET, TAN = '#215c83', '#a44830', '#237868', '#73559a', '#9b741f'
 COLORS = (BLUE, GREEN, RED, VIOLET, TAN)
-GROWTH = r'$\gamma L_{\mathrm{ref}}/c_{\mathrm{ref}}$'
-FREQ = r'$\omega L_{\mathrm{ref}}/c_{\mathrm{ref}}$'
-KY = r'$k_y\rho_{\mathrm{ref}}$'
+GROWTH = r'Growth rate $\widehat\gamma$'
+FREQ = r'Real frequency $\widehat\omega$'
+KY = r'Binormal wavenumber $k_y\rho_{\mathrm{ref}}$'
 OMN = r'Common density gradient $\mathrm{omn}$'
-TIME = r'Normalized time $tc_{\mathrm{ref}}/L_{\mathrm{ref}}$'
+TIME = r'Normalized time $\widehat t$'
 GRADIENTS = (0, .5, 1, 2, 3, 4, 5)
 GRID = '#e6eaed'
-DATE = datetime(2026, 11, 18, tzinfo=timezone.utc)
+DATE = datetime(2026, 11, 19, tzinfo=timezone.utc)
 
 plt.rcParams.update({'font.family': 'serif', 'font.serif': ['STIXGeneral', 'DejaVu Serif'], 'mathtext.fontset': 'stix',
                      'font.size': 10, 'axes.labelsize': 10.5, 'axes.titlesize': 11, 'legend.fontsize': 9,
@@ -46,8 +47,8 @@ def axes_grid(ax):
 
 def pair_axes(xlabel, width=7.1, height=2.75, layout='constrained'):
     fig, ax = plt.subplots(1, 2, figsize=(width, height), layout=layout)
-    for axis, ylabel, title in zip(ax, (GROWTH, FREQ), ('Growth rate', 'Signed real frequency')):
-        axis.set(xlabel=xlabel, ylabel=ylabel, title=title)
+    for axis, ylabel in zip(ax, (GROWTH, FREQ)):
+        axis.set(xlabel=xlabel, ylabel=ylabel)
         axis.yaxis.set_major_locator(MaxNLocator(5))
         axes_grid(axis)
     return fig, ax
@@ -58,8 +59,12 @@ def points(ax, x, y, label, color, marker='o', **options):
 
 
 def save(fig, name):
-    fig.savefig(FIGURES / f'{name}.pdf', metadata={'Title': name, 'CreationDate': DATE, 'ModDate': DATE})
-    fig.savefig(FIGURES / f'{name}.png', dpi=360)
+    width, height = fig.get_size_inches()
+    extent = Bbox.from_bounds(0, 0, width, height + .14)
+    fig.text(.986, 1.005, 'GENE', ha='right', va='bottom', fontsize=7, color='#53606a')
+    fig.savefig(FIGURES / f'{name}.pdf', bbox_inches=extent,
+                metadata={'Title': name, 'CreationDate': DATE, 'ModDate': DATE})
+    fig.savefig(FIGURES / f'{name}.png', bbox_inches=extent, dpi=360)
     plt.close(fig)
 
 
@@ -91,8 +96,8 @@ def vector_colorbar(fig, image, **options):
 def pair_scans():
     fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.78), layout='constrained', gridspec_kw={'width_ratios': [1.05, 1]})
     ax, line = axes
-    image = heat(ax, grad_array(rows('pair_grid')), 'Joint-gradient survey', 'viridis', (0, 8))
-    ax.set_ylabel(r'Common $\mathrm{omt}$')
+    image = heat(ax, grad_array(rows('pair_grid')), 'Historical joint-gradient survey', 'viridis', (0, 8))
+    ax.set_ylabel(r'Common temperature gradient $\mathrm{omt}$')
     vector_colorbar(fig, image, ax=ax, label=GROWTH, pad=.025, shrink=.88)
     scan = rows('pair_density')
     points(line, [float(r['omn']) for r in scan], [float(r['gamma']) for r in scan], None, BLUE)
@@ -122,6 +127,8 @@ def pair_benchmark():
         ax.set_xlabel(TIME)
         axes_grid(ax)
         ax.legend(frameon=False)
+    amp.set_title('Exponential amplification')
+    phase.set_title('Temporal phase over the fit window')
     save(fig, '02_pair_benchmark')
 
 
@@ -136,7 +143,7 @@ def energy_plot(ax, trace, label, color, linestyle='-'):
     t, energy = trace
     ax.semilogy(t, energy / energy[0], color=color, lw=1.35, ls=linestyle, label=label)
     axes_grid(ax)
-    ax.set(xlabel=TIME, ylabel=r'$W(t)/W(0)$')
+    ax.set(xlabel=TIME, ylabel=r'Free energy $W(\widehat t)/W(0)$')
 
 
 def pair_unresolved(traces):
@@ -160,28 +167,26 @@ def isotope_maps():
     ax[2].tick_params(labelleft=False)
     vector_colorbar(fig, image, ax=ax[:2], label=GROWTH, pad=.026, shrink=.83)
     diff = heat(ax[2], h-d, 'Hydrogen minus deuterium', 'magma', (0, 3.5))
-    vector_colorbar(fig, diff, ax=ax[2], label=r'$\Delta\gamma L_{\mathrm{ref}}/c_{\mathrm{ref}}$', pad=.023, shrink=.83)
+    vector_colorbar(fig, diff, ax=ax[2], label=r'$\Delta\widehat\gamma$', pad=.023, shrink=.83)
     save(fig, '04_isotope_gradient_comparison')
 
 
 def isotope_energy(traces):
-    fig, ax = plt.subplots(1, 2, figsize=(7.1, 2.69), layout='constrained')
-    for species, color in [('Hydrogen', RED), ('Deuterium', BLUE)]:
-        energy_plot(ax[0], traces[f'{species.lower()}_omn_0_omt_0'], species, color)
-    q = 'deuterium_omn_0_omt_2'
-    uncertain = 'deuterium_omn_0_omt_1'
-    for key, case, color in [(q, r'$\mathrm{omt}=2$ (qualified)', GREEN),
-                             (uncertain, r'$\mathrm{omt}=1$ (uncertain)', VIOLET)]:
-        energy_plot(ax[1], traces[key], case, color)
+    fig, ax = plt.subplots(figsize=(5.8, 2.38), layout='constrained')
+    for key, label, color in [('deuterium_omn_0_omt_2',r'$\mathrm{omt}=2$ (qualified)',GREEN),
+                              ('deuterium_omn_0_omt_1',r'$\mathrm{omt}=1$ (uncertain)',VIOLET)]:
         t, e = traces[key]
+        energy_plot(ax, (t,e), label, color)
         start = int(.85 * len(t))
-        ax[1].plot(t[start:], np.exp(np.polyval(np.polyfit(t[start:], np.log(e[start:] / e[0]), 1), t[start:])),
-                   color=color, lw=1.4, linestyle='--')
-    ax[0].set_title('Zero-gradient energy decay')
-    ax[1].set_title(r'Late-fit examples at $\mathrm{omn}=0$')
-    for axis in ax:
-        axis.legend(frameon=False)
-    save(fig, '05_isotope_energy_estimates')
+        fit = np.polyfit(t[start:],np.log(e[start:]/e[0]),1)
+        ax.plot(t[start:],np.exp(np.polyval(fit,t[start:])),color='#853c16', lw=1.45, ls='--')
+    ax.legend(frameon=False)
+    save(fig, '05_isotope_fit_examples')
+    fig, ax = plt.subplots(figsize=(5.4, 2.17), layout='constrained')
+    for species, color in [('Hydrogen', RED), ('Deuterium', BLUE)]:
+        energy_plot(ax, traces[f'{species.lower()}_omn_0_omt_0'], species, color)
+    ax.legend(frameon=False)
+    save(fig, '05_zero_gradient_energy')
 
 
 def isotope_wave():
@@ -217,7 +222,7 @@ def resolution():
     fig, axis = plt.subplots(figsize=(7.15, 3.25), layout='constrained')
     data = comparisons()
     y = np.arange(len(data))[::-1]
-    for j, (label, color, marker) in enumerate([(r'Growth $\gamma$', BLUE, 'o'), (r'Frequency $\omega$', RED, 'D')], start=1):
+    for j, (label, color, marker) in enumerate([(r'Growth $\widehat\gamma$', BLUE, 'o'), (r'Real frequency $\widehat\omega$', RED, 'D')], start=1):
         axis.scatter([100*r[j] for r in data], y, label=label, s=32, color=color, marker=marker,
                      edgecolors='white', linewidths=.45, zorder=3)
     axis.axvline(1, color='#888f96', lw=.9, ls='--', label='1% comparison screen')
@@ -262,24 +267,6 @@ def profiles():
     return {key: (np.asarray([x for x, _ in seq]), np.asarray([z for _, z in seq])) for key, seq in data.items()}
 
 
-def low_wavenumber(traces, modes):
-    fig, ax = plt.subplots(1, 2, figsize=(7.1, 2.82))
-    fig.subplots_adjust(left=.115, right=.98, bottom=.30, top=.90, wspace=.33)
-    for tag, label, color in [('0p3', r'$k_y\rho_{\rm ref}=0.3$ (excluded)', RED), ('0p5', r'$k_y\rho_{\rm ref}=0.5$', BLUE)]:
-        energy_plot(ax[0], traces[f'ky_{tag}'], label, color)
-        key = 'omn_2_ky_0p3' if tag == '0p3' else 'matrix_2_0p5'
-        if key in modes:
-            s, phi = modes[key]
-            ax[1].plot(s, np.abs(phi), color=color, lw=1.4, label=label)
-    ax[0].set_title('Free-energy evolution')
-    ax[1].set(xlabel=r'Field-line coordinate $s/L_{\rm tube}$', ylabel=r'$|\phi|/\max |\phi|$',
-              title='Final field envelope')
-    axes_grid(ax[1])
-    handles, labels = ax[0].get_legend_handles_labels()
-    fig.legend(handles, labels, frameon=False, loc='lower center', bbox_to_anchor=(.53,.023), ncols=2)
-    save(fig, '09_low_wavenumber_diagnostic')
-
-
 def scan_points():
     meeting = rows('phase2_runs')
     matrix = {(float(r['omn']), float(r['kymin'])):r for r in meeting + rows('phase2_extension')
@@ -291,8 +278,15 @@ def scan_points():
 
 def phase2_scans():
     matrix, density = scan_points()
+    # The low-wavenumber control is admitted after both grids independently converge.
+    if (DATA / 'followup_common_fits.csv').exists():
+        controls = {r['case']:r for r in rows('followup_runs')}
+        low = controls['ky_03_fixed_dt']
+        fine = controls['ky_03_fixed_dt_nz48']
+        if all(r['gene_flag']=='True' and r['log_rescales']=='0' for r in (low,fine)):
+            matrix[(2.0,.3)] = low | {'qualified':'True'}
     for filename, data, xvals, curves, density_axis in (
-        ('10_deuterium_wavenumber',matrix,(.5,.7,1,1.5,2),(1,2,3),False),
+        ('10_deuterium_wavenumber',matrix,(.3,.5,.7,1,1.5,2),(1,2,3),False),
         ('11_deuterium_density',density,(.5,1,2,3,4,5),(.5,.7,1,1.5),True)):
         fig, ax = pair_axes(OMN if density_axis else KY, height=2.9, layout=None)
         axes_handles = []
@@ -321,25 +315,24 @@ def aligned(modes, key, reference):
 
 
 def mode_fig(modes):
-    fig, axes = plt.subplots(2, 2, figsize=(7.1, 4.25), sharex='col')
-    fig.subplots_adjust(left=.112, right=.978, bottom=.13, top=.77, wspace=.32, hspace=.24)
     ref = 'matrix_2_0p7'
     groups = [[(f'matrix_{n}_0p7',rf'$\mathrm{{omn}}={n}$',c) for n,c in zip((1,2,3),COLORS)],
               [(key,rf'$k_y\rho_{{\rm ref}}={ky:g}$',c) for key,ky,c in zip(
                   ('matrix_2_0p5',ref,'matrix_2_1','omn_2_ky_1p5','omn_2_ky_2'),(.5,.7,1,1.5,2),COLORS)]]
-    for col, (group,title) in enumerate(zip(groups,(r'Density at $k_y\rho_{\rm ref}=0.7$',r'Wavenumber at $\mathrm{omn}=2$'))):
-        for (key,label,color), style in zip(group, ('-','--',':','-.','-')):
-            s,a,p=aligned(modes,key,ref)
-            axes[0,col].plot(s,a, color=color, lw=1.5, label=label, ls=style)
-            axes[1,col].plot(s,p, color=color, lw=1.5, ls=style)
-        axes[0,col].set(title=title,ylabel=r'$|\phi|/\max |\phi|$')
-        axes[1,col].set(xlabel=r'Field-line coordinate $s/L_{\rm tube}$',ylabel='Relative spatial phase (rad)')
-        handles, labels = axes[0,col].get_legend_handles_labels()
-        fig.legend(handles, labels, frameon=False, fontsize=8, ncols=3, loc='upper center',
-                   bbox_to_anchor=((.296, .79)[col], .96))
-    for ax in axes.flat:
-        axes_grid(ax)
-    save(fig,'12_deuterium_mode_structure')
+    for phase in (False, True):
+        fig, axes = plt.subplots(1,2,figsize=(7.1,2.65))
+        fig.subplots_adjust(left=.115, right=.988, bottom=.22, top=.70, wspace=.37)
+        for col, (axis,group,title) in enumerate(zip(axes,groups,(r'Density at $k_y\rho_{\rm ref}=0.7$',r'Wavenumber at $\mathrm{omn}=2$'))):
+            for (key,label,color), style in zip(group, ('-','--',':','-.','-')):
+                x,a,p=aligned(modes,key,ref)
+                axis.plot(x,p if phase else a,color=color,lw=1.5,label=label,ls=style)
+            axis.set(title=title, xlabel=r'Field-line position $s/L_{\rm tube}$',
+                     ylabel='Relative phase (rad)' if phase else r'Amplitude $|\phi|/\max|\phi|$')
+            axes_grid(axis)
+            handles, labels = axis.get_legend_handles_labels()
+            fig.legend(handles, labels, frameon=False, fontsize=8, ncols=3, loc='upper center',
+                       bbox_to_anchor=((.295,.793)[col], .985))
+        save(fig,'12_mode_phase' if phase else '12_mode_amplitude')
 
 
 def closure(modes):
@@ -364,6 +357,38 @@ def closure(modes):
     axes[2].set(xlabel=r'Field-line coordinate $s/L_{\rm tube}$',ylabel=r'$|\phi|/\max |\phi|$')
     axes_grid(axes[2]);axes[2].legend(frameon=False,loc='lower center',ncols=2)
     save(fig,'13_electron_response')
+
+
+def followup_figures():
+    records = rows('followup_runs')
+    helium = sorted([r for r in records if r['group']=='three_species'],key=lambda r:float(r['omn_e']))
+    if helium:
+        fig, axes = pair_axes(r'Electron density gradient $\mathrm{omn}_e$',height=2.4)
+        for axis,key in zip(axes,('gamma','omega')):
+            values = [float(r[key]) if r['gene_flag']=='True' and r['log_rescales']=='0' else np.nan for r in helium]
+            om = [float(r['omn_e']) for r in helium]
+            points(axis,om,values,None,GREEN)
+            axis.set_xticks(om, [f'{value:g}' for value in om])
+        save(fig,'15_compensated_electron_gradient')
+    energy, fields = defaultdict(list), defaultdict(list)
+    for r in rows('followup_energy_history.csv.gz'):
+        energy[r['case']].append((float(r['time']),float(r['energy_ratio'])))
+    for r in rows('followup_profiles'):
+        fields[r['case']].append((float(r['s']),abs(complex(float(r['real']),float(r['imag'])))))
+    cases = [('ky_03_original',r'$n_z=32$, automatic',RED),('ky_03_fixed_dt',r'$n_z=32$, half step',BLUE),
+             ('ky_03_fixed_dt_nz48',r'$n_z=48$, half step',GREEN)]
+    fig, axes = plt.subplots(1,2,figsize=(7.1,2.65))
+    fig.subplots_adjust(left=.122,right=.98,bottom=.31,top=.89,wspace=.36)
+    for case,label,color in cases:
+        if case in energy:
+            axes[0].semilogy(*np.array(energy[case]).T, color=color, lw=1.15, label=label)
+            axes[1].plot(*np.array(fields[case]).T, color=color, lw=1.3)
+    axes[0].set(title='Recorded energy diagnostic',xlabel=TIME,ylabel=r'Free energy $W(\widehat t)/W(0)$')
+    axes[1].set(title='Final field envelope',xlabel=r'Field-line position $s/L_{\rm tube}$',ylabel=r'$|\phi|/\max|\phi|$')
+    for axis in axes: axes_grid(axis)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles,labels,frameon=False,ncols=3,loc='lower center',bbox_to_anchor=(.54,.025))
+    save(fig,'16_low_wavenumber_controls')
 
 
 def reference_settling():
@@ -408,4 +433,6 @@ if __name__=='__main__':
     FIGURES.mkdir(exist_ok=True)
     t,m=histories(),profiles()
     pair_scans(); pair_benchmark(); pair_unresolved(t); isotope_maps(); isotope_energy(t); isotope_wave()
-    resolution(); controls(t); low_wavenumber(t,m); phase2_scans(); mode_fig(m); closure(m); reference_settling(); tables()
+    resolution(); controls(t); phase2_scans(); mode_fig(m); closure(m); reference_settling(); tables()
+    if (DATA / 'followup_runs.csv').exists():
+        followup_figures()
