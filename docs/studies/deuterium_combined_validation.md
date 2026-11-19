@@ -51,7 +51,7 @@ The fixed-step run converged in **211.236 s** with 3,809 steps and zero rescalin
 
 Both compared runs passed the solver's convergence criterion. The common normalized time window was 1.66377–2.16377. Final complex potential overlap was **0.999997886** on the identical parallel spatial grid, supporting a similar dominant mode shape with a shifted frequency. The frequency difference fails the 1% screen. The two converged runs differ in both moment domain and timestep configuration, so this comparison cannot attribute the shift specifically to quadrature spacing, velocity cutoff, or timestep. Runtime is a single-run comparison of the tested configurations.
 
-**Minimum follow-up before density-gradient work:** First run the nominal `lw = 12.25` case on the same `24 × 48 × 24` grid at the same explicit timestep and stability settings. If the frequency shift persists at matched timestep, refine `nw0` to 32 in the wider domain with that timestep held fixed to test sensitivity to the node distribution before selecting a production domain. Then verify the selected setup at one representative, quasineutral off-reference gradient point before opening a scan. Independent electron and ion density gradients still require the equilibrium decision in the roadmap. No further experiments were started.
+**Follow-up:** The [matched-timestep controls](deuterium_moment_controls.md) are now complete. The wider-domain frequency remained about 4.93% higher with the same timestep, and refining its moment grid to 32 points reduced that difference only slightly. The domain issue remains open.
 
 ## Which configuration to use
 

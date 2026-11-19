@@ -6,6 +6,7 @@ The scripts can check the saved results and redraw figures from those data. For 
 
 ## Technical reference
 
+- [compare_moment_controls.py](compare_moment_controls.py) compares moment-domain and quadrature changes at the same applied timestep. [Matched controls](../docs/studies/deuterium_moment_controls.md)
 - [compare_combined_grid.py](compare_combined_grid.py) compares saved grids on one common time window and plots the first velocity-domain test. [Study instructions](../docs/studies/deuterium_combined_validation.md)
 - [measure_class_benchmark.py](measure_class_benchmark.py) verifies the shared input and extracts comparable late-time growth, frequency, and mode overlap. [Class benchmark](../benchmarks/README.md)
 - [compare_magnetic_moment.py](compare_magnetic_moment.py) checks the 24/32/48 magnetic-moment comparisons and redraws its mode and energy figures. [Study instructions](../docs/studies/deuterium_magnetic_moment.md)

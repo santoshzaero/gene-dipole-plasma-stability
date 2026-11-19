@@ -75,3 +75,7 @@ The reduced `24 × 48 × 24` case passed the 1% screen against all five saved co
 ## 15. Wider magnetic-moment domain with fixed timestep
 
 Kept the wider `lw = 16.25` grid and physics fixed and imposed timestep 0.00057848. The run converged without rescaling in 211.236 s. Relative to the nominal-domain automatic baseline, common-window fitted growth and signed frequency differed by 0.860% and 4.93%, with complex potential overlap 0.999997886. The same wider mesh remained stable under the fixed-step configuration, but its frequency fails the preliminary comparison to the nominal domain. Match the timestep at `lw = 12.25` before interpreting the source of the frequency shift. [Controlled timestep results](studies/deuterium_combined_validation.md#wider-domain-with-a-controlled-timestep)
+
+## 16. Matched domain and spacing controls
+
+At fixed step 0.00057848, the wider `lw = 16.25`, `nw0 = 24` run differed from the nominal domain by 4.932% in fitted frequency. That triggered one conditional `nw0 = 32` run inside the wider domain at the same step. Both new runs converged without rescaling. Refinement changed the wider-domain frequency by only 0.0320%, leaving a 4.898% gap from nominal. The domain-frequency sensitivity remains unresolved. The benchmark launcher and common-window analysis were checked locally against the saved class reference outputs. [Matched controls](studies/deuterium_moment_controls.md) · [Classmate benchmark](../benchmarks/README.md)
