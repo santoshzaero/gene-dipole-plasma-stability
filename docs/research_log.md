@@ -95,3 +95,7 @@ Reused the converged historical common-density series and the economical `kymin 
 ## 20. Extend the common-gradient scan and finalize the figures
 
 Two economical IV runs completed the shared `kymin = 1.5` points. The trends across the sampled wavenumbers continued, with lower growth and higher signed frequency as wavenumber increased. A direct review confirmed that the anomalous 0.3 trace had 29 rescalings and a final shape unlike the neighboring qualified mode. Independent density-gradient scans are inconsistent with the present two-species equilibrium. Final figures pair the rate curves and retain the matched electron-response comparison. [Figures, exact inputs, and methods](studies/deuterium_final.md)
+
+## 21. Reconstruct the complete Phase 1 and Phase 2 record
+
+Built a single LaTeX article and 14 Matplotlib figures from saved IV results. The reconstruction recovers the pair benchmark, archived isotope and pair histories, and the kinetic/adiabatic native complex fields. The appendix retains all 13 isotope energy-fit records and the 13 qualified common-gradient wavenumber points. The low-wavenumber diagnostics justify exclusion of anomalous rates. The two-species equilibrium constraint still prevents independent density-gradient curves. No GENE execution or input changes were made. [Report and source files](../reports/dipole_stability/README.md) · [Figure and investigation inventory](../reports/dipole_stability/inventory.md)

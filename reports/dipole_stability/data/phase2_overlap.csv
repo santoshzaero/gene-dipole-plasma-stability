@@ -1,0 +1,11 @@
+case,reference,overlap
+matrix_1_0p7,matrix_2_0p7,0.9999713553260156
+matrix_2_0p7,matrix_2_0p7,0.9999999999999999
+matrix_3_0p7,matrix_2_0p7,0.9999880162181055
+matrix_1_0p5,matrix_2_0p7,0.9999154229054592
+matrix_1_1,matrix_2_0p7,0.9992646584616991
+matrix_2_0p5,matrix_2_0p7,0.999886823975164
+matrix_2_1,matrix_2_0p7,0.9996452944566262
+matrix_3_0p5,matrix_2_0p7,0.999858429027045
+matrix_3_1,matrix_2_0p7,0.9997636516503466
+adiabatic_collisionless,kinetic_collisionless,0.9905186814559814

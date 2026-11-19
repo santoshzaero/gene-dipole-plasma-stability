@@ -2,6 +2,8 @@
 
 Use the economical deuterium reference for controlled exploratory scans with matched equilibrium gradients. Preserve the separate class benchmark and exact historical run inputs. Record each decision in the [research log](research_log.md) and [session workflow](research_workflow.md).
 
+The [complete Phase 1 and Phase 2 report](../reports/dipole_stability/README.md) reconstructs the historical and current evidence without running GENE. The [inventory](../reports/dipole_stability/inventory.md) maps each research question to its figures and data. The low-wavenumber, independent-density, and weak adiabatic-mode checks remain open as documented below.
+
 ## 1. Find a reliable, inexpensive grid
 
 Begin with the [existing deuterium input](../benchmarks/parameters). Its historical result was $\gamma=4.172$, $\omega=0.946$, and a run wallclock of 232.111 s. Reuse the historical record as the initial comparison. If the local executable or platform changes, rerun the baseline once for a fair timing comparison.
