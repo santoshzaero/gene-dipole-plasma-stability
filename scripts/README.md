@@ -6,6 +6,8 @@ The scripts can check the saved results and redraw figures from those data. For 
 
 ## Technical reference
 
+- [compare_combined_grid.py](compare_combined_grid.py) compares saved grids on one common time window and plots the first velocity-domain test. [Study instructions](../docs/studies/deuterium_combined_validation.md)
+- [measure_class_benchmark.py](measure_class_benchmark.py) verifies the shared input and extracts comparable late-time growth, frequency, and mode overlap. [Class benchmark](../benchmarks/README.md)
 - [compare_magnetic_moment.py](compare_magnetic_moment.py) checks the 24/32/48 magnetic-moment comparisons and redraws its mode and energy figures. [Study instructions](../docs/studies/deuterium_magnetic_moment.md)
 - [compare_parallel_velocity.py](compare_parallel_velocity.py) checks the 48/64 parallel-velocity refinement and regenerates its figure from the archived plot data. [Study instructions](../docs/studies/deuterium_parallel_velocity.md)
 - [compare_parallel_followup.py](compare_parallel_followup.py) checks timestep sensitivity and the 24-point trial using completed runs or redraws the figure from published plot data. [Follow-up study](../docs/studies/deuterium_timestep_nz24.md)

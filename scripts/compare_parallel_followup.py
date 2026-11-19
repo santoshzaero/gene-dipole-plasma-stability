@@ -52,11 +52,12 @@ def load_cases(paths):
     return cases
 
 
-def compare(pair, test, reference, cases):
+def compare(pair, test, reference, cases, *, common_end=None):
     a, b = cases[test], cases[reference]
     a_stats, a_profile, *_ = a
     b_stats, b_profile, *_ = b
-    common_end = min(a_stats["final_time"], b_stats["final_time"])
+    if common_end is None:
+        common_end = min(a_stats["final_time"], b_stats["final_time"])
     a_fit = list(late_fits(a, common_end))[-1]
     b_fit = list(late_fits(b, common_end))[-1]
     x = a_profile[:, 0] if len(a_profile) <= len(b_profile) else b_profile[:, 0]

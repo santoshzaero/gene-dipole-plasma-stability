@@ -67,3 +67,7 @@ Reused the validated `nz0 = 24`, `nv0 = 48`, `nw0 = 32` case and ran one case ch
 ## 13. Magnetic-moment cost check at 24 points
 
 Changed only `nw0` from 32 to 24 using the 24/48 spatial and parallel-velocity reference grids with automatic stepping. GENE converged without rescaling in 111.678 s, saving 16.7% versus 32 points. The common-window fitted growth and frequency differed by 0.0174% and 0.0648% relative to 32. Final complex-profile overlap was 0.9999999991. The 24-point case also passed the comparison to 48 points. Adopt 24 magnetic-moment points at this reference point before testing the velocity extents and combined-grid sensitivity. [24-point cost check](studies/deuterium_magnetic_moment.md#24-point-cost-check)
+
+## 14. Combined-grid validation and first velocity-domain check
+
+The reduced `24 × 48 × 24` case passed the 1% screen against all five saved comparison grids. Relative to the original, fitted growth and frequency differed by 0.1698% and 0.0647%, and wall time was 51.9% lower. The new trial changed only `lw` to 16.25 and was stopped for runaway after 499 steps and one amplitude rescaling. It supplies no usable rate. The next test fixes the timestep at the wider domain. The exact archived input and new common-window analysis provide a four-student replication benchmark with numerical accuracy still unresolved. [Combined validation and domain study](studies/deuterium_combined_validation.md)

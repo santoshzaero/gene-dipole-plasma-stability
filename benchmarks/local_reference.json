@@ -1,0 +1,49 @@
+{
+  "nz0": 32,
+  "nv0": 48,
+  "nw0": 32,
+  "kymin": 0.7,
+  "gene_converged": true,
+  "gamma": 4.172,
+  "omega": 0.946,
+  "wallclock_s": 232.111,
+  "steps": 2459,
+  "final_time": 2.054099999999909,
+  "dt": 0.0008349999999999191,
+  "dt_max": 0.000835,
+  "field_records": 2461,
+  "unique_field_times": 2461,
+  "release": "3.1 - patch 5",
+  "source_revision": "a0d2f213c5e22eed3b9f1bf4e40530c6292a9143",
+  "input_sha256": "d8e40c0f055746b882c0c7da8a8753dd3d536f3ef27e1dfbf02cdc6908616600",
+  "complex_profile_overlap": 0.9999999999999998,
+  "fit_windows": [
+    {
+      "start": 1.5,
+      "end": 2.0,
+      "gamma": 4.171905257071288,
+      "omega": 0.9461806017246636,
+      "gamma_energy": 4.171322561245843,
+      "amplitude_fit_rms": 1.5045708722687985e-05,
+      "phase_fit_rms_rad": 3.318422706240482e-05
+    },
+    {
+      "start": 1.4,
+      "end": 1.9,
+      "gamma": 4.171775179275719,
+      "omega": 0.9459187540679115,
+      "gamma_energy": 4.171269722660856,
+      "amplitude_fit_rms": 2.170816482243136e-05,
+      "phase_fit_rms_rad": 5.4026502244970637e-05
+    },
+    {
+      "start": 1.55,
+      "end": 2.05,
+      "gamma": 4.171962628010394,
+      "omega": 0.9462889666163404,
+      "gamma_energy": 4.171390806468785,
+      "amplitude_fit_rms": 1.1679487607578276e-05,
+      "phase_fit_rms_rad": 2.3767820691917617e-05
+    }
+  ]
+}

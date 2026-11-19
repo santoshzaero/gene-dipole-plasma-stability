@@ -1,5 +1,5 @@
-student,input_sha256,gene_release,source_revision,build_platform,compiler,mpi_ranks,omp_threads,converged,gamma_norm,omega_norm,precision_method,gamma_rel_error,omega_rel_error,wallclock_s,steps,final_code_time,notes
-Student 1,,,,,,,,,,,,,,,,,
-Student 2,,,,,,,,,,,,,,,,,
-Student 3,,,,,,,,,,,,,,,,,
-Student 4,,,,,,,,,,,,,,,,,
+student,input_sha256,gene_release,source_revision,build_platform,compiler,mpi_ranks,omp_threads,converged,gamma_norm,omega_norm,precision_method,gamma_rel_error,omega_rel_error,wallclock_s,steps,final_code_time,notes,applied_dt,gamma_gene_rounded,omega_gene_rounded,gamma_fit_window_min,gamma_fit_window_max,omega_fit_window_min,omega_fit_window_max,complex_profile_overlap
+Student 1,,,,,,,,,,,,,,,,,,,,,,,,,
+Student 2,,,,,,,,,,,,,,,,,,,,,,,,,
+Student 3,,,,,,,,,,,,,,,,,,,,,,,,,
+Student 4,,,,,,,,,,,,,,,,,,,,,,,,,
