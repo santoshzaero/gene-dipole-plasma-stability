@@ -2,7 +2,7 @@
 
 ## Start here
 
-The reduced grid gives nearly the same growing disturbance as the original and finer grids at the deuterium reference point. Its runtime is about half that of the original. A separate test that widened the perpendicular-velocity domain ran away before convergence. The reduced grid is suitable for exploratory work at this reference point, with the current velocity extents. The failed test leaves domain sensitivity open, so production scans remain on hold.
+The reduced grid gives nearly the same growing disturbance as the original and finer grids at the deuterium reference point. Its runtime is about half that of the original. A separate test that widened the perpendicular-velocity domain ran away before convergence. The reduced grid is suitable for exploratory work at this reference point, with the current velocity extents. The fixed-step follow-up completed, but it oscillated faster than the nominal-domain case. Domain sensitivity remains open, so production scans remain on hold.
 
 ## Combined grid
 
@@ -19,7 +19,7 @@ All six grid configurations below were already run with automatic timestep selec
 
 Against the original, the reduced grid's printed growth and real frequency differ by 0.168% and 0.106%, respectively. Its wall time is 51.9% lower. Projected-potential fits on the common interval give 4.178982 and 0.946787 for the reduced grid versus 4.171900 and 0.946175 for the original. The total-energy fit yields growth rates of 4.178400 and 4.171326. Across all saved comparison grids the largest fitted differences are 0.396% in growth and 0.121% in frequency. The phase convention, amplitude scaling, and interpolation of final complex potential onto the coarser geometry grid follow the [parallel-grid methodology](deuterium_parallel_grid.md#how-mode-and-frequency-were-checked). These tests meet the 1% reference-point screen, with matching rate signs and mode overlap above 0.999. They leave four-digit numerical accuracy unresolved. The finer cases refine different axes individually. A jointly finer configuration has yet to be tested.
 
-![Rate differences relative to tested grids, GENE wall times, and energy histories for the first domain-extent test](../../figures/convergence/deuterium_combined.png)
+![Rate differences relative to tested grids, GENE wall times, and energy histories for the domain-extent tests](../../figures/convergence/deuterium_combined.png)
 
 ## Velocity domains and the first extent test
 
@@ -29,7 +29,29 @@ The equilibrium Maxwellian gives a reason to check `lw` first. For unit temperat
 
 The [single new trial](../../configs/convergence/deuterium_nz24_nv48_nw24_lw1625_auto/parameters) changed only `lw` from 12.25 to 16.25 at the reduced grid. Increasing the domain with 24 points also widened the moment grid spacing. GENE selected timestep 0.000941474, smaller than 0.001087323 in the nominal-domain baseline. Energy ran away and one amplitude rescaling was logged. A run-local `GENE.stop` ended the trial after 499 steps, at normalized time 0.47074 and GENE wall time 28.785 s. The zero rates in the raw diagnostic are placeholders. There are no fitted rates or validated mode from that run. The test leaves open sensitivity to the timestep selection, the coarser moment spacing, and the wider domain.
 
-The smallest next diagnostic is **one run at `lw = 16.25` and `nw0 = 24` with explicit `dt_vlasov = 0.00057848`**, using the previously tested manual-step settings (`calc_dt = F`, `ev_coll = 9300.0`) and reserving enough steps for the same late interval. This changes the timestep configuration of the failed case at fixed mesh and physics. Monitor energy and rescaling. If stable, compare with a nominal-`lw` run of the same grid at the same timestep before attributing differences to the domain. If still unstable, test a separate resolution control with `nw0 = 32` at the wider domain, which approximately restores the nominal moment spacing. A single independent `lv` expansion at fixed `lw` would check the parallel-velocity extent after resolving the stronger moment-domain concern. Enabling a sparse velocity-resolved diagnostic in a separately identified test would add direct evidence about the perturbed tails. None of these follow-ups was started.
+## Wider domain with a controlled timestep
+
+The [fixed-step input](../../configs/convergence/deuterium_nz24_nv48_nw24_lw1625_fixed_dt/parameters) is a copy of the earlier wider-domain input with only the manual timestep controls changed. It sets `calc_dt = F`, `dt_vlasov = 0.00057848`, and `ev_coll = 9300.0`. The last value is the stability estimate required by the manual stepping path of this GENE build. The physical collision input and operator are unchanged, along with the grid, extents, geometry, species, and diagnostic settings. Field timestamps verify the applied step. A monitor checked the energy and rescaling messages every two seconds and would request a run-local stop for nonfinite, nonpositive, or excessively large energy ($W>10^{12}$), or a rescaling.
+
+In plain language, the two wider-domain runs use the same velocity grid. The control takes smaller steps in time. It tests whether changing the way the calculation advances can prevent the runaway while keeping the wider velocity range.
+
+This setup uses the default `gau_lag` magnetic-moment quadrature. In the local GENE source, `set_mu_coordinate_vars` calls the quadrature routine and `gaulag` rescales the nodes and weights with the domain limit. At fixed `nw0`, moving from `lw = 12.25` to 16.25 multiplies the absolute gaps between the nonuniform nodes by 16.25/12.25, about **1.327**. A coarser quadrature could affect resolved velocity structure and the numerical stability margin even if the wider grid gives a stable result with another timestep. A higher `nw0` would change the quadrature node distribution and should be treated as a separate resolution control. [Local source references](../references.md)
+
+The fixed-step run converged in **211.236 s** with 3,809 steps and zero rescalings. It reached normalized time 2.20401 without triggering the monitor. The earlier automatic run on this same wider mesh stopped after 499 steps with one rescaling. This establishes that the wider 24-point mesh can support a stable calculation at the tested smaller-step configuration. It implicates the automatic timestep configuration in the runaway and leaves open the exact stability limit and the role of individual integrator settings. The coarser moment spacing was present in both runs, so it does not by itself prevent convergence.
+
+| Quantity | Nominal `lw = 12.25` · automatic | Wider `lw = 16.25` · fixed | Difference relative to nominal |
+| --- | ---: | ---: | ---: |
+| Applied timestep | 0.001087323 | 0.000578480 | 46.8% smaller |
+| GENE growth | 4.179 | 4.215 | 0.861% |
+| GENE signed real frequency | +0.947 | +0.994 | 4.96% |
+| Common-window field growth | 4.179138 | 4.215060 | 0.860% |
+| Common-window signed phase slope | +0.947036 | +0.993732 | 4.93% |
+| Common-window energy growth estimate | 4.178676 | 4.214559 | 0.859% |
+| GENE wall time | 111.678 s | 211.236 s | 89.1% longer |
+
+Both compared runs passed the solver's convergence criterion. The common normalized time window was 1.66377–2.16377. Final complex potential overlap was **0.999997886** on the identical parallel spatial grid, supporting a similar dominant mode shape with a shifted frequency. The frequency difference fails the 1% screen. The two converged runs differ in both moment domain and timestep configuration, so this comparison cannot attribute the shift specifically to quadrature spacing, velocity cutoff, or timestep. Runtime is a single-run comparison of the tested configurations.
+
+**Minimum follow-up before density-gradient work:** First run the nominal `lw = 12.25` case on the same `24 × 48 × 24` grid at the same explicit timestep and stability settings. If the frequency shift persists at matched timestep, refine `nw0` to 32 in the wider domain with that timestep held fixed to test sensitivity to the node distribution before selecting a production domain. Then verify the selected setup at one representative, quasineutral off-reference gradient point before opening a scan. Independent electron and ion density gradients still require the equilibrium decision in the roadmap. No further experiments were started.
 
 ## Which configuration to use
 
@@ -40,9 +62,9 @@ GENE's temporal convergence flag indicates that the solver accepted a growth and
 
 ## Reproduction and archived data
 
-Run GENE with the [extent input](../../configs/convergence/deuterium_nz24_nv48_nw24_lw1625_auto/parameters) in a fresh directory using the [single-run instructions](../reproducibility.md#reproduce-one-simulation). Use one MPI task and OpenMP thread. Monitor energy and the rescaling log and set a run-local `GENE.stop` if runaway recurs.
+Run GENE with the [fixed-step extent input](../../configs/convergence/deuterium_nz24_nv48_nw24_lw1625_fixed_dt/parameters) in a fresh directory using the [single-run instructions](../reproducibility.md#reproduce-one-simulation). Use one MPI task and OpenMP thread. Monitor energy and the rescaling log and set a run-local `GENE.stop` if runaway recurs.
 
-Use the [analysis script](../../scripts/compare_combined_grid.py) to redraw the figure from archived data. To extract the tables from local raw outputs, supply `--runs` with directories in this order: original 32 × 48 × 32, 64 × 48 × 32, 24 × 48 × 32, 24 × 64 × 32, 24 × 48 × 48, reduced 24 × 48 × 24, then reduced with `lw = 16.25`.
+Use the [analysis script](../../scripts/compare_combined_grid.py) to redraw the figure from archived data. To extract the tables from local raw outputs, supply `--runs` with directories in this order: original 32 × 48 × 32, 64 × 48 × 32, 24 × 48 × 32, 24 × 64 × 32, 24 × 48 × 48, reduced 24 × 48 × 24, then reduced with `lw = 16.25` and automatic stepping, then that same wider domain with the fixed timestep.
 
 ```sh
 python scripts/compare_combined_grid.py --figure generated/deuterium_combined.png

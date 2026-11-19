@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute the deuterium combined-grid and first extent study from completed runs."""
+"""Recompute the deuterium combined-grid and extent study from completed runs."""
 import argparse
 import csv
 import hashlib
@@ -25,23 +25,38 @@ RUNS = (
 )
 
 
+FIXED_DT = b"0.00057848"
+FIXED_RUN = (
+    "extent_fixed", 24, 48, 24,
+    CONFIGS / "deuterium_nz24_nv48_nw24_lw1625_fixed_dt/parameters",
+    "Wider magnetic-moment domain, fixed timestep",
+)
+
+
 def extract(paths, dest):
     reduced = RUNS[-2][4].read_bytes()
     expected = reduced.replace(b"lw    =   12.2500", b"lw    =   16.2500")
     if expected == reduced or expected != RUNS[-1][4].read_bytes():
         raise ValueError("Extent input must change only lw")
     cases = {}
-    for directory, (label, nz, nv, nw, config, _) in zip(paths, RUNS):
+    for directory, (label, nz, nv, nw, config, _) in zip(paths, RUNS + (FIXED_RUN,)):
         contents = config.read_bytes()
         if (directory / "parameters").read_bytes() != contents:
             raise ValueError(f"Unexpected input in {label}")
         case = read_case(directory, nz, nv=nv, nw=nw)
+        if label == "extent_fixed":
+            controlled = expected.replace(
+                b"calc_dt = T",
+                b"calc_dt = F\ndt_vlasov = " + FIXED_DT + b"\nev_coll = 9300.0",
+            )
+            if controlled != contents or not np.isclose(case[0]["dt"], float(FIXED_DT), rtol=1e-8, atol=0):
+                raise ValueError("Fixed-step run must match the extent input apart from timestep controls")
         log = (directory / "run.log").read_text()
         case[0].update(
             input_sha256=hashlib.sha256(contents).hexdigest(),
             rescalings=log.count("rescaled amplitudes"),
             controlled_stop="Exit due to GENE.stop file." in log,
-            lw=16.25 if label == "extent" else 12.25,
+            lw=16.25 if label.startswith("extent") else 12.25,
         )
         cases[label] = case
     metadata = {(case[0]["release"], case[0]["source_revision"]) for case in cases.values()}
@@ -56,10 +71,14 @@ def extract(paths, dest):
         compare(f"reduced_vs_{ref}", "reduced", ref, cases, common_end=common_end)
         for ref in grid_labels[:-1]
     ]
-    if cases["extent"][0]["gene_converged"] and cases["extent"][0]["rescalings"] == 0:
-        comparisons.append(compare("extent_vs_reduced", "extent", "reduced", cases))
+    energy_labels = ["reduced", "extent"]
+    if "extent_fixed" in cases:
+        energy_labels.append("extent_fixed")
+    for label in energy_labels[1:]:
+        if cases[label][0]["gene_converged"] and cases[label][0]["rescalings"] == 0:
+            comparisons.append(compare(f"{label}_vs_reduced", label, "reduced", cases))
     archive(cases, comparisons, paths, dest)
-    for label in ("reduced", "extent"):
+    for label in energy_labels:
         write_series(dest / f"{label}_energy.csv.gz", cases[label][3], "time,total_energy")
 
 
@@ -92,10 +111,16 @@ def draw(dest, figure):
                 xlabel="GENE wall time (s)", title="Converged grid timings")
     time_ax.invert_yaxis()
 
-    for key, text, color in (("reduced", "lw = 12.25", "#176d81"), ("extent", "lw = 16.25", "#b34d2a")):
+    for key, text, color in (
+        ("reduced", "12.25 · automatic", "#176d81"),
+        ("extent", "16.25 · automatic", "#b34d2a"),
+        ("extent_fixed", "16.25 · fixed step", "#0e7646"),
+    ):
+        if key not in runs:
+            continue
         time, energy = np.loadtxt(dest / f"{key}_energy.csv.gz", delimiter=",", skiprows=1).T
-        energy_ax.semilogy(time, energy, label=text, color=color)
-    energy_ax.set(xlabel="Normalized time", ylabel="Total perturbation energy", title="First domain-extent test")
+        energy_ax.semilogy(time, energy, label=text, color=color, linestyle="--" if key == "extent_fixed" else "-")
+    energy_ax.set(xlabel="Normalized time", ylabel="Total perturbation energy", title="Magnetic-moment domain (lw)")
     energy_ax.legend(frameon=False)
     for axis in (error_ax, time_ax, energy_ax):
         axis.grid(alpha=0.2)
@@ -107,11 +132,13 @@ def draw(dest, figure):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--runs", nargs=len(RUNS), type=Path, metavar="DIR",
+    parser.add_argument("--runs", nargs="+", type=Path, metavar="DIR",
                         help="Completed directories in the order given in the study.")
     parser.add_argument("--data", type=Path, default=ROOT / "results/convergence/deuterium_combined")
     parser.add_argument("--figure", type=Path, default=ROOT / "figures/convergence/deuterium_combined.png")
     args = parser.parse_args()
     if args.runs:
+        if len(args.runs) not in (len(RUNS), len(RUNS) + 1):
+            parser.error("--runs requires seven or eight directories.")
         extract(args.runs, args.data)
     draw(args.data, args.figure)

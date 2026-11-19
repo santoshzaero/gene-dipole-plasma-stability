@@ -71,3 +71,7 @@ Changed only `nw0` from 32 to 24 using the 24/48 spatial and parallel-velocity r
 ## 14. Combined-grid validation and first velocity-domain check
 
 The reduced `24 × 48 × 24` case passed the 1% screen against all five saved comparison grids. Relative to the original, fitted growth and frequency differed by 0.1698% and 0.0647%, and wall time was 51.9% lower. The new trial changed only `lw` to 16.25 and was stopped for runaway after 499 steps and one amplitude rescaling. It supplies no usable rate. The next test fixes the timestep at the wider domain. The exact archived input and new common-window analysis provide a four-student replication benchmark with numerical accuracy still unresolved. [Combined validation and domain study](studies/deuterium_combined_validation.md)
+
+## 15. Wider magnetic-moment domain with fixed timestep
+
+Kept the wider `lw = 16.25` grid and physics fixed and imposed timestep 0.00057848. The run converged without rescaling in 211.236 s. Relative to the nominal-domain automatic baseline, common-window fitted growth and signed frequency differed by 0.860% and 4.93%, with complex potential overlap 0.999997886. The same wider mesh remained stable under the fixed-step configuration, but its frequency fails the preliminary comparison to the nominal domain. Match the timestep at `lw = 12.25` before interpreting the source of the frequency shift. [Controlled timestep results](studies/deuterium_combined_validation.md#wider-domain-with-a-controlled-timestep)

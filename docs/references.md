@@ -18,3 +18,5 @@ These paths refer to an independently obtained GENE tree at revision `a0d2f213c5
 | `src/diag_energy.F90` | Total-energy column |
 | `src/profiles.F90`, `src/adiabatic_response.F90`, `src/fieldsolver*.F90` | Quasineutral equilibrium checks and adiabatic response |
 | `python-diag/pydiag/data/fieldlib.py` and the manual field output section | Binary record format and potential component |
+
+- GENE 3.1 patch 5, `src/coordinates.F90` and `src/gauss.quadrature.F90`. The magnetic-moment coordinate initialization, default quadrature choice, and rescaling of the quadrature nodes and weights were checked in the local source tree.
