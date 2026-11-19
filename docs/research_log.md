@@ -79,3 +79,7 @@ Kept the wider `lw = 16.25` grid and physics fixed and imposed timestep 0.000578
 ## 16. Matched domain and spacing controls
 
 At fixed step 0.00057848, the wider `lw = 16.25`, `nw0 = 24` run differed from the nominal domain by 4.932% in fitted frequency. That triggered one conditional `nw0 = 32` run inside the wider domain at the same step. Both new runs converged without rescaling. Refinement changed the wider-domain frequency by only 0.0320%, leaving a 4.898% gap from nominal. The domain-frequency sensitivity remains unresolved. The benchmark launcher and common-window analysis were checked locally against the saved class reference outputs. [Matched controls](studies/deuterium_moment_controls.md) · [Classmate benchmark](../benchmarks/README.md)
+
+## 17. Shared IV benchmark and deuterium density pilot
+
+Published an [IV-only shared benchmark](../benchmarks/classmate/README.md) for electrons and positrons on the economical grid, with recorded growth 4.314 and signed frequency 0.000 from a 7.011 s local run. The separate deuterium reference was reused for a three-point common-density-gradient pilot. Only the economical `omn = 1` and 3 cases were new. Both converged, and fitted growth and frequency passed the 1% comparison against their exact-physics archived grid cases. Growth and signed frequency rose across the three tested gradients. [Pilot data and figures](studies/deuterium_density_pilot.md)

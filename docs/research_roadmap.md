@@ -24,6 +24,8 @@ All four students run the same [electron–positron IV benchmark](../benchmarks/
 
 ## 3. Isolate density-gradient effects within a valid equilibrium
 
+The [deuterium pilot](studies/deuterium_density_pilot.md) completed common `omn = 1, 2, 3` at fixed temperature gradients and wavenumber. All three economical results passed the grid comparison to archived cases, and both rates increased. Use these as the 0.7 anchors for a small reviewed wavenumber follow-up.
+
 Fix electron/deuterium temperature gradients at 2, wavenumber at 0.7, and other settings at the validated baseline. Use the existing equal-gradient baseline where its numerical settings match the new requirements.
 
 | Study | Planned inputs | Equilibrium gate |
