@@ -63,3 +63,7 @@ Kept the 32-point velocity grid, all other grids, extents, and the deuterium phy
 ## 12. Magnetic-moment refinement from 32 to 48 points
 
 Reused the validated `nz0 = 24`, `nv0 = 48`, `nw0 = 32` case and ran one case changing only `nw0` to 48. Both converged without amplitude rescaling. The common-window fitted growth and frequency changed by 0.0147% and 0.0564%, and the final complex profiles had overlap 0.9999999989. GENE wall time rose from 134.056 s to 333.194 s as the automatic timestep decreased from 0.00107908 to 0.000906. Keep 32 as the working grid at this operating point and test one 24-point case if pursuing further cost reduction. [Magnetic-moment study](studies/deuterium_magnetic_moment.md)
+
+## 13. Magnetic-moment cost check at 24 points
+
+Changed only `nw0` from 32 to 24 using the 24/48 spatial and parallel-velocity reference grids with automatic stepping. GENE converged without rescaling in 111.678 s, saving 16.7% versus 32 points. The common-window fitted growth and frequency differed by 0.0174% and 0.0648% relative to 32. Final complex-profile overlap was 0.9999999991. The 24-point case also passed the comparison to 48 points. Adopt 24 magnetic-moment points at this reference point before testing the velocity extents and combined-grid sensitivity. [24-point cost check](studies/deuterium_magnetic_moment.md#24-point-cost-check)

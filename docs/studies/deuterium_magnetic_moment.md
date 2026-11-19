@@ -2,14 +2,15 @@
 
 ## In plain language
 
-Sampling the perpendicular part of particle motion with 48 points instead of 32 produced almost the same disturbance and took about two and a half times as long. Keep 32 magnetic-moment points for this reference case. A single 24-point trial would test whether a cheaper grid still gives the same answer.
+Sampling the perpendicular part of particle motion with 48 points instead of 32 produced almost the same disturbance and took about two and a half times as long. The 24-point trial also passed and was the fastest measured case. Use 24 magnetic-moment points for this reference case.
 
 ## Measured results
 
 | Magnetic-moment grid | GENE growth rate | GENE real frequency | GENE converged | Applied timestep | Steps | GENE wall time |
 | --- | ---: | ---: | --- | ---: | ---: | ---: |
 | `nw0 = 32` · archived | 4.179 | 0.946 | Yes | 0.00107908279 | 1,959 | 134.056 s |
-| `nw0 = 48` · new | 4.178 | 0.946 | Yes | 0.00090600000 | 2,419 | 333.194 s |
+| `nw0 = 48` | 4.178 | 0.946 | Yes | 0.00090600000 | 2,419 | 333.194 s |
+| `nw0 = 24` · new | 4.179 | 0.947 | Yes | 0.00108732267 | 1,989 | 111.678 s |
 
 The reported growth difference was **0.0239%** relative to the refined run and the frequencies were equal to printed precision. The 48-point run used a **16.0% smaller** timestep and took **2.49×** the archived wall time, adding 199.138 s. The final normalized times were 2.11500 and 2.19252. The timings represent single runs.
 
@@ -21,13 +22,25 @@ The reported growth difference was **0.0239%** relative to the refined run and t
 
 The common fitting interval was normalized time 1.61500–2.11500. Final complex-field overlap was **0.9999999989**. Both energy histories were smooth, with zero logged amplitude rescalings and no monitor stop. The late-time growth and phase fits, energy histories, and final profiles support the same dominant mode. The rate differences are well below the 1% screen and do not materially change the result at this reference point.
 
-![Late-time signed phase slopes and final potential profiles for the two magnetic-moment grids](../../figures/convergence/deuterium_nw32_nw48.png)
+![Late-time signed phase slopes and final potential profiles for the three magnetic-moment grids](../../figures/convergence/deuterium_nw32_nw48.png)
 
 [View the energy histories](../../figures/convergence/deuterium_nw32_nw48_energy.png)
 
-## Working configuration and next test
+## 24-point cost check
 
-Retain `nz0 = 24`, `nv0 = 48`, and `nw0 = 32` with automatic stepping. GENE changed the timestep when the magnetic-moment grid changed, so this result compares the two configurations as run with automatic stepping. It does not isolate the changes due only to the magnetic-moment discretization. A matched-timestep test is lower priority given the agreement. If cost reduction is the goal, test one `nw0 = 24` case with the other inputs fixed and monitor numerical stability as before. If it is unstable or disagrees, retain 32 and consider a controlled timestep check before attributing the difference to resolution. No other simulations were launched.
+The [24-point input](../../configs/convergence/deuterium_nz24_nw24_auto/parameters) changes only `nw0` from the 32-point reference and retains automatic timestep selection. It used a fresh run directory and the same energy and rescaling monitor. Earlier runs were reused.
+
+The run converged with smooth energy growth, zero amplitude rescalings, and no stop request. It took **111.678 s**, saving 22.378 s (**16.7%**) relative to 32 points. GENE selected a step 0.76% larger at 24 points, so this timing compares the full automatic-timestep configurations. The finer grid's runtime and rates remain available above.
+
+| Common-window metric | 24 points | 32 points | Relative difference vs 32 |
+| --- | ---: | ---: | ---: |
+| Growth fitted from the complex potential | 4.179100 | 4.178372 | 0.0174% |
+| Signed frequency fitted from the complex phase | 0.946982 | 0.946369 | 0.0648% |
+| Growth fitted from total perturbation energy | 4.178577 | 4.177849 | 0.0174% |
+
+The common interval was normalized time 1.61500–2.11500. Final complex-profile overlap was **0.9999999991**, supporting the same dominant mode. The 24-point case also passed against the 48-point case on their own common interval, with fitted differences of 0.0321% in growth and 0.1213% in frequency. The frequency shift is small relative to the 1% screen and remains relevant for a stricter accuracy target.
+
+**Decision:** Use `nz0 = 24`, `nv0 = 48`, and `nw0 = 24` with automatic stepping as the working configuration for this reference point. A common-timestep run is lower priority at this tolerance. The velocity extents, combined-grid sensitivity, and behavior away from this reference point still require validation before production scans. No other simulations were started.
 
 ## Experimental controls
 
@@ -46,7 +59,7 @@ repo_dir="$PWD"
 gene_bin="$HOME/Developer/gene-complete/bin/gene_mac_arm64"
 case_dir="$(mktemp -d)"
 mkdir "$case_dir/out"
-cp "$repo_dir/configs/convergence/deuterium_nz24_nw48_auto/parameters" "$case_dir/parameters"
+cp "$repo_dir/configs/convergence/deuterium_nz24_nw24_auto/parameters" "$case_dir/parameters"
 (
   cd "$case_dir" &&
   export MACHINE=mac_arm64 OMP_NUM_THREADS=1 &&
@@ -54,7 +67,7 @@ cp "$repo_dir/configs/convergence/deuterium_nz24_nw48_auto/parameters" "$case_di
 )
 ```
 
-The [analysis script](../../scripts/compare_magnetic_moment.py) reads completed outputs and never launches GENE. Pass `--runs <nw32-directory> <nw48-directory>` to regenerate the tables and figures, or omit it to redraw from the archived data.
+The [analysis script](../../scripts/compare_magnetic_moment.py) reads completed outputs and never launches GENE. Pass `--runs <nw32-directory> <nw48-directory> <nw24-directory>` to regenerate the tables and figures, or omit it to redraw from the archived data.
 
 ```sh
 python scripts/compare_magnetic_moment.py \
