@@ -1,0 +1,19 @@
+% Santos. Supporting subsection for the Group Results.
+\subsection{Dissipation and numerical resolution controls}\label{sec:additional-adiabatic-controls}
+The archived \texttt{hyp\_z=4} cases at density gradients $0.6$ and $1.5$ retained approximately $54\%$ and $57\%$ of their initial perturbation free energy by $\widehat t=52$. With \texttt{hyp\_z=0}, both retained essentially their initial energy. Intermediate coefficients gave intermediate losses. The installed GENE build applies a parallel fourth-order hyperdiffusion stencil. The native energy writer places the parallel term in column 8 and total analytic $\mathrm dE/\mathrm d\widehat t$ in column 3. The integrated parallel term accounts for the measured loss to diagnostic precision. Potential amplitude still changes with nearly constant perturbation free energy. The field signal leaves a discrete damping rate and a unique real frequency unresolved.
+
+\begin{center}\small
+\input{LaTeX/tables/adiabatic_hyp}
+\end{center}
+
+\begin{figure}[H]\centering
+\includegraphics[width=\linewidth]{Figures/A_05_hyperdiffusion.pdf}
+\caption{GENE free-energy sensitivity over matched times and timesteps. The vertical line marks the audit time $\widehat t=52$. Contributor: Santos.}
+\label{fig:additional-hyperdiffusion}
+\end{figure}
+
+\begin{center}\small
+\input{LaTeX/tables/adiabatic_controls}
+\end{center}
+
+At $\omega_{n,D}=1.5$, the $24/96/24$ run at the full timestep produced catastrophic energy growth with zero recorded drive. It was rejected despite GENE's native convergence flag. Spatial and velocity refinements are compared to a separate half-step $24/64/24$ control at nominal velocity extents. The finer velocity grid increases nominal recurrence time from about $56.55$ to $85.27$. The half-step $24/96/24$ run reached $\widehat t=75.01$ without a modal stop. The growth slope changes from $-0.0283$ over $44$--$52$ to $-0.0002$ over $64$--$74$, and the phase slope shifts from $-0.335$ to $-0.348$. Removing hyperdiffusion also exposes small short-wavelength ripples. At the common profile time near $52$, the fraction of potential spectral power in the upper quarter of the grid band is about $2.1\times10^{-3}$ on the $24$-point grid and $2.9\times10^{-5}$ on the $48$-point grid. Each fraction uses its grid's own Nyquist limit.

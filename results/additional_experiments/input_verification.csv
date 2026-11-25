@@ -1,0 +1,23 @@
+case,closure,grid,dt_mode,hyp_z,preflight_charge_residual,preflight_gradient_residual,omega_n_deuterium,omega_n_electrons,omega_n_helium,parameters_effective_match
+A_g0p2_h0,implicit Boltzmann electrons,24/64/24,F,0,,,0.2,implicit,,True
+A_g0p6_h0,implicit Boltzmann electrons,24/64/24,F,0,,,0.6,implicit,,True
+A_g0p6_h1,implicit Boltzmann electrons,24/64/24,F,1,,,0.6,implicit,,True
+A_g0p6_h2,implicit Boltzmann electrons,24/64/24,F,2,,,0.6,implicit,,True
+A_g1_h0,implicit Boltzmann electrons,24/64/24,F,0,,,1.0,implicit,,True
+A_g1p5_h0,implicit Boltzmann electrons,24/64/24,F,0,,,1.5,implicit,,True
+A_g1p5_h0_halfdt,implicit Boltzmann electrons,24/64/24,F,0,,,1.5,implicit,,True
+A_g1p5_h0_nv96,implicit Boltzmann electrons,24/96/24,F,0,,,1.5,implicit,,True
+A_g1p5_h0_nv96_halfdt,implicit Boltzmann electrons,24/96/24,F,0,,,1.5,implicit,,True
+A_g1p5_h0_nz48,implicit Boltzmann electrons,48/64/24,F,0,,,1.5,implicit,,True
+A_g1p5_h1,implicit Boltzmann electrons,24/64/24,F,1,,,1.5,implicit,,True
+A_g1p5_h2,implicit Boltzmann electrons,24/64/24,F,2,,,1.5,implicit,,True
+B_g0p5,three kinetic species,24/48/24,T,4.000,0E-14,0E-15,1,0.5,-1.0,True
+B_g0p75,three kinetic species,24/48/24,T,4.000,0E-14,0E-16,1,0.75,0.00,True
+B_g1,three kinetic species,24/48/24,T,4.000,0E-14,0E-14,1,1,1,True
+B_g1_halfdt,three kinetic species,24/48/24,F,4.000,0E-14,0E-14,1,1,1,True
+B_g1_halfdt_rkc2,three kinetic species,24/48/24,F,4.000,0E-14,0E-14,1,1,1,True
+B_g1_z32,three kinetic species,32/48/24,T,4.000,0E-14,0E-14,1,1,1,True
+B_g1p25,three kinetic species,24/48/24,T,4.000,0E-14,0E-16,1,1.25,2.00,True
+B_g1p5,three kinetic species,24/48/24,T,4.000,0E-14,0E-15,1,1.5,3.0,True
+B_g2,three kinetic species,24/48/24,T,4.000,0E-14,0E-15,1,2.0,5.0,True
+B_g2_v64,three kinetic species,24/64/24,T,4.000,0E-14,0E-14,1,2,5,True

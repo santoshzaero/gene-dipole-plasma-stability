@@ -27,6 +27,7 @@ This MAE 190 study uses GENE 3.1 patch 5 for linear electrostatic initial-value 
 | [Revised Phase 1 and Phase 2 report](reports/dipole_stability/README.md) | Compiled LaTeX paper, compensated electron-gradient pilot, low-wavenumber controls, and reproducible figures |
 | [Final deuterium figures and methods](docs/studies/deuterium_final.md) | Paired growth and frequency curves, equilibrium validity, and matched adiabatic-electron comparison |
 | [Deuterium density pilot](docs/studies/deuterium_density_pilot.md) | Three common gradients, two grid resolutions, and a wavenumber follow-up plan |
+| [Adiabatic dissipation and helium-compensated gradients](reports/additional_experiments/README.md) | Four unresolved weak-drive cases, six qualified compensated points, and numerical controls |
 | [Research roadmap](docs/research_roadmap.md) | Convergence study, class replication, controlled scans, and theory validation |
 | [Scope and provenance](docs/provenance.md) and [session workflow](docs/research_workflow.md) | What was curated, how to review new results, and the publication plan |
 | [Archived report](reports/README.md) | Original isotope report and rebuild instructions |

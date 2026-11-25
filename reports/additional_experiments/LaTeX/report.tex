@@ -1,0 +1,33 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,booktabs,graphicx,float,microtype}
+\usepackage[letterpaper,margin=.72in,headheight=14pt]{geometry}
+\usepackage{fancyhdr,xcolor}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small UC San Diego \textperiodcentered\ MAE 190}
+\fancyhead[R]{\small GENE dipole plasma \textperiodcentered\ Santos}
+\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\textfloatsep}{8pt}
+\raggedbottom
+\renewcommand{\thesubsection}{\arabic{subsection}}
+\begin{document}
+{\LARGE\bfseries Additional GENE IV investigations\par}
+\smallskip
+{\large Adiabatic weak drive and compensated electron density gradients\par}
+\smallskip
+Santos \textperiodcentered\ Dipole gyrokinetics \textperiodcentered\ GENE 3.1 patch 5
+
+\input{LaTeX/adiabatic_zero_temperature}
+\clearpage
+\input{LaTeX/adiabatic_controls}
+\clearpage
+\input{LaTeX/compensated_density_gradient}
+\clearpage
+\input{LaTeX/compensated_controls}
+
+\input{LaTeX/tables/summary_text}
+\end{document}

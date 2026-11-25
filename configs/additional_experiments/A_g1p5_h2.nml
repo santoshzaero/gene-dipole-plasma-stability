@@ -1,0 +1,107 @@
+&parallelization
+!n_procs_s =   1
+!n_procs_v =   2
+!n_procs_w =   8
+!n_procs_x =   1
+!n_procs_y =   1
+!n_procs_z =   1
+!n_procs_sim =     16
+/
+
+&box
+n_spec =    1
+nx0    =     1
+nky0   =    1
+nz0    = 24
+nv0    = 64
+nw0    =   24
+
+kymin =   0.7
+lv    =   3.50000
+lw    =   12.2500
+lx    =   1.00000
+nexc  = 0
+adapt_lx = F
+ky0_ind =   1
+/
+
+&in_out
+diagdir = './out'
+
+read_checkpoint  = F
+write_checkpoint = F
+
+istep_field  =       1
+istep_mom    = 0
+istep_nrg    =       1
+istep_omega  =       10
+istep_vsp    = 0
+istep_schpt  =       0
+istep_energy =       1
+
+write_std = T
+/
+
+&general
+ tau = 1.0
+nonlinear =   F
+comp_type = 'IV'
+ntimesteps = 1100
+calc_dt = F
+dt_max = 0.0496570359086059
+dt_vlasov = 0.0496570359086059
+!perf_vec  =  1 1 1 1 1 2 2 1 2
+!nblocks   =      24
+hyp_on_h =   F
+
+
+timelim    =      86000
+
+beta       =    0
+debye2     =    0.0000000
+collision_op = 'landau'
+coll         =   0
+coll_cons_model  = 'xu_rosenbluth'
+
+init_cond = 'alm'
+
+hyp_z_with_dz_prefactor = F
+hyp_z = 2
+
+perf_tsteps =  -1
+
+/
+
+&geometry
+magn_geometry = 'dipole'
+r0_dipole =   0.40000000
+Icurr_dipole =    750.00000
+c_surf_dipole =    1.2000000
+c_dt_dipole =   0.10000000E-04
+q0       =    0.0000000
+shat     =    0.0000000
+minor_r  =    1.0000000
+major_R  =    1.0000000
+dpdx_term= 'gradB_eq_curv'
+dpdx_pm  =    0.0000000
+norm_flux_projection  = F
+/
+
+
+&species
+ name = 'deuterium'
+ omn = 1.5
+ omt = 0.0
+ mass = 2.0
+ temp = 1.0
+ dens = 1.0
+ charge = 1.0
+/
+
+&units
+/
+
+&bsgrid
+is_bsg = F
+/
+!

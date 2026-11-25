@@ -1,0 +1,14 @@
+Build: GENE release 3.1 patch 5, branch a0d2f21 (full revision a0d2f213c5e22eed3b9f1bf4e40530c6292a9143).
+Binary: ~/Developer/gene-complete/bin/gene_mac_arm64
+Architecture: native Mach-O ARM64; one MPI rank and one OpenMP thread per run.
+SHA-256: d6e283d3cf424753a29d16e54852a6f8a900178da971e9275a335fcf68724da3
+Research archive Git revision: cfd3ec9713b018b711d3dcc6b136601759e7435f
+
+A template: matched_adiabatic_gradients_20261119_174530/omn_0p6.
+A primary diagnostics: hyp_z=0, 24/64/24, 1100 fixed IV steps, actual dt=0.0496570359086059.
+A refined controls: identical input physics with n_z=48 or n_v=96 at half-step; full-step n_v=96 rejected.
+B template: work/deuterium_followup/he_omn_e_200. Fixed D gradient changed from 2 to 1.
+B separate anchor: work/deuterium_density_pilot/omn_1. Native 0.700 3.294 +0.591.
+B scan: all six 24/48/24, actual automatic dt=0.00108732267399275.
+B controls: central n_z=32; central half-step on default fixed-step RKC1 and matched RKC2; high endpoint n_v=64.
+Program invocations and safeguards: Scripts/run_experiments.py and each run's process.json.

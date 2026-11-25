@@ -1,0 +1,8 @@
+{
+  "new_iv_integrations": 22,
+  "invalid_setup_attempts": 7,
+  "native_s_new": 2987.956,
+  "summed_process_elapsed_s": 3122.695477375062,
+  "summed_setup_elapsed_s": 110.39950433201739,
+  "first_start_to_last_exit_s": 1083.4919800758362
+}
